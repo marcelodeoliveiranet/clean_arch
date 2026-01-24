@@ -1,10 +1,40 @@
 import 'package:clean_arch/core/database/app_database.dart';
+import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local_imp.dart';
+import 'package:clean_arch/features/clientes/data/models/cliente_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final Database db = await AppDatabase.database;
+  final ClienteDatasourceLocalImp ds = ClienteDatasourceLocalImp();
+
+  ClienteModel clienteModel = ClienteModel(
+    codigoCliente: 0,
+    razaoSocial: "Marcelo de Oliveira",
+    nomeFantasia: "Marcelo",
+    codigoAtividade: 1,
+    cnpjCpf: "111",
+    tipoPessoa: "F",
+    ieRg: "12",
+    inscricaoMunicipal: "",
+    email: "marcelosdeoliveiras@gmail.com",
+    homePage: "",
+    cep: "05134-000",
+    codigoTipoLogradouro: 1,
+    logradouro: "Rua tal",
+    numero: "571",
+    complemento: "",
+    bairro: "Vila Guedes",
+    municipio: "São Paulo",
+    codigoIbgeMunicipio: 123456,
+    uf: "SP",
+  );
+
+  await ds.save(clienteModel);
+
+  final clientes = await ds.get();
+  print(clientes);
+
   runApp(const MyApp());
 }
 

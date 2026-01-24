@@ -1,15 +1,17 @@
+const String clienteTableName = "CLIENTE";
+
 const String clienteTable = ''' 
-CREATE TABLE CLIENTE (
-  id INT IDENTITY NOT NULL PRIMARY KEY,
+CREATE TABLE $clienteTableName (
+  codigo_cliente INT IDENTITY NOT NULL,
   razao_social VARCHAR(60) NOT NULL,
   nome_fantasia VARCHAR(60) NOT NULL,
   codigo_atividade SMALLINT NOT NULL,
-  cpf_cnpj VARCHAR(20) NOT NULL,
-  inscricao_estadual VARCHAR(20),
+  cnpj_cpf VARCHAR(20) NOT NULL,
+  tipoPessoa CHAR(1) DEFAULT 'J',
+  ie_rg VARCHAR(20),
   inscricao_municipal VARCHAR(20),
   email VARCHAR(90),
-  home_page VARCHAR(120),
-  codigo_pais SMALLINT NOT NULL,
+  home_page VARCHAR(120),  
   cep VARCHAR(9) NOT NULL,
   codigo_tipo_logradouro SMALLINT NOT NULL,
   logradouro VARCHAR(255) NOT NULL,
@@ -17,7 +19,7 @@ CREATE TABLE CLIENTE (
   complemento VARCHAR(100) NOT NULL,
   bairro VARCHAR(100) NOT NULL,
   municipio VARCHAR(100) NOT NULL,
-  codigo_ibge INT NOT NULL,
+  codigo_ibge_municipio INT NOT NULL,
   uf VARCHAR(2) NOT NULL,
-  codigo_municipio_ibge INT NOT NULL)
+  CONSTRAINT [PK_Cliente] PRIMARY KEY ([codigo_cliente])  
 ''';
