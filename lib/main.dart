@@ -2,16 +2,22 @@ import 'package:clean_arch/core/database/app_database.dart';
 import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local_imp.dart';
 import 'package:clean_arch/features/clientes/data/models/cliente_model.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final db = await AppDatabase.database;
+
+  final columns = await db.rawQuery("PRAGMA table_info(CLIENTE)");
+  for (var column in columns) {
+    print("Coluna: ${column['name']} | Tipo:${column['type']}");
+  }
+
   final ClienteDatasourceLocalImp ds = ClienteDatasourceLocalImp();
 
   ClienteModel clienteModel = ClienteModel(
-    codigoCliente: 0,
-    razaoSocial: "Marcelo de Oliveira",
-    nomeFantasia: "Marcelo",
+    codigoCliente: null,
+    razaoSocial: "Marcos de Oliveira",
+    nomeFantasia: "Marcos",
     codigoAtividade: 1,
     cnpjCpf: "111",
     tipoPessoa: "F",
@@ -34,6 +40,11 @@ void main() async {
 
   final clientes = await ds.get();
   print(clientes);
+
+  await ds.delete(clientes.last);
+  print(await ds.get());
+
+  clientes.forEach((element) => print(element.toMap()));
 
   runApp(const MyApp());
 }

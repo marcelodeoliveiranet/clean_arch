@@ -7,7 +7,12 @@ import 'package:sqflite/sqflite.dart';
 class ClienteDatasourceLocalImp implements ClienteDatasourceLocal {
   @override
   Future<void> delete(ClienteModel cliente) async {
-    throw UnimplementedError();
+    final Database db = await AppDatabase.database;
+    await db.delete(
+      clienteTableName,
+      where: "codigo_cliente = ?",
+      whereArgs: [cliente.codigoCliente],
+    );
   }
 
   @override
