@@ -2,7 +2,7 @@ class ClienteModel {
   final int? codigoCliente;
   final String razaoSocial;
   final String nomeFantasia;
-  final int codigoAtividade;
+  final int codigoRamoAtividade;
   final String cnpjCpf;
   final String tipoPessoa;
   final String ieRg;
@@ -23,7 +23,7 @@ class ClienteModel {
     this.codigoCliente,
     required this.razaoSocial,
     required this.nomeFantasia,
-    required this.codigoAtividade,
+    required this.codigoRamoAtividade,
     required this.cnpjCpf,
     required this.tipoPessoa,
     required this.ieRg,
@@ -46,9 +46,9 @@ class ClienteModel {
       'codigo_cliente': codigoCliente,
       'razao_social': razaoSocial,
       'nome_fantasia': nomeFantasia,
-      'codigo_atividade': codigoAtividade,
+      'codigo_ramo_atividade': codigoRamoAtividade,
       'cnpj_cpf': cnpjCpf,
-      'tipoPessoa': tipoPessoa,
+      'tipo_pessoa': tipoPessoa,
       'ie_rg': ieRg,
       'inscricao_municipal': inscricaoMunicipal,
       'email': email,
@@ -70,9 +70,9 @@ class ClienteModel {
       codigoCliente: map['codigo_cliente'] as int,
       razaoSocial: map['razao_social'] as String,
       nomeFantasia: map['nome_fantasia'] as String,
-      codigoAtividade: map['codigo_atividade'] as int,
+      codigoRamoAtividade: map['codigo_ramo_atividade'] as int,
       cnpjCpf: map['cnpj_cpf'] as String,
-      tipoPessoa: map['tipoPessoa'] as String,
+      tipoPessoa: map['tipo_pessoa'] as String,
       ieRg: map['ie_rg'] as String,
       inscricaoMunicipal: map['inscricao_municipal'] as String,
       email: map['email'] as String,

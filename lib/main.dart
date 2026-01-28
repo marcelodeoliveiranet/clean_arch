@@ -1,24 +1,70 @@
 import 'package:clean_arch/core/database/app_database.dart';
-import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local_imp.dart';
+import 'package:clean_arch/features/clientes/data/datasources/Cliente/cliente_datasource_local_imp.dart';
+import 'package:clean_arch/features/clientes/data/datasources/RamoAtividade/ramo_atividade_datasorce_local_imp.dart';
 import 'package:clean_arch/features/clientes/data/models/cliente_model.dart';
+import 'package:clean_arch/features/clientes/data/models/ramo_atividade_model.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+
+Future<void> exibirEstruturaTabela(Database db, String nomeTabela) async {
+  var columns = await db.rawQuery("PRAGMA table_info($nomeTabela)");
+
+  print("");
+  print("Colunas da tabela: $nomeTabela");
+  print("===============================");
+
+  for (var column in columns) {
+    if (column["pk"] == 1) {
+      print(
+        "Campo PK: True  | Coluna: ${column['name']} | Tipo:${column['type']}",
+      );
+    } else {
+      print(
+        "Campo PK: False | Coluna: ${column['name']} | Tipo:${column['type']}",
+      );
+    }
+  }
+
+  final fks = await db.rawQuery("PRAGMA foreign_key_list($nomeTabela)");
+
+  if (fks.isNotEmpty) {
+    print("");
+    print("Foreign Keys");
+    print("============");
+
+    for (var row in fks) {
+      print(row);
+    }
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final db = await AppDatabase.database;
 
-  final columns = await db.rawQuery("PRAGMA table_info(CLIENTE)");
-  for (var column in columns) {
-    print("Coluna: ${column['name']} | Tipo:${column['type']}");
-  }
+  await exibirEstruturaTabela(db, "CLIENTE");
+  await exibirEstruturaTabela(db, "RAMOATIVIDADE");
+
+  final RamoAtividadeDatasorceLocalImp dsRamoAtividade =
+      RamoAtividadeDatasorceLocalImp();
+
+  RamoAtividadeModel ramoAtividadeModel = RamoAtividadeModel(
+    descricaoRamoAtividade: "Atacado",
+  );
+
+  await dsRamoAtividade.save(ramoAtividadeModel);
+  final ramoAtividades = await dsRamoAtividade.get();
+  print(ramoAtividades);
+
+  ramoAtividades.forEach((element) => print(element.toMap()));
 
   final ClienteDatasourceLocalImp ds = ClienteDatasourceLocalImp();
 
   ClienteModel clienteModel = ClienteModel(
     codigoCliente: null,
-    razaoSocial: "Marcos de Oliveira",
-    nomeFantasia: "Marcos",
-    codigoAtividade: 1,
+    razaoSocial: "Marcelo de Oliveira",
+    nomeFantasia: "Marcelo",
+    codigoRamoAtividade: 2,
     cnpjCpf: "111",
     tipoPessoa: "F",
     ieRg: "12",
@@ -41,7 +87,7 @@ void main() async {
   final clientes = await ds.get();
   print(clientes);
 
-  await ds.delete(clientes.last);
+  //await ds.delete(clientes.last);
   print(await ds.get());
 
   clientes.forEach((element) => print(element.toMap()));
