@@ -1,4 +1,8 @@
 import 'package:clean_arch/core/database/app_database.dart';
+import 'package:clean_arch/core/database/tables/cliente.dart';
+import 'package:clean_arch/core/database/tables/ramo_atividade.dart';
+import 'package:clean_arch/core/database/tables/tipo_logradouro.dart';
+import 'package:clean_arch/core/database/tables/tipo_telefone.dart';
 import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local_imp.dart';
 import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividade_datasorce_local_imp.dart';
 import 'package:clean_arch/features/clientes/data/models/cliente_model.dart';
@@ -42,55 +46,57 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final db = await AppDatabase.database;
 
-  await exibirEstruturaTabela(db, "CLIENTE");
-  await exibirEstruturaTabela(db, "RAMOATIVIDADE");
+  await exibirEstruturaTabela(db, clienteTableName);
+  await exibirEstruturaTabela(db, ramoAtividadeTableName);
+  await exibirEstruturaTabela(db, tipoLogradouroTableName);
+  await exibirEstruturaTabela(db, tipoTelefoneTableName);
 
-  final RamoAtividadeDatasorceLocalImp dsRamoAtividade =
-      RamoAtividadeDatasorceLocalImp();
+  // final RamoAtividadeDatasorceLocalImp dsRamoAtividade =
+  //     RamoAtividadeDatasorceLocalImp();
 
-  RamoAtividadeModel ramoAtividadeModel = RamoAtividadeModel(
-    descricaoRamoAtividade: "Atacado",
-  );
+  // RamoAtividadeModel ramoAtividadeModel = RamoAtividadeModel(
+  //   descricaoRamoAtividade: "Atacado",
+  // );
 
-  await dsRamoAtividade.save(ramoAtividadeModel);
-  final ramoAtividades = await dsRamoAtividade.get();
-  print(ramoAtividades);
+  // await dsRamoAtividade.save(ramoAtividadeModel);
+  // final ramoAtividades = await dsRamoAtividade.get();
+  // print(ramoAtividades);
 
-  ramoAtividades.forEach((element) => print(element.toMap()));
+  // ramoAtividades.forEach((element) => print(element.toMap()));
 
-  final ClienteDatasourceLocalImp ds = ClienteDatasourceLocalImp();
+  // final ClienteDatasourceLocalImp ds = ClienteDatasourceLocalImp();
 
-  ClienteModel clienteModel = ClienteModel(
-    codigoCliente: null,
-    razaoSocial: "Marcelo de Oliveira",
-    nomeFantasia: "Marcelo",
-    codigoRamoAtividade: 2,
-    cnpjCpf: "111",
-    tipoPessoa: "F",
-    ieRg: "12",
-    inscricaoMunicipal: "",
-    email: "marcelosdeoliveiras@gmail.com",
-    homePage: "",
-    cep: "05134-000",
-    codigoTipoLogradouro: 1,
-    logradouro: "Rua tal",
-    numero: "571",
-    complemento: "",
-    bairro: "Vila Guedes",
-    municipio: "São Paulo",
-    codigoIbgeMunicipio: 123456,
-    uf: "SP",
-  );
+  // ClienteModel clienteModel = ClienteModel(
+  //   codigoCliente: null,
+  //   razaoSocial: "Marcelo de Oliveira",
+  //   nomeFantasia: "Marcelo",
+  //   codigoRamoAtividade: 2,
+  //   cnpjCpf: "111",
+  //   tipoPessoa: "F",
+  //   ieRg: "12",
+  //   inscricaoMunicipal: "",
+  //   email: "marcelosdeoliveiras@gmail.com",
+  //   homePage: "",
+  //   cep: "05134-000",
+  //   codigoTipoLogradouro: 1,
+  //   logradouro: "Rua tal",
+  //   numero: "571",
+  //   complemento: "",
+  //   bairro: "Vila Guedes",
+  //   municipio: "São Paulo",
+  //   codigoIbgeMunicipio: 123456,
+  //   uf: "SP",
+  // );
 
-  await ds.save(clienteModel);
+  // await ds.save(clienteModel);
 
-  final clientes = await ds.get();
-  print(clientes);
+  // final clientes = await ds.get();
+  // print(clientes);
 
-  //await ds.delete(clientes.last);
-  print(await ds.get());
+  // //await ds.delete(clientes.last);
+  // print(await ds.get());
 
-  clientes.forEach((element) => print(element.toMap()));
+  //clientes.forEach((element) => print(element.toMap()));
 
   runApp(const MyApp());
 }

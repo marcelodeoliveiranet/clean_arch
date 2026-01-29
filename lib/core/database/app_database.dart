@@ -1,12 +1,14 @@
 import 'package:clean_arch/core/database/tables/cliente.dart';
 import 'package:clean_arch/core/database/tables/ramo_atividade.dart';
+import 'package:clean_arch/core/database/tables/tipo_logradouro.dart';
+import 'package:clean_arch/core/database/tables/tipo_telefone.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppDatabase {
   static Database? _database;
   static const _dbName = "app_database.db";
-  static const _dbVersion = 6;
+  static const _dbVersion = 4;
 
   AppDatabase._();
 
@@ -19,6 +21,7 @@ class AppDatabase {
   static Future<Database> _initDatabase() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, _dbName);
+
     return openDatabase(
       path,
       version: _dbVersion,
@@ -32,19 +35,23 @@ class AppDatabase {
 
   static Future<void> _onCreate(Database db, int version) async {
     await db.execute(clienteTable);
-    await db.execute(ramoAtividadeTable);
   }
 
   static Future<void> _update(
     Database db,
-    int old_version,
-    int new_version,
+    int oldVersion,
+    int newVersion,
   ) async {
-    print(old_version);
-    print(new_version);
+    if (oldVersion < 2) {
+      await db.execute(ramoAtividadeTable);
+    }
 
-    if (old_version < 6) {
-      await db.execute(clienteTable);
+    if (oldVersion < 3) {
+      await db.execute(tipoLogradouroTable);
+    }
+
+    if (oldVersion < 4) {
+      await db.execute(tipoTelefoneTable);
     }
   }
 }
