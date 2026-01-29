@@ -7,6 +7,9 @@ import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource
 import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividade_datasorce_local_imp.dart';
 import 'package:clean_arch/features/clientes/data/models/cliente_model.dart';
 import 'package:clean_arch/features/ramoatividade/data/models/ramo_atividade_model.dart';
+import 'package:clean_arch/features/tipologradouro/data/datasources/tipo_logradouro_datasource_local.dart';
+import 'package:clean_arch/features/tipologradouro/data/datasources/tipo_logradouro_datasource_local_imp.dart';
+import 'package:clean_arch/features/tipologradouro/data/models/tipo_logradouro_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -50,6 +53,18 @@ void main() async {
   await exibirEstruturaTabela(db, ramoAtividadeTableName);
   await exibirEstruturaTabela(db, tipoLogradouroTableName);
   await exibirEstruturaTabela(db, tipoTelefoneTableName);
+
+  // final TipoLogradouroDatasourceLocalImp dsTipoLogradouro =
+  //     TipoLogradouroDatasourceLocalImp();
+  // TipoLogradouroModel tipoLogradouro = TipoLogradouroModel(
+  //   descricaoTipoLogradouro: "Rua",
+  // );
+  // await dsTipoLogradouro.save(tipoLogradouro);
+  // final tiposLogradouro = await dsTipoLogradouro.get();
+
+  // print(tiposLogradouro);
+
+  // tiposLogradouro.forEach((element) => print(element.toMap()));
 
   // final RamoAtividadeDatasorceLocalImp dsRamoAtividade =
   //     RamoAtividadeDatasorceLocalImp();
