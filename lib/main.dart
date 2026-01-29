@@ -13,16 +13,16 @@ Future<void> exibirEstruturaTabela(Database db, String nomeTabela) async {
   print("Colunas da tabela: $nomeTabela");
   print("===============================");
 
+  String pk = "false";
+
   for (var column in columns) {
     if (column["pk"] == 1) {
-      print(
-        "Campo PK: True  | Coluna: ${column['name']} | Tipo:${column['type']}",
-      );
+      pk = "True  ";
     } else {
-      print(
-        "Campo PK: False | Coluna: ${column['name']} | Tipo:${column['type']}",
-      );
+      pk = "False;";
     }
+
+    print("Campo PK: $pk | Coluna: ${column['name']} | Tipo:${column['type']}");
   }
 
   final fks = await db.rawQuery("PRAGMA foreign_key_list($nomeTabela)");
