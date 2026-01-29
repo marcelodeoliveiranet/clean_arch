@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS $clienteTableName (
   ie_rg TEXT,
   inscricao_municipal TEXT,
   email TEXT,
-  home_page TEXT,  
+  home_page TEXT,    
   cep TEXT NOT NULL,
   codigo_tipo_logradouro INTEGER NOT NULL,
   logradouro TEXT NOT NULL,

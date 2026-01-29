@@ -13,13 +13,13 @@ Future<void> exibirEstruturaTabela(Database db, String nomeTabela) async {
   print("Colunas da tabela: $nomeTabela");
   print("===============================");
 
-  String pk = "false";
+  String pk = "False";
 
   for (var column in columns) {
     if (column["pk"] == 1) {
-      pk = "True  ";
+      pk = "True ";
     } else {
-      pk = "False;";
+      pk = "False";
     }
 
     print("Campo PK: $pk | Coluna: ${column['name']} | Tipo:${column['type']}");
