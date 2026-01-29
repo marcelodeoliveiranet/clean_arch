@@ -3,13 +3,6 @@ import 'package:clean_arch/core/database/tables/cliente.dart';
 import 'package:clean_arch/core/database/tables/ramo_atividade.dart';
 import 'package:clean_arch/core/database/tables/tipo_logradouro.dart';
 import 'package:clean_arch/core/database/tables/tipo_telefone.dart';
-import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local_imp.dart';
-import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividade_datasorce_local_imp.dart';
-import 'package:clean_arch/features/clientes/data/models/cliente_model.dart';
-import 'package:clean_arch/features/ramoatividade/data/models/ramo_atividade_model.dart';
-import 'package:clean_arch/features/tipologradouro/data/datasources/tipo_logradouro_datasource_local.dart';
-import 'package:clean_arch/features/tipologradouro/data/datasources/tipo_logradouro_datasource_local_imp.dart';
-import 'package:clean_arch/features/tipologradouro/data/models/tipo_logradouro_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -54,8 +47,20 @@ void main() async {
   await exibirEstruturaTabela(db, tipoLogradouroTableName);
   await exibirEstruturaTabela(db, tipoTelefoneTableName);
 
+  // final TipoTelefoneDatasourceLocalImp dsTipoTelefone =
+  //     TipoTelefoneDatasourceLocalImp();
+
+  // TipoTelefoneModel tipoTelefoneModel = TipoTelefoneModel(
+  //   descricaoTipoTelefone: "Residencial",
+  // );
+  // await dsTipoTelefone.save(tipoTelefoneModel);
+  // final tiposTelefone = await dsTipoTelefone.get();
+  // print(tiposTelefone);
+  // tiposTelefone.forEach((element) => print(element.toMap()));
+
   // final TipoLogradouroDatasourceLocalImp dsTipoLogradouro =
   //     TipoLogradouroDatasourceLocalImp();
+
   // TipoLogradouroModel tipoLogradouro = TipoLogradouroModel(
   //   descricaoTipoLogradouro: "Rua",
   // );
