@@ -1,7 +1,7 @@
 import 'package:clean_arch/core/database/app_database.dart';
 import 'package:clean_arch/core/database/tables/ramo_atividade.dart';
-import 'package:clean_arch/features/clientes/data/datasources/RamoAtividade/ramo_atividade_datasource_local.dart';
-import 'package:clean_arch/features/clientes/data/models/ramo_atividade_model.dart';
+import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividade_datasource_local.dart';
+import 'package:clean_arch/features/ramoatividade/data/models/ramo_atividade_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class RamoAtividadeDatasorceLocalImp extends RamoatividadeDatasourceLocal {

@@ -1,8 +1,8 @@
 import 'package:clean_arch/core/database/app_database.dart';
-import 'package:clean_arch/features/clientes/data/datasources/Cliente/cliente_datasource_local_imp.dart';
-import 'package:clean_arch/features/clientes/data/datasources/RamoAtividade/ramo_atividade_datasorce_local_imp.dart';
+import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local_imp.dart';
+import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividade_datasorce_local_imp.dart';
 import 'package:clean_arch/features/clientes/data/models/cliente_model.dart';
-import 'package:clean_arch/features/clientes/data/models/ramo_atividade_model.dart';
+import 'package:clean_arch/features/ramoatividade/data/models/ramo_atividade_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 

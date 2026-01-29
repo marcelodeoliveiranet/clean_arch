@@ -1,6 +1,6 @@
 import 'package:clean_arch/core/database/app_database.dart';
 import 'package:clean_arch/core/database/tables/cliente.dart';
-import 'package:clean_arch/features/clientes/data/datasources/Cliente/cliente_datasource_local.dart';
+import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local.dart';
 import 'package:clean_arch/features/clientes/data/models/cliente_model.dart';
 import 'package:sqflite/sqflite.dart';
 
