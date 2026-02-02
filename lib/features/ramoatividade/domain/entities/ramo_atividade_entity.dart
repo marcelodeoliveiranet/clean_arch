@@ -3,5 +3,5 @@ class RamoAtividadeEntity {
   final int codigo;
   final String descricao;
 
-  RamoAtividadeEntity({required this.codigo, required this.descricao});
+  const RamoAtividadeEntity({required this.codigo, required this.descricao});
 }

@@ -3,5 +3,5 @@ class TipoLogradouroEntity {
   final int codigo;
   final String descricao;
 
-  TipoLogradouroEntity({required this.codigo, required this.descricao});
+  const TipoLogradouroEntity({required this.codigo, required this.descricao});
 }

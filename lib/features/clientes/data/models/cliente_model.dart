@@ -1,4 +1,7 @@
+import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
+
 class ClienteModel {
+  final String foto;
   final int? codigoCliente;
   final String razaoSocial;
   final String nomeFantasia;
@@ -18,9 +21,17 @@ class ClienteModel {
   final String municipio;
   final int codigoIbgeMunicipio;
   final String uf;
+  final int codigoTipoTelefone1;
+  final String telefone1;
+  final int codigoTipoTelefone2;
+  final String complementoTelefone1;
+  final String telefone2;
+  final String complementoTelefone2;
+  final String dataCadastro;
 
   const ClienteModel({
-    this.codigoCliente,
+    required this.foto,
+    required this.codigoCliente,
     required this.razaoSocial,
     required this.nomeFantasia,
     required this.codigoRamoAtividade,
@@ -39,10 +50,18 @@ class ClienteModel {
     required this.municipio,
     required this.codigoIbgeMunicipio,
     required this.uf,
+    required this.codigoTipoTelefone1,
+    required this.telefone1,
+    required this.codigoTipoTelefone2,
+    required this.complementoTelefone1,
+    required this.telefone2,
+    required this.complementoTelefone2,
+    required this.dataCadastro,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'foto': foto,
       'codigo_cliente': codigoCliente,
       'razao_social': razaoSocial,
       'nome_fantasia': nomeFantasia,
@@ -62,11 +81,19 @@ class ClienteModel {
       'municipio': municipio,
       'codigo_ibge_municipio': codigoIbgeMunicipio,
       'uf': uf,
+      'codigoTipoTelefone1': codigoTipoTelefone1,
+      'telefone1': telefone1,
+      'codigoTipoTelefone2': codigoTipoTelefone2,
+      'complementoTelefone1': complementoTelefone1,
+      'telefone2': telefone2,
+      'complementoTelefone2': complementoTelefone2,
+      'dataCadastro': dataCadastro,
     };
   }
 
   factory ClienteModel.fromMap(Map<String, dynamic> map) {
     return ClienteModel(
+      foto: map['foto'] as String,
       codigoCliente: map['codigo_cliente'] as int,
       razaoSocial: map['razao_social'] as String,
       nomeFantasia: map['nome_fantasia'] as String,
@@ -86,6 +113,76 @@ class ClienteModel {
       municipio: map['municipio'] as String,
       codigoIbgeMunicipio: map['codigo_ibge_municipio'] as int,
       uf: map['uf'] as String,
+      codigoTipoTelefone1: map['codigoTipoTelefone1'] as int,
+      telefone1: map['telefone1'] as String,
+      codigoTipoTelefone2: map['codigoTipoTelefone2'] as int,
+      complementoTelefone1: map['complementoTelefone1'] as String,
+      telefone2: map['telefone2'] as String,
+      complementoTelefone2: map['complementoTelefone2'] as String,
+      dataCadastro: map['dataCadastro'] as String,
+    );
+  }
+
+  ClienteEntity toEntity() {
+    return ClienteEntity(
+      foto: foto,
+      tipoPessoa: tipoPessoa,
+      razaoSocial: razaoSocial,
+      nomeFantasia: nomeFantasia,
+      codigoRamoAtividade: codigoRamoAtividade,
+      cnpjCpf: cnpjCpf,
+      ieRg: ieRg,
+      inscricaoMunicipal: inscricaoMunicipal,
+      email: email,
+      homePage: homePage,
+      cep: cep,
+      codigoTipoLogradouro: codigoTipoLogradouro,
+      logradouro: logradouro,
+      numero: numero,
+      complemento: complemento,
+      bairro: bairro,
+      municipio: municipio,
+      codigoIbgeMunicipio: codigoIbgeMunicipio,
+      uf: uf,
+      codigoTipoTelefone1: codigoTipoTelefone1,
+      telefone1: telefone1,
+      codigoTipoTelefone2: codigoTipoTelefone2,
+      complementoTelefone1: complementoTelefone1,
+      telefone2: telefone2,
+      complementoTelefone2: complementoTelefone2,
+      dataCadastro: dataCadastro,
+    );
+  }
+
+  factory ClienteModel.fromEntity(ClienteEntity entity) {
+    return ClienteModel(
+      foto: entity.foto,
+      codigoCliente: entity.codigoCliente,
+      razaoSocial: entity.razaoSocial,
+      nomeFantasia: entity.nomeFantasia,
+      codigoRamoAtividade: entity.codigoRamoAtividade,
+      cnpjCpf: entity.cnpjCpf,
+      tipoPessoa: entity.tipoPessoa,
+      ieRg: entity.ieRg,
+      inscricaoMunicipal: entity.inscricaoMunicipal,
+      email: entity.email,
+      homePage: entity.homePage,
+      cep: entity.cep,
+      codigoTipoLogradouro: entity.codigoTipoLogradouro,
+      logradouro: entity.logradouro,
+      numero: entity.numero,
+      complemento: entity.complemento,
+      bairro: entity.bairro,
+      municipio: entity.municipio,
+      codigoIbgeMunicipio: entity.codigoIbgeMunicipio,
+      uf: entity.uf,
+      codigoTipoTelefone1: entity.codigoTipoTelefone1,
+      telefone1: entity.telefone1,
+      codigoTipoTelefone2: entity.codigoTipoTelefone2,
+      complementoTelefone1: entity.complementoTelefone1,
+      telefone2: entity.telefone2,
+      complementoTelefone2: entity.complementoTelefone2,
+      dataCadastro: entity.dataCadastro,
     );
   }
 }
