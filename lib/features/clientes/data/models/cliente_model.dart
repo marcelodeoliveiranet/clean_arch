@@ -81,13 +81,13 @@ class ClienteModel {
       'municipio': municipio,
       'codigo_ibge_municipio': codigoIbgeMunicipio,
       'uf': uf,
-      'codigoTipoTelefone1': codigoTipoTelefone1,
+      'codigo_tipo_telefone1': codigoTipoTelefone1,
       'telefone1': telefone1,
-      'codigoTipoTelefone2': codigoTipoTelefone2,
-      'complementoTelefone1': complementoTelefone1,
+      'codigo_tipo_telefone2': codigoTipoTelefone2,
+      'complemento_telefone1': complementoTelefone1,
       'telefone2': telefone2,
-      'complementoTelefone2': complementoTelefone2,
-      'dataCadastro': dataCadastro,
+      'complemento_telefone2': complementoTelefone2,
+      'data_cadastro': dataCadastro,
     };
   }
 
@@ -113,13 +113,13 @@ class ClienteModel {
       municipio: map['municipio'] as String,
       codigoIbgeMunicipio: map['codigo_ibge_municipio'] as int,
       uf: map['uf'] as String,
-      codigoTipoTelefone1: map['codigoTipoTelefone1'] as int,
+      codigoTipoTelefone1: map['codigo_tipo_telefone1'] as int,
       telefone1: map['telefone1'] as String,
-      codigoTipoTelefone2: map['codigoTipoTelefone2'] as int,
-      complementoTelefone1: map['complementoTelefone1'] as String,
+      codigoTipoTelefone2: map['codigo_tipo_telefone2'] as int,
+      complementoTelefone1: map['complemento_telefone1'] as String,
       telefone2: map['telefone2'] as String,
-      complementoTelefone2: map['complementoTelefone2'] as String,
-      dataCadastro: map['dataCadastro'] as String,
+      complementoTelefone2: map['complemento_telefone2'] as String,
+      dataCadastro: map['data_cadastro'] as String,
     );
   }
 

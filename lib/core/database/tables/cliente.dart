@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS $clienteTableName (
   telefone1 text,
   complemento_telefone1 TEXT,
   codigo_tipo_telefone2 INTEGER,
-  telefone2_text TEXT,
+  telefone2 TEXT,
   complemento_telefone2 TEXT,
   data_cadastro TEXT NOT NULL DEFAULT(DATETIME('NOW', 'LOCALTIME')),
 

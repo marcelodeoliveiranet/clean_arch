@@ -8,7 +8,7 @@ import 'package:sqflite/sqflite.dart';
 class AppDatabase {
   static Database? _database;
   static const _dbName = "app_database.db";
-  static const _dbVersion = 4;
+  static const _dbVersion = 5;
 
   AppDatabase._();
 
@@ -52,6 +52,10 @@ class AppDatabase {
 
     if (oldVersion < 4) {
       await db.execute(tipoTelefoneTable);
+    }
+
+    if (oldVersion < 5) {
+      await db.execute(clienteTable);
     }
   }
 }

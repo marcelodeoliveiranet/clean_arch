@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class ClienteEntity {
   final String foto;
   final String tipoPessoa;
@@ -56,4 +57,64 @@ class ClienteEntity {
     required this.complementoTelefone2,
     required this.dataCadastro,
   });
+
+  ClienteEntity copyWith({
+    String? foto,
+    String? tipoPessoa,
+    int? codigoCliente,
+    String? razaoSocial,
+    String? nomeFantasia,
+    int? codigoRamoAtividade,
+    String? cnpjCpf,
+    String? ieRg,
+    String? inscricaoMunicipal,
+    String? email,
+    String? homePage,
+    String? cep,
+    int? codigoTipoLogradouro,
+    String? logradouro,
+    String? numero,
+    String? complemento,
+    String? bairro,
+    String? municipio,
+    int? codigoIbgeMunicipio,
+    String? uf,
+    int? codigoTipoTelefone1,
+    String? telefone1,
+    String? complementoTelefone1,
+    int? codigoTipoTelefone2,
+    String? telefone2,
+    String? complementoTelefone2,
+    String? dataCadastro,
+  }) {
+    return ClienteEntity(
+      foto: foto ?? this.foto,
+      tipoPessoa: tipoPessoa ?? this.tipoPessoa,
+      codigoCliente: codigoCliente ?? this.codigoCliente,
+      razaoSocial: razaoSocial ?? this.razaoSocial,
+      nomeFantasia: nomeFantasia ?? this.nomeFantasia,
+      codigoRamoAtividade: codigoRamoAtividade ?? this.codigoRamoAtividade,
+      cnpjCpf: cnpjCpf ?? this.cnpjCpf,
+      ieRg: ieRg ?? this.ieRg,
+      inscricaoMunicipal: inscricaoMunicipal ?? this.inscricaoMunicipal,
+      email: email ?? this.email,
+      homePage: homePage ?? this.homePage,
+      cep: cep ?? this.cep,
+      codigoTipoLogradouro: codigoTipoLogradouro ?? this.codigoTipoLogradouro,
+      logradouro: logradouro ?? this.logradouro,
+      numero: numero ?? this.numero,
+      complemento: complemento ?? this.complemento,
+      bairro: bairro ?? this.bairro,
+      municipio: municipio ?? this.municipio,
+      codigoIbgeMunicipio: codigoIbgeMunicipio ?? this.codigoIbgeMunicipio,
+      uf: uf ?? this.uf,
+      codigoTipoTelefone1: codigoTipoTelefone1 ?? this.codigoTipoTelefone1,
+      telefone1: telefone1 ?? this.telefone1,
+      complementoTelefone1: complementoTelefone1 ?? this.complementoTelefone1,
+      codigoTipoTelefone2: codigoTipoTelefone2 ?? this.codigoTipoTelefone2,
+      telefone2: telefone2 ?? this.telefone2,
+      complementoTelefone2: complementoTelefone2 ?? this.complementoTelefone2,
+      dataCadastro: dataCadastro ?? this.dataCadastro,
+    );
+  }
 }

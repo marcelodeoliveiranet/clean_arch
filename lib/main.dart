@@ -3,6 +3,10 @@ import 'package:clean_arch/core/database/tables/cliente.dart';
 import 'package:clean_arch/core/database/tables/ramo_atividade.dart';
 import 'package:clean_arch/core/database/tables/tipo_logradouro.dart';
 import 'package:clean_arch/core/database/tables/tipo_telefone.dart';
+import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local.dart';
+import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local_imp.dart';
+import 'package:clean_arch/features/clientes/data/models/cliente_model.dart';
+import 'package:clean_arch/features/presentation/cliente_list/page/cliente_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -47,77 +51,40 @@ void main() async {
   await exibirEstruturaTabela(db, tipoLogradouroTableName);
   await exibirEstruturaTabela(db, tipoTelefoneTableName);
 
-  // final TipoTelefoneDatasourceLocalImp dsTipoTelefone =
-  //     TipoTelefoneDatasourceLocalImp();
+  ClienteDatasourceLocalImp clienteDatasourceLocalImp =
+      ClienteDatasourceLocalImp();
 
-  // TipoTelefoneModel tipoTelefoneModel = TipoTelefoneModel(
-  //   descricaoTipoTelefone: "Residencial",
-  // );
-  // await dsTipoTelefone.save(tipoTelefoneModel);
-  // final tiposTelefone = await dsTipoTelefone.get();
-  // print(tiposTelefone);
-  // tiposTelefone.forEach((element) => print(element.toMap()));
+  ClienteModel cliente = ClienteModel(
+    foto: "",
+    codigoCliente: null,
+    razaoSocial: "Marcelo",
+    nomeFantasia: "Marcelo",
+    codigoRamoAtividade: 1,
+    cnpjCpf: "",
+    tipoPessoa: "F",
+    ieRg: "",
+    inscricaoMunicipal: "",
+    email: "",
+    homePage: "",
+    cep: "",
+    codigoTipoLogradouro: 1,
+    logradouro: "",
+    numero: "",
+    complemento: "",
+    bairro: "",
+    municipio: "",
+    codigoIbgeMunicipio: 123456,
+    uf: "SP",
+    codigoTipoTelefone1: 1,
+    telefone1: "",
+    codigoTipoTelefone2: 1,
+    complementoTelefone1: "",
+    telefone2: "",
+    complementoTelefone2: "",
+    dataCadastro: "",
+  );
 
-  // final TipoLogradouroDatasourceLocalImp dsTipoLogradouro =
-  //     TipoLogradouroDatasourceLocalImp();
-
-  // TipoLogradouroModel tipoLogradouro = TipoLogradouroModel(
-  //   descricaoTipoLogradouro: "Rua",
-  // );
-  // await dsTipoLogradouro.save(tipoLogradouro);
-  // final tiposLogradouro = await dsTipoLogradouro.get();
-
-  // print(tiposLogradouro);
-
-  // tiposLogradouro.forEach((element) => print(element.toMap()));
-
-  // final RamoAtividadeDatasorceLocalImp dsRamoAtividade =
-  //     RamoAtividadeDatasorceLocalImp();
-
-  // RamoAtividadeModel ramoAtividadeModel = RamoAtividadeModel(
-  //   descricaoRamoAtividade: "Atacado",
-  // );
-
-  // await dsRamoAtividade.save(ramoAtividadeModel);
-  // final ramoAtividades = await dsRamoAtividade.get();
-  // print(ramoAtividades);
-
-  // ramoAtividades.forEach((element) => print(element.toMap()));
-
-  // final ClienteDatasourceLocalImp ds = ClienteDatasourceLocalImp();
-
-  // ClienteModel clienteModel = ClienteModel(
-  //   codigoCliente: null,
-  //   razaoSocial: "Marcelo de Oliveira",
-  //   nomeFantasia: "Marcelo",
-  //   codigoRamoAtividade: 2,
-  //   cnpjCpf: "111",
-  //   tipoPessoa: "F",
-  //   ieRg: "12",
-  //   inscricaoMunicipal: "",
-  //   email: "marcelosdeoliveiras@gmail.com",
-  //   homePage: "",
-  //   cep: "05134-000",
-  //   codigoTipoLogradouro: 1,
-  //   logradouro: "Rua tal",
-  //   numero: "571",
-  //   complemento: "",
-  //   bairro: "Vila Guedes",
-  //   municipio: "São Paulo",
-  //   codigoIbgeMunicipio: 123456,
-  //   uf: "SP",
-  // );
-
-  // await ds.save(clienteModel);
-
-  // final clientes = await ds.get();
-  // print(clientes);
-
-  // //await ds.delete(clientes.last);
-  // print(await ds.get());
-
-  //clientes.forEach((element) => print(element.toMap()));
-
+  clienteDatasourceLocalImp.save(cliente);
   runApp(const MyApp());
 }
 
@@ -132,53 +99,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      home: ClienteListPage(),
     );
   }
 }
