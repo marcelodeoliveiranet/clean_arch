@@ -12,7 +12,6 @@ class ClienteEntity {
   final String email;
   final String homePage;
   final String cep;
-  final int codigoTipoLogradouro;
   final String logradouro;
   final String numero;
   final String complemento;
@@ -23,9 +22,6 @@ class ClienteEntity {
   final int codigoTipoTelefone1;
   final String telefone1;
   final String complementoTelefone1;
-  final int codigoTipoTelefone2;
-  final String telefone2;
-  final String complementoTelefone2;
   final String dataCadastro;
 
   const ClienteEntity({
@@ -41,7 +37,6 @@ class ClienteEntity {
     required this.email,
     required this.homePage,
     required this.cep,
-    required this.codigoTipoLogradouro,
     required this.logradouro,
     required this.numero,
     required this.complemento,
@@ -51,10 +46,7 @@ class ClienteEntity {
     required this.uf,
     required this.codigoTipoTelefone1,
     required this.telefone1,
-    required this.codigoTipoTelefone2,
     required this.complementoTelefone1,
-    required this.telefone2,
-    required this.complementoTelefone2,
     required this.dataCadastro,
   });
 
@@ -71,7 +63,6 @@ class ClienteEntity {
     String? email,
     String? homePage,
     String? cep,
-    int? codigoTipoLogradouro,
     String? logradouro,
     String? numero,
     String? complemento,
@@ -82,9 +73,6 @@ class ClienteEntity {
     int? codigoTipoTelefone1,
     String? telefone1,
     String? complementoTelefone1,
-    int? codigoTipoTelefone2,
-    String? telefone2,
-    String? complementoTelefone2,
     String? dataCadastro,
   }) {
     return ClienteEntity(
@@ -100,7 +88,6 @@ class ClienteEntity {
       email: email ?? this.email,
       homePage: homePage ?? this.homePage,
       cep: cep ?? this.cep,
-      codigoTipoLogradouro: codigoTipoLogradouro ?? this.codigoTipoLogradouro,
       logradouro: logradouro ?? this.logradouro,
       numero: numero ?? this.numero,
       complemento: complemento ?? this.complemento,
@@ -111,9 +98,6 @@ class ClienteEntity {
       codigoTipoTelefone1: codigoTipoTelefone1 ?? this.codigoTipoTelefone1,
       telefone1: telefone1 ?? this.telefone1,
       complementoTelefone1: complementoTelefone1 ?? this.complementoTelefone1,
-      codigoTipoTelefone2: codigoTipoTelefone2 ?? this.codigoTipoTelefone2,
-      telefone2: telefone2 ?? this.telefone2,
-      complementoTelefone2: complementoTelefone2 ?? this.complementoTelefone2,
       dataCadastro: dataCadastro ?? this.dataCadastro,
     );
   }

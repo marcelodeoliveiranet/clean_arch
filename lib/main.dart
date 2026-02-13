@@ -1,12 +1,14 @@
 import 'package:clean_arch/core/database/app_database.dart';
 import 'package:clean_arch/core/database/tables/cliente.dart';
 import 'package:clean_arch/core/database/tables/ramo_atividade.dart';
-import 'package:clean_arch/core/database/tables/tipo_logradouro.dart';
 import 'package:clean_arch/core/database/tables/tipo_telefone.dart';
-import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local.dart';
 import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local_imp.dart';
 import 'package:clean_arch/features/clientes/data/models/cliente_model.dart';
 import 'package:clean_arch/features/presentation/cliente_list/page/cliente_list_page.dart';
+import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividade_datasorce_local_imp.dart';
+import 'package:clean_arch/features/ramoatividade/data/models/ramo_atividade_model.dart';
+import 'package:clean_arch/features/tipotelefone/data/datasource/tipo_telefone_datasource_local_imp.dart';
+import 'package:clean_arch/features/tipotelefone/data/models/tipo_telefone_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -48,43 +50,53 @@ void main() async {
 
   await exibirEstruturaTabela(db, clienteTableName);
   await exibirEstruturaTabela(db, ramoAtividadeTableName);
-  await exibirEstruturaTabela(db, tipoLogradouroTableName);
   await exibirEstruturaTabela(db, tipoTelefoneTableName);
 
-  ClienteDatasourceLocalImp clienteDatasourceLocalImp =
-      ClienteDatasourceLocalImp();
+  // TipoTelefoneDatasourceLocalImp tipoTelefoneDataSource =
+  //     TipoTelefoneDatasourceLocalImp();
 
-  ClienteModel cliente = ClienteModel(
-    foto: "",
-    codigoCliente: null,
-    razaoSocial: "Marcelo",
-    nomeFantasia: "Marcelo",
-    codigoRamoAtividade: 1,
-    cnpjCpf: "",
-    tipoPessoa: "F",
-    ieRg: "",
-    inscricaoMunicipal: "",
-    email: "",
-    homePage: "",
-    cep: "",
-    codigoTipoLogradouro: 1,
-    logradouro: "",
-    numero: "",
-    complemento: "",
-    bairro: "",
-    municipio: "",
-    codigoIbgeMunicipio: 123456,
-    uf: "SP",
-    codigoTipoTelefone1: 1,
-    telefone1: "",
-    codigoTipoTelefone2: 1,
-    complementoTelefone1: "",
-    telefone2: "",
-    complementoTelefone2: "",
-    dataCadastro: "",
-  );
+  // TipoTelefoneModel tipoTelefone = TipoTelefoneModel(descricao: "Celular");
+  // await tipoTelefoneDataSource.save(tipoTelefone);
 
-  clienteDatasourceLocalImp.save(cliente);
+  // RamoAtividadeDatasorceLocalImp ramoAtividadeDatasorceLocalImp =
+  //     RamoAtividadeDatasorceLocalImp();
+
+  // RamoAtividadeModel ramo = RamoAtividadeModel(
+  //   codigo: null,
+  //   descricao: "Atacado",
+  // );
+  // await ramoAtividadeDatasorceLocalImp.save(ramo);
+
+  // ClienteDatasourceLocalImp clienteDatasourceLocalImp =
+  //     ClienteDatasourceLocalImp();
+
+  // ClienteModel cliente = ClienteModel(
+  //   foto: "",
+  //   codigoCliente: null,
+  //   razaoSocial: "Marcelo",
+  //   nomeFantasia: "Marcelo",
+  //   codigoRamoAtividade: 1,
+  //   cnpjCpf: "111",
+  //   tipoPessoa: "F",
+  //   ieRg: "15",
+  //   inscricaoMunicipal: "",
+  //   email: "marcelosdeoliveiras@gmail.com",
+  //   homePage: "",
+  //   cep: "05134-0000",
+  //   logradouro: "Rua Manoel Martins da Rocha",
+  //   numero: "571",
+  //   complemento: "Casa",
+  //   bairro: "Vila Guedes",
+  //   municipio: "São Paulo",
+  //   codigoIbgeMunicipio: 123456,
+  //   uf: "SP",
+  //   codigoTipoTelefone1: 1,
+  //   telefone1: "9 7119-4051",
+  //   complementoTelefone1: "",
+  //   dataCadastro: "",
+  // );
+
+  // await clienteDatasourceLocalImp.save(cliente);
   runApp(const MyApp());
 }
 

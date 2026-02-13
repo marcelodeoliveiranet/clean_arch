@@ -2,6 +2,6 @@ import 'package:clean_arch/features/ramoatividade/data/models/ramo_atividade_mod
 
 abstract class RamoatividadeDatasourceLocal {
   Future<List<RamoAtividadeModel>> get();
-  Future<void> save(RamoAtividadeModel ramoAtividade);
+  Future<int> save(RamoAtividadeModel ramoAtividade);
   Future<void> delete(RamoAtividadeModel ramoAtividade);
 }

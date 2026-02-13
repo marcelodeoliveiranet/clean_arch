@@ -1,5 +1,4 @@
 import 'package:clean_arch/core/database/app_database.dart';
-import 'package:clean_arch/core/database/tables/tipo_logradouro.dart';
 import 'package:clean_arch/core/database/tables/tipo_telefone.dart';
 import 'package:clean_arch/features/tipotelefone/data/datasource/tipo_telefone_datasource_local.dart';
 import 'package:clean_arch/features/tipotelefone/data/models/tipo_telefone_model.dart';
@@ -11,9 +10,9 @@ class TipoTelefoneDatasourceLocalImp extends TipoTelefoneDatasourceLocal {
     final Database db = await AppDatabase.database;
 
     await db.delete(
-      tipoLogradouroTableName,
+      tipoTelefoneTableName,
       where: "codigo_tipo_telefone = ?",
-      whereArgs: [tipoTelefone.codigoTipoTelefone],
+      whereArgs: [tipoTelefone.codigo],
     );
   }
 
@@ -25,8 +24,8 @@ class TipoTelefoneDatasourceLocalImp extends TipoTelefoneDatasourceLocal {
   }
 
   @override
-  Future<void> save(TipoTelefoneModel tipoTelefone) async {
+  Future<int> save(TipoTelefoneModel tipoTelefone) async {
     final Database db = await AppDatabase.database;
-    await db.insert(tipoTelefoneTableName, tipoTelefone.toMap());
+    return await db.insert(tipoTelefoneTableName, tipoTelefone.toMap());
   }
 }

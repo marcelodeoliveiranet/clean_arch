@@ -12,7 +12,7 @@ class RamoAtividadeDatasorceLocalImp extends RamoatividadeDatasourceLocal {
     await db.delete(
       ramoAtividadeTableName,
       where: "codigo_ramo_atividade = ?",
-      whereArgs: [ramoAtividade.codigoRamoAtividade],
+      whereArgs: [ramoAtividade.codigo],
     );
   }
 
@@ -25,8 +25,8 @@ class RamoAtividadeDatasorceLocalImp extends RamoatividadeDatasourceLocal {
   }
 
   @override
-  Future<void> save(RamoAtividadeModel ramoAtividade) async {
+  Future<int> save(RamoAtividadeModel ramoAtividade) async {
     final Database db = await AppDatabase.database;
-    await db.insert(ramoAtividadeTableName, ramoAtividade.toMap());
+    return await db.insert(ramoAtividadeTableName, ramoAtividade.toMap());
   }
 }

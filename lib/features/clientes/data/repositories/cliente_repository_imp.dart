@@ -20,7 +20,6 @@ class ClienteRepositoryImp implements ClienteRepository {
       email: cliente.email,
       homePage: cliente.homePage,
       cep: cliente.cep,
-      codigoTipoLogradouro: cliente.codigoTipoLogradouro,
       logradouro: cliente.logradouro,
       numero: cliente.numero,
       complemento: cliente.complemento,
@@ -29,12 +28,9 @@ class ClienteRepositoryImp implements ClienteRepository {
       codigoIbgeMunicipio: cliente.codigoIbgeMunicipio,
       uf: cliente.uf,
       codigoTipoTelefone1: cliente.codigoTipoTelefone1,
-      codigoTipoTelefone2: cliente.codigoTipoTelefone2,
       complementoTelefone1: cliente.complementoTelefone1,
-      complementoTelefone2: cliente.complementoTelefone2,
       dataCadastro: cliente.dataCadastro,
       telefone1: cliente.telefone1,
-      telefone2: cliente.telefone2,
     );
 
     await clienteDatasourceLocal.delete(clienteModel);

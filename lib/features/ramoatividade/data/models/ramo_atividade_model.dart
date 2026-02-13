@@ -1,26 +1,23 @@
 class RamoAtividadeModel {
-  final int? codigoRamoAtividade;
-  final String descricaoRamoAtividade;
+  final int? codigo;
+  final String descricao;
 
-  const RamoAtividadeModel({
-    this.codigoRamoAtividade,
-    required this.descricaoRamoAtividade,
-  });
+  const RamoAtividadeModel({this.codigo, required this.descricao});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'codigo_ramo_atividade': codigoRamoAtividade,
-      'descricao_ramo_atividade': descricaoRamoAtividade,
+      'codigo_ramo_atividade': codigo,
+      'descricao_ramo_atividade': descricao,
     };
   }
 
   factory RamoAtividadeModel.fromMap(Map<String, dynamic> map) {
     return RamoAtividadeModel(
-      codigoRamoAtividade:
+      codigo:
           map['codigo_ramo_atividade'] != null
               ? map['codigo_ramo_atividade'] as int
               : null,
-      descricaoRamoAtividade: map['descricao_ramo_atividade'] as String,
+      descricao: map['descricao_ramo_atividade'] as String,
     );
   }
 }

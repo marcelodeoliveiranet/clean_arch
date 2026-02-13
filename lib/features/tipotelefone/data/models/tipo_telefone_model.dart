@@ -1,26 +1,23 @@
 class TipoTelefoneModel {
-  final int? codigoTipoTelefone;
-  final String descricaoTipoTelefone;
+  final int? codigo;
+  final String descricao;
 
-  TipoTelefoneModel({
-    this.codigoTipoTelefone,
-    required this.descricaoTipoTelefone,
-  });
+  TipoTelefoneModel({this.codigo, required this.descricao});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'codigo_tipo_telefone': codigoTipoTelefone,
-      'descricao_tipo_telefone': descricaoTipoTelefone,
+      'codigo_tipo_telefone': codigo,
+      'descricao_tipo_telefone': descricao,
     };
   }
 
   factory TipoTelefoneModel.fromMap(Map<String, dynamic> map) {
     return TipoTelefoneModel(
-      codigoTipoTelefone:
+      codigo:
           map['codigo_tipo_telefone'] != null
               ? map['codigo_tipo_telefone'] as int
               : null,
-      descricaoTipoTelefone: map['descricao_tipo_telefone'] as String,
+      descricao: map['descricao_tipo_telefone'] as String,
     );
   }
 }

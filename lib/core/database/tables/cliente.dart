@@ -1,5 +1,4 @@
 import 'package:clean_arch/core/database/tables/ramo_atividade.dart';
-import 'package:clean_arch/core/database/tables/tipo_logradouro.dart';
 import 'package:clean_arch/core/database/tables/tipo_telefone.dart';
 
 const String clienteTableName = "CLIENTE";
@@ -17,8 +16,7 @@ CREATE TABLE IF NOT EXISTS $clienteTableName (
   inscricao_municipal TEXT,
   email TEXT,
   home_page TEXT,    
-  cep TEXT NOT NULL,
-  codigo_tipo_logradouro INTEGER NOT NULL,
+  cep TEXT NOT NULL,  
   logradouro TEXT NOT NULL,
   numero TEXT NOT NULL,
   complemento TEXT NOT NULL,
@@ -29,21 +27,12 @@ CREATE TABLE IF NOT EXISTS $clienteTableName (
   codigo_tipo_telefone1 INTEGER,
   telefone1 text,
   complemento_telefone1 TEXT,
-  codigo_tipo_telefone2 INTEGER,
-  telefone2 TEXT,
-  complemento_telefone2 TEXT,
   data_cadastro TEXT NOT NULL DEFAULT(DATETIME('NOW', 'LOCALTIME')),
 
   FOREIGN KEY (codigo_ramo_atividade) 
   REFERENCES $ramoAtividadeTableName(codigo_ramo_atividade),
 
-  FOREIGN KEY (codigo_tipo_logradouro)
-  REFERENCES $tipoLogradouroTableName(codigo_tipo_logradouro),
-
   FOREIGN KEY (codigo_tipo_telefone1)
-  REFERENCES $tipoTelefoneTableName(codigo_tipo_telefone),
-
-  FOREIGN KEY (codigo_tipo_telefone2)
   REFERENCES $tipoTelefoneTableName(codigo_tipo_telefone)
   )  
 ''';

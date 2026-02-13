@@ -13,7 +13,6 @@ class ClienteModel {
   final String email;
   final String homePage;
   final String cep;
-  final int codigoTipoLogradouro;
   final String logradouro;
   final String numero;
   final String complemento;
@@ -23,10 +22,7 @@ class ClienteModel {
   final String uf;
   final int codigoTipoTelefone1;
   final String telefone1;
-  final int codigoTipoTelefone2;
   final String complementoTelefone1;
-  final String telefone2;
-  final String complementoTelefone2;
   final String dataCadastro;
 
   const ClienteModel({
@@ -42,7 +38,6 @@ class ClienteModel {
     required this.email,
     required this.homePage,
     required this.cep,
-    required this.codigoTipoLogradouro,
     required this.logradouro,
     required this.numero,
     required this.complemento,
@@ -52,10 +47,7 @@ class ClienteModel {
     required this.uf,
     required this.codigoTipoTelefone1,
     required this.telefone1,
-    required this.codigoTipoTelefone2,
     required this.complementoTelefone1,
-    required this.telefone2,
-    required this.complementoTelefone2,
     required this.dataCadastro,
   });
 
@@ -73,7 +65,6 @@ class ClienteModel {
       'email': email,
       'home_page': homePage,
       'cep': cep,
-      'codigo_tipo_logradouro': codigoTipoLogradouro,
       'logradouro': logradouro,
       'numero': numero,
       'complemento': complemento,
@@ -83,10 +74,7 @@ class ClienteModel {
       'uf': uf,
       'codigo_tipo_telefone1': codigoTipoTelefone1,
       'telefone1': telefone1,
-      'codigo_tipo_telefone2': codigoTipoTelefone2,
       'complemento_telefone1': complementoTelefone1,
-      'telefone2': telefone2,
-      'complemento_telefone2': complementoTelefone2,
       'data_cadastro': dataCadastro,
     };
   }
@@ -105,7 +93,6 @@ class ClienteModel {
       email: map['email'] as String,
       homePage: map['home_page'] as String,
       cep: map['cep'] as String,
-      codigoTipoLogradouro: map['codigo_tipo_logradouro'] as int,
       logradouro: map['logradouro'] as String,
       numero: map['numero'] as String,
       complemento: map['complemento'] as String,
@@ -115,10 +102,7 @@ class ClienteModel {
       uf: map['uf'] as String,
       codigoTipoTelefone1: map['codigo_tipo_telefone1'] as int,
       telefone1: map['telefone1'] as String,
-      codigoTipoTelefone2: map['codigo_tipo_telefone2'] as int,
       complementoTelefone1: map['complemento_telefone1'] as String,
-      telefone2: map['telefone2'] as String,
-      complementoTelefone2: map['complemento_telefone2'] as String,
       dataCadastro: map['data_cadastro'] as String,
     );
   }
@@ -136,7 +120,6 @@ class ClienteModel {
       email: email,
       homePage: homePage,
       cep: cep,
-      codigoTipoLogradouro: codigoTipoLogradouro,
       logradouro: logradouro,
       numero: numero,
       complemento: complemento,
@@ -146,10 +129,7 @@ class ClienteModel {
       uf: uf,
       codigoTipoTelefone1: codigoTipoTelefone1,
       telefone1: telefone1,
-      codigoTipoTelefone2: codigoTipoTelefone2,
       complementoTelefone1: complementoTelefone1,
-      telefone2: telefone2,
-      complementoTelefone2: complementoTelefone2,
       dataCadastro: dataCadastro,
     );
   }
@@ -168,7 +148,6 @@ class ClienteModel {
       email: entity.email,
       homePage: entity.homePage,
       cep: entity.cep,
-      codigoTipoLogradouro: entity.codigoTipoLogradouro,
       logradouro: entity.logradouro,
       numero: entity.numero,
       complemento: entity.complemento,
@@ -178,10 +157,7 @@ class ClienteModel {
       uf: entity.uf,
       codigoTipoTelefone1: entity.codigoTipoTelefone1,
       telefone1: entity.telefone1,
-      codigoTipoTelefone2: entity.codigoTipoTelefone2,
       complementoTelefone1: entity.complementoTelefone1,
-      telefone2: entity.telefone2,
-      complementoTelefone2: entity.complementoTelefone2,
       dataCadastro: entity.dataCadastro,
     );
   }

@@ -1,5 +1,4 @@
 import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local.dart';
-import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local_imp.dart';
 import 'package:clean_arch/features/clientes/data/models/cliente_model.dart';
 import 'package:clean_arch/features/clientes/data/repositories/cliente_repository_imp.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
@@ -51,7 +50,6 @@ const clienteModel = ClienteModel(
   email: "marcelosdeoliveiras@gmail.com",
   homePage: "",
   cep: "05134-000",
-  codigoTipoLogradouro: 1,
   logradouro: "Manoel Martins da Rocha",
   numero: "571",
   complemento: "",
@@ -61,10 +59,7 @@ const clienteModel = ClienteModel(
   uf: "SP",
   codigoTipoTelefone1: 1,
   telefone1: "123456789",
-  codigoTipoTelefone2: 2,
   complementoTelefone1: "",
-  telefone2: "",
-  complementoTelefone2: "",
   dataCadastro: "",
 );
 
@@ -81,7 +76,6 @@ const clienteEntity = ClienteEntity(
   email: "marcelosdeoliveiras@gmail.com",
   homePage: "",
   cep: "05134-000",
-  codigoTipoLogradouro: 1,
   logradouro: "Manoel Martins da Rocha",
   numero: "571",
   complemento: "",
@@ -91,9 +85,6 @@ const clienteEntity = ClienteEntity(
   uf: "SP",
   codigoTipoTelefone1: 1,
   telefone1: "123456789",
-  codigoTipoTelefone2: 2,
   complementoTelefone1: "",
-  telefone2: "",
-  complementoTelefone2: "",
   dataCadastro: "",
 );
