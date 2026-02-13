@@ -32,18 +32,51 @@ class _ClienteListPageState extends State<ClienteListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<ClienteListCuibit, ClienteListState>(
-        bloc: cubit,
-        builder: (context, state) {
-          if (state is ClienteListLoading) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state is ClienteListSucess) {
-            return RenderClientesWidget(clientes: state.clientes);
-          } else if (state is ClienteListError) {
-            return Center(child: Text(state.error));
-          }
-          return SizedBox.shrink();
-        },
+      body: Padding(
+        padding: EdgeInsets.only(top: 35, left: 5, right: 5),
+        child: Column(
+          spacing: 8,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Clientes",
+              style: TextStyle(
+                fontSize: 42,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+
+            TextField(
+              decoration: InputDecoration(
+                hintText: "Busca por nome ou por e-mail",
+                prefixIcon: Icon(Icons.search),
+                filled: true,
+                fillColor: Color.fromARGB(255, 2, 63, 7),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+
+            Expanded(
+              child: BlocBuilder<ClienteListCuibit, ClienteListState>(
+                bloc: cubit,
+                builder: (context, state) {
+                  if (state is ClienteListLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (state is ClienteListSucess) {
+                    return RenderClientesWidget(clientes: state.clientes);
+                  } else if (state is ClienteListError) {
+                    return Center(child: Text(state.error));
+                  }
+                  return SizedBox.shrink();
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
