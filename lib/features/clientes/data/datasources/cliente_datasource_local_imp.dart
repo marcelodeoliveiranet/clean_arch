@@ -16,9 +16,13 @@ class ClienteDatasourceLocalImp implements ClienteDatasourceLocal {
   }
 
   @override
-  Future<List<ClienteModel>> get() async {
+  Future<List<ClienteModel>> get(String filter) async {
     final Database db = await AppDatabase.database;
-    final registers = await db.query(clienteTableName);
+    final registers = await db.query(
+      clienteTableName,
+      where: "Upper(razao_social) like ?",
+      whereArgs: ['%${filter.toUpperCase()}%'],
+    );
     return registers.map((e) => ClienteModel.fromMap(e)).toList();
   }
 

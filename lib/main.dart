@@ -67,18 +67,18 @@ void main() async {
   // );
   // await ramoAtividadeDatasorceLocalImp.save(ramo);
 
-  // ClienteDatasourceLocalImp clienteDatasourceLocalImp =
-  //     ClienteDatasourceLocalImp();
+  ClienteDatasourceLocalImp clienteDatasourceLocalImp =
+      ClienteDatasourceLocalImp();
 
   // ClienteModel cliente = ClienteModel(
   //   foto: "",
   //   codigoCliente: null,
-  //   razaoSocial: "Marcelo",
-  //   nomeFantasia: "Marcelo",
+  //   razaoSocial: "Marcelo de Oliveira",
+  //   nomeFantasia: "Marcelo de Oliveira",
   //   codigoRamoAtividade: 1,
-  //   cnpjCpf: "111",
+  //   cnpjCpf: "111.615.378-56",
   //   tipoPessoa: "F",
-  //   ieRg: "15",
+  //   ieRg: "15.793.623",
   //   inscricaoMunicipal: "",
   //   email: "marcelosdeoliveiras@gmail.com",
   //   homePage: "",
@@ -91,7 +91,119 @@ void main() async {
   //   codigoIbgeMunicipio: 123456,
   //   uf: "SP",
   //   codigoTipoTelefone1: 1,
-  //   telefone1: "9 7119-4051",
+  //   telefone1: "(11) 9 7119-4051",
+  //   complementoTelefone1: "",
+  //   dataCadastro: "",
+  // );
+
+  // await clienteDatasourceLocalImp.save(cliente);
+
+  // cliente = ClienteModel(
+  //   foto: "",
+  //   codigoCliente: null,
+  //   razaoSocial: "Marcos de Oliveira",
+  //   nomeFantasia: "Marcos de Oliveira",
+  //   codigoRamoAtividade: 1,
+  //   cnpjCpf: "111.615.378-56",
+  //   tipoPessoa: "F",
+  //   ieRg: "15.793.623",
+  //   inscricaoMunicipal: "",
+  //   email: "marcosdeoliveiras@gmail.com",
+  //   homePage: "",
+  //   cep: "05134-0000",
+  //   logradouro: "Rua Manoel Martins da Rocha",
+  //   numero: "571",
+  //   complemento: "Casa",
+  //   bairro: "Vila Guedes",
+  //   municipio: "São Paulo",
+  //   codigoIbgeMunicipio: 123456,
+  //   uf: "SP",
+  //   codigoTipoTelefone1: 1,
+  //   telefone1: "(11) 9 6136-5214",
+  //   complementoTelefone1: "",
+  //   dataCadastro: "",
+  // );
+
+  // await clienteDatasourceLocalImp.save(cliente);
+
+  // cliente = ClienteModel(
+  //   foto: "",
+  //   codigoCliente: null,
+  //   razaoSocial: "Claudio Elias de Oliveira",
+  //   nomeFantasia: "Claudio Elias de Oliveira",
+  //   codigoRamoAtividade: 1,
+  //   cnpjCpf: "111.615.378-56",
+  //   tipoPessoa: "F",
+  //   ieRg: "15.793.623",
+  //   inscricaoMunicipal: "",
+  //   email: "claudioeliasdeoliveiras@gmail.com",
+  //   homePage: "",
+  //   cep: "05134-0000",
+  //   logradouro: "Rua Manoel Martins da Rocha",
+  //   numero: "571",
+  //   complemento: "Casa",
+  //   bairro: "Vila Guedes",
+  //   municipio: "São Paulo",
+  //   codigoIbgeMunicipio: 123456,
+  //   uf: "SP",
+  //   codigoTipoTelefone1: 1,
+  //   telefone1: "(11) 9 6136-5214",
+  //   complementoTelefone1: "",
+  //   dataCadastro: "",
+  // );
+
+  // await clienteDatasourceLocalImp.save(cliente);
+
+  // cliente = ClienteModel(
+  //   foto: "",
+  //   codigoCliente: null,
+  //   razaoSocial: "Rodrigo Sandor Rodrigues de Oliveira",
+  //   nomeFantasia: "Rodrigo Sandor Rodrigues de Oliveira",
+  //   codigoRamoAtividade: 1,
+  //   cnpjCpf: "111.615.378-56",
+  //   tipoPessoa: "F",
+  //   ieRg: "15.793.623",
+  //   inscricaoMunicipal: "",
+  //   email: "rodrigosrdeoliveiras@gmail.com",
+  //   homePage: "",
+  //   cep: "05134-0000",
+  //   logradouro: "Rua Manoel Martins da Rocha",
+  //   numero: "571",
+  //   complemento: "Casa",
+  //   bairro: "Vila Guedes",
+  //   municipio: "São Paulo",
+  //   codigoIbgeMunicipio: 123456,
+  //   uf: "SP",
+  //   codigoTipoTelefone1: 1,
+  //   telefone1: "(11) 9 6136-5214",
+  //   complementoTelefone1: "",
+  //   dataCadastro: "",
+  // );
+
+  // await clienteDatasourceLocalImp.save(cliente);
+
+  // ClienteModel cliente = ClienteModel(
+  //   foto: "",
+  //   codigoCliente: null,
+  //   razaoSocial: "Rebeca Sandor Rodrigues de Oliveira",
+  //   nomeFantasia: "Rebeca Sandor Rodrigues de Oliveira",
+  //   codigoRamoAtividade: 1,
+  //   cnpjCpf: "111.615.378-56",
+  //   tipoPessoa: "F",
+  //   ieRg: "15.793.623",
+  //   inscricaoMunicipal: "",
+  //   email: "rebecasrdeoliveiras@gmail.com",
+  //   homePage: "",
+  //   cep: "05134-0000",
+  //   logradouro: "Rua Manoel Martins da Rocha",
+  //   numero: "571",
+  //   complemento: "Casa",
+  //   bairro: "Vila Guedes",
+  //   municipio: "São Paulo",
+  //   codigoIbgeMunicipio: 123456,
+  //   uf: "SP",
+  //   codigoTipoTelefone1: 1,
+  //   telefone1: "(11) 9 6136-5214",
   //   complementoTelefone1: "",
   //   dataCadastro: "",
   // );

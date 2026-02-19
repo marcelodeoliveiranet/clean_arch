@@ -20,26 +20,28 @@ class ClienteCard extends StatelessWidget {
         spacing: 10,
         children: [
           CircleAvatar(radius: 35, backgroundImage: NetworkImage(cliente.foto)),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                cliente.razaoSocial,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  cliente.razaoSocial,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Text(
-                cliente.email,
-                style: TextStyle(color: Colors.white70, fontSize: 14),
-              ),
-              Text(
-                cliente.telefone1,
-                style: TextStyle(color: Colors.white70, fontSize: 14),
-              ),
-            ],
+                Text(
+                  cliente.email,
+                  style: TextStyle(color: Colors.white70, fontSize: 14),
+                ),
+                Text(
+                  cliente.telefone1,
+                  style: TextStyle(color: Colors.white70, fontSize: 14),
+                ),
+              ],
+            ),
           ),
 
           Spacer(),

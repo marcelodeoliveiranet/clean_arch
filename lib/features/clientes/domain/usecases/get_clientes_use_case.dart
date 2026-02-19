@@ -7,7 +7,7 @@ class GetClientesUseCase {
 
   GetClientesUseCase({required this.clienteRepository});
 
-  Future<List<ClienteEntity>> call() async {
-    return await clienteRepository.getClientes();
+  Future<List<ClienteEntity>> call(String filter) async {
+    return await clienteRepository.getClientes(filter);
   }
 }

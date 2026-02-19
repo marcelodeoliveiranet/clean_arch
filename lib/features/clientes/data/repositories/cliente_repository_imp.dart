@@ -37,8 +37,8 @@ class ClienteRepositoryImp implements ClienteRepository {
   }
 
   @override
-  Future<List<ClienteEntity>> getClientes() async {
-    final clientes = await clienteDatasourceLocal.get();
+  Future<List<ClienteEntity>> getClientes(String filter) async {
+    final clientes = await clienteDatasourceLocal.get(filter);
     return clientes.map((e) => e.toEntity()).toList();
   }
 

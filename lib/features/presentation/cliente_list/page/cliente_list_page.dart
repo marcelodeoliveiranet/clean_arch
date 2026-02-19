@@ -26,7 +26,6 @@ class _ClienteListPageState extends State<ClienteListPage> {
   @override
   void initState() {
     super.initState();
-    cubit.load();
   }
 
   @override
@@ -48,8 +47,11 @@ class _ClienteListPageState extends State<ClienteListPage> {
             ),
 
             TextField(
+              onChanged: (value) {
+                cubit.load(value);
+              },
               decoration: InputDecoration(
-                hintText: "Busca por nome ou por e-mail",
+                hintText: "Busca por razao social",
                 prefixIcon: Icon(Icons.search),
                 filled: true,
                 fillColor: Color.fromARGB(255, 2, 63, 7),

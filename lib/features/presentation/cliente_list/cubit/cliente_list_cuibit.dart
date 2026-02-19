@@ -9,12 +9,12 @@ class ClienteListCuibit extends Cubit<ClienteListState> {
   ClienteListCuibit(this.getClientesUseCase) : super(ClienteListInitial());
   final GetClientesUseCase getClientesUseCase;
 
-  Future<void> load() async {
+  Future<void> load(String filter) async {
     emit(ClienteListLoading());
     await Future.delayed(Duration(seconds: 5));
 
     try {
-      final clientes = await getClientesUseCase();
+      final clientes = await getClientesUseCase(filter);
       emit(ClienteListSucess(clientes: clientes));
     } on BusinnesException catch (e) {
       emit(ClienteListError(error: e.mensagem));
