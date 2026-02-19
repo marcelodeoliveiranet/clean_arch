@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:clean_arch/core/exceptions/businnes_exception.dart';
-import 'package:clean_arch/features/clientes/domain/usecases/delete_cliente_uses_case.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:clean_arch/features/clientes/domain/usecases/get_clientes_use_case.dart';
