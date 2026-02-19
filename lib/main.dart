@@ -209,6 +209,35 @@ void main() async {
   // );
 
   // await clienteDatasourceLocalImp.save(cliente);
+
+  // ClienteModel cliente = ClienteModel(
+  //   foto: "",
+  //   codigoCliente: null,
+  //   razaoSocial: "Rosalina Maria de Jesus de Oliveira",
+  //   nomeFantasia: "Rosalina Maria de Jesus de Oliveira",
+  //   codigoRamoAtividade: 1,
+  //   cnpjCpf: "111.615.378-56",
+  //   tipoPessoa: "F",
+  //   ieRg: "15.793.623",
+  //   inscricaoMunicipal: "",
+  //   email: "rosalinamjdeoliveiras@gmail.com",
+  //   homePage: "",
+  //   cep: "05134-0000",
+  //   logradouro: "Rua Manoel Martins da Rocha",
+  //   numero: "571",
+  //   complemento: "Casa",
+  //   bairro: "Vila Guedes",
+  //   municipio: "São Paulo",
+  //   codigoIbgeMunicipio: 123456,
+  //   uf: "SP",
+  //   codigoTipoTelefone1: 1,
+  //   telefone1: "(11) 9 6136-5214",
+  //   complementoTelefone1: "",
+  //   dataCadastro: "",
+  // );
+
+  // await clienteDatasourceLocalImp.save(cliente);
+
   runApp(const MyApp());
 }
 

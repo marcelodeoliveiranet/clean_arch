@@ -24,15 +24,10 @@ class _ClienteListPageState extends State<ClienteListPage> {
   );
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.only(top: 35, left: 5, right: 5),
+        padding: EdgeInsets.only(top: 35, left: 8, right: 8),
         child: Column(
           spacing: 8,
           crossAxisAlignment: CrossAxisAlignment.start,

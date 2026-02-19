@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class ClienteCard extends StatelessWidget {
   const ClienteCard({super.key, required this.cliente});
-
   final ClienteEntity cliente;
 
   @override
@@ -52,7 +51,9 @@ class ClienteCard extends StatelessWidget {
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    content: IntrinsicHeight(child: RemoverClienteDialog()),
+                    content: IntrinsicHeight(
+                      child: RemoverClienteDialog(cliente: cliente),
+                    ),
                   );
                 },
               );

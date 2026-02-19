@@ -113,6 +113,7 @@ class ClienteModel {
       tipoPessoa: tipoPessoa,
       razaoSocial: razaoSocial,
       nomeFantasia: nomeFantasia,
+      codigoCliente: codigoCliente,
       codigoRamoAtividade: codigoRamoAtividade,
       cnpjCpf: cnpjCpf,
       ieRg: ieRg,
