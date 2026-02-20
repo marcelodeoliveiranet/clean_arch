@@ -3,6 +3,7 @@ import 'package:clean_arch/features/clientes/data/repositories/cliente_repositor
 import 'package:clean_arch/features/clientes/domain/usecases/get_clientes_use_case.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_list_cuibit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_list_state.dart';
+import 'package:clean_arch/features/presentation/cliente_list/page/cliente_cadastro_page.dart';
 import 'package:clean_arch/features/presentation/cliente_list/widgets/render_clientes_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +34,7 @@ class _ClienteListPageState extends State<ClienteListPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Clientes",
+              "Consulta de Clientes",
               style: TextStyle(
                 fontSize: 42,
                 fontWeight: FontWeight.bold,
@@ -74,6 +75,18 @@ class _ClienteListPageState extends State<ClienteListPage> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ClienteCadastroPage(isEditing: false),
+            ),
+          );
+        },
+        backgroundColor: Color.fromARGB(255, 2, 63, 7),
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }
