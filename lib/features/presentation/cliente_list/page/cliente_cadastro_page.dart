@@ -1,5 +1,6 @@
 import 'package:clean_arch/core/validator/cnpj_validator.dart';
 import 'package:clean_arch/core/validator/cpf_validator.dart';
+import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/features/clientes/domain/entities/ramo_atividade_entity.dart';
 import 'package:clean_arch/features/clientes/domain/entities/tipo_telefone_entity.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,8 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ClienteCadastroPage extends StatefulWidget {
   final bool isEditing;
-  const ClienteCadastroPage({super.key, required this.isEditing});
+  final ClienteEntity? cliente;
+  const ClienteCadastroPage({super.key, required this.isEditing, this.cliente});
 
   @override
   State<ClienteCadastroPage> createState() => _ClienteCadastroPageState();
@@ -16,6 +18,7 @@ class ClienteCadastroPage extends StatefulWidget {
 
 class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
   String? _tipoPessoa = "F";
+  int? codigo = 0;
   RamoAtividadeEntity? _ramoAtividadeEntitySelecionado;
   TipoTelefoneEntity? _tipoTelefoneEntitySelecionado;
 
@@ -71,7 +74,29 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
   final _cepFocus = FocusNode();
   final _numeroLogradouroFocus = FocusNode();
 
-  void setupEtingCliente() {}
+  void setupEtingCliente() {
+    codigo = widget.cliente!.codigoCliente;
+    _tipoPessoa = widget.cliente!.tipoPessoa;
+    razaoSocialController.text = widget.cliente!.razaoSocial;
+    nomeFantasiaController.text = widget.cliente!.nomeFantasia;
+    //Adicionar lógica para exibir o DropdownButtonFormField do ramo de atividade
+    cnpjCpfController.text = widget.cliente!.cnpjCpf;
+    inscricaoMunicipalController.text = widget.cliente!.inscricaoMunicipal;
+    //inscricaoEstadualController.text = widget.cliente!.inscricaoEstadual;
+    emailController.text = widget.cliente!.email;
+    homePageController.text = widget.cliente!.homePage;
+    cepController.text = widget.cliente!.cep;
+    logradouroCotroller.text = widget.cliente!.logradouro;
+    numeroController.text = widget.cliente!.numero;
+    complementoController.text = widget.cliente!.complemento;
+    bairroController.text = widget.cliente!.bairro;
+    municipioController.text = widget.cliente!.municipio;
+    codigoIbgeController.text = widget.cliente!.codigoIbgeMunicipio.toString();
+    estadoController.text = widget.cliente!.uf;
+    //Adicionar lógica para exibir o DropdownButtonFormField do tipo do telefone
+    telefoneController.text = widget.cliente!.telefone1;
+    complementoTelefoneController.text = widget.cliente!.complementoTelefone1;
+  }
 
   void salvar(BuildContext context) {
     if (formKey.currentState!.validate()) {}

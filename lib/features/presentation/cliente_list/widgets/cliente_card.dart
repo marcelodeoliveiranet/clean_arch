@@ -1,4 +1,5 @@
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
+import 'package:clean_arch/features/presentation/cliente_list/page/cliente_cadastro_page.dart';
 import 'package:clean_arch/features/presentation/cliente_list/widgets/remover_cliente_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +63,18 @@ class ClienteCard extends StatelessWidget {
             color: Colors.white,
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => ClienteCadastroPage(
+                        isEditing: true,
+                        cliente: cliente,
+                      ),
+                ),
+              );
+            },
             icon: Icon(Icons.edit),
             color: Colors.white,
           ),
