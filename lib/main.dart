@@ -67,8 +67,8 @@ void main() async {
   // );
   // await ramoAtividadeDatasorceLocalImp.save(ramo);
 
-  ClienteDatasourceLocalImp clienteDatasourceLocalImp =
-      ClienteDatasourceLocalImp();
+  // ClienteDatasourceLocalImp clienteDatasourceLocalImp =
+  //     ClienteDatasourceLocalImp();
 
   // ClienteModel cliente = ClienteModel(
   //   foto: "",
@@ -104,9 +104,9 @@ void main() async {
   //   razaoSocial: "Marcos de Oliveira",
   //   nomeFantasia: "Marcos de Oliveira",
   //   codigoRamoAtividade: 1,
-  //   cnpjCpf: "111.615.378-56",
-  //   tipoPessoa: "F",
-  //   ieRg: "15.793.623",
+  //   cnpjCpf: "47.685.926/0001-21",
+  //   tipoPessoa: "J",
+  //   ieRg: "147.971.927.976",
   //   inscricaoMunicipal: "",
   //   email: "marcosdeoliveiras@gmail.com",
   //   homePage: "",
@@ -182,7 +182,7 @@ void main() async {
 
   // await clienteDatasourceLocalImp.save(cliente);
 
-  // ClienteModel cliente = ClienteModel(
+  // cliente = ClienteModel(
   //   foto: "",
   //   codigoCliente: null,
   //   razaoSocial: "Rebeca Sandor Rodrigues de Oliveira",
@@ -210,15 +210,15 @@ void main() async {
 
   // await clienteDatasourceLocalImp.save(cliente);
 
-  // ClienteModel cliente = ClienteModel(
+  // cliente = ClienteModel(
   //   foto: "",
   //   codigoCliente: null,
   //   razaoSocial: "Rosalina Maria de Jesus de Oliveira",
   //   nomeFantasia: "Rosalina Maria de Jesus de Oliveira",
   //   codigoRamoAtividade: 1,
-  //   cnpjCpf: "111.615.378-56",
-  //   tipoPessoa: "F",
-  //   ieRg: "15.793.623",
+  //   cnpjCpf: "86.924.544/0001-65",
+  //   tipoPessoa: "J",
+  //   ieRg: "464.521.956.107",
   //   inscricaoMunicipal: "",
   //   email: "rosalinamjdeoliveiras@gmail.com",
   //   homePage: "",

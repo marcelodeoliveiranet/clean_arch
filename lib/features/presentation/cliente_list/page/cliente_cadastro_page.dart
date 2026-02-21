@@ -97,7 +97,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
 
     cnpjCpfController.text = widget.cliente!.cnpjCpf;
     inscricaoMunicipalController.text = widget.cliente!.inscricaoMunicipal;
-    //inscricaoEstadualController.text = widget.cliente!.inscricaoEstadual;
+    inscricaoEstadualController.text = widget.cliente!.ieRg;
     emailController.text = widget.cliente!.email;
     homePageController.text = widget.cliente!.homePage;
     cepController.text = widget.cliente!.cep;
@@ -231,7 +231,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                           } else if (state is RamoAtividadeListError) {
                             return Center(child: Text(state.error));
                           } else if (state is RamoAtividadeListSucess) {
-                            return DropdownMenuItem<RamoAtividadeEntity>(
+                            return DropdownButtonFormField<RamoAtividadeEntity>(
                               value: _ramoAtividadeEntitySelecionado,
                               decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.category),
@@ -305,12 +305,10 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                 ),
 
                 TextFormField(
-                  controller: inscricaoMunicipalController,
+                  controller: inscricaoEstadualController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      _tipoPessoa == "F" ? Icons.article : Icons.business,
-                    ),
+                    prefixIcon: Icon(Icons.business),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(18),
                     ),
@@ -319,10 +317,12 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                 ),
 
                 TextFormField(
-                  controller: inscricaoEstadualController,
+                  controller: inscricaoMunicipalController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.business),
+                    prefixIcon: Icon(
+                      _tipoPessoa == "F" ? Icons.article : Icons.business,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(18),
                     ),
