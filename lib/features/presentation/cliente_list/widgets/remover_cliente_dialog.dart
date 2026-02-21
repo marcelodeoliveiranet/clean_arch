@@ -2,7 +2,7 @@ import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource
 import 'package:clean_arch/features/clientes/data/repositories/cliente_repository_imp.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/delete_cliente_uses_case.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_delete_cubit.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_delete_cubit.dart';
 import 'package:flutter/material.dart';
 
 class RemoverClienteDialog extends StatelessWidget {

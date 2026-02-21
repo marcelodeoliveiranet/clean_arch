@@ -3,7 +3,7 @@ import 'package:clean_arch/core/exceptions/businnes_exception.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:clean_arch/features/clientes/domain/usecases/get_clientes_use_case.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_list_state.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_state.dart';
 
 class ClienteListCuibit extends Cubit<ClienteListState> {
   ClienteListCuibit(this.getClientesUseCase) : super(ClienteListInitial());

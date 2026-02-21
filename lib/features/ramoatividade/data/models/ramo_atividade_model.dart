@@ -1,3 +1,5 @@
+import 'package:clean_arch/features/ramoatividade/domain/entities/ramo_atividade_entity.dart';
+
 class RamoAtividadeModel {
   final int? codigo;
   final String descricao;
@@ -18,6 +20,17 @@ class RamoAtividadeModel {
               ? map['codigo_ramo_atividade'] as int
               : null,
       descricao: map['descricao_ramo_atividade'] as String,
+    );
+  }
+
+  RamoAtividadeEntity toEntity() {
+    return RamoAtividadeEntity(codigo: codigo, descricao: descricao);
+  }
+
+  factory RamoAtividadeModel.fromEntity(RamoAtividadeEntity entity) {
+    return RamoAtividadeModel(
+      codigo: entity.codigo,
+      descricao: entity.descricao,
     );
   }
 }

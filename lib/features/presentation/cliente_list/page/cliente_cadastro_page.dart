@@ -1,10 +1,11 @@
 import 'package:clean_arch/core/validator/cnpj_validator.dart';
 import 'package:clean_arch/core/validator/cpf_validator.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
-import 'package:clean_arch/features/clientes/domain/entities/ramo_atividade_entity.dart';
-import 'package:clean_arch/features/clientes/domain/entities/tipo_telefone_entity.dart';
+import 'package:clean_arch/features/ramoatividade/domain/entities/ramo_atividade_entity.dart';
+import 'package:clean_arch/features/tipotelefone/domain/entities/tipo_telefone_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ClienteCadastroPage extends StatefulWidget {
@@ -80,6 +81,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     razaoSocialController.text = widget.cliente!.razaoSocial;
     nomeFantasiaController.text = widget.cliente!.nomeFantasia;
     //Adicionar lógica para exibir o DropdownButtonFormField do ramo de atividade
+
     cnpjCpfController.text = widget.cliente!.cnpjCpf;
     inscricaoMunicipalController.text = widget.cliente!.inscricaoMunicipal;
     //inscricaoEstadualController.text = widget.cliente!.inscricaoEstadual;
@@ -94,6 +96,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     codigoIbgeController.text = widget.cliente!.codigoIbgeMunicipio.toString();
     estadoController.text = widget.cliente!.uf;
     //Adicionar lógica para exibir o DropdownButtonFormField do tipo do telefone
+
     telefoneController.text = widget.cliente!.telefone1;
     complementoTelefoneController.text = widget.cliente!.complementoTelefone1;
   }
@@ -203,22 +206,20 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                 // Row(
                 //   children: [
                 //     Expanded(
-                //       child: ListenableBuilder(
-                //         listenable: ,
-                //         builder: (context, child) {
+                //       child: BlocBuilder(
+                //         builder: (context, state)  {
                 //           return DropdownButtonFormField<RamoAtividadeEntity>(
+                //             value:
                 //             decoration: InputDecoration(
                 //               prefixIcon: Icon(Icons.category),
                 //               labelText: "Selecione um ramo de atividade",
                 //               border: OutlineInputBorder(
-                //                 borderRadius: BorderRadius.circular(18)
+                //                 borderRadius: BorderRadius.circular(18),
                 //               ),
                 //             ),
                 //             isExpanded: true,
-                //             value:_ramoAtividadeEntitySelecionado,
-                //             items: [
-
-                //             ],
+                //             value: _ramoAtividadeEntitySelecionado,
+                //             items: [],
                 //             validator: (value) {
                 //               if (value == null) {
                 //                 return "Selecione um ramo de atividade";
@@ -226,14 +227,13 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                 //               return null;
                 //             },
                 //             onChanged: (value) {
-                //               setState(() {
-                //               });
+                //               setState(() {});
                 //             },
                 //           );
                 //         },
                 //       ),
                 //     ),
-                //     IconButton(onPressed: (){}, icon: Icon(Icons.add)),
+                //     IconButton(onPressed: () {}, icon: Icon(Icons.add)),
                 //   ],
                 // ),
                 Divider(),

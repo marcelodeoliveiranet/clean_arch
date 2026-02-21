@@ -17,7 +17,7 @@ class RamoAtividadeDatasorceLocalImp extends RamoatividadeDatasourceLocal {
   }
 
   @override
-  Future<List<RamoAtividadeModel>> get() async {
+  Future<List<RamoAtividadeModel>> getAll() async {
     final Database db = await AppDatabase.database;
 
     final clientes = await db.query(ramoAtividadeTableName);
