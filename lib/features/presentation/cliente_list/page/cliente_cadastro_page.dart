@@ -79,6 +79,8 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
   }
 
   final formKey = GlobalKey<FormState>();
+  final formModalKey = GlobalKey<FormState>();
+
   final razaoSocialController = TextEditingController();
   final nomeFantasiaController = TextEditingController();
   final cnpjCpfController = TextEditingController();
@@ -129,6 +131,195 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
 
   void salvar(BuildContext context) {
     if (formKey.currentState!.validate()) {}
+  }
+
+  Future<void> _abrirDialogNovoRamoAtividade(BuildContext context) async {
+    final descricaoController = TextEditingController();
+
+    final salvou = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(24),
+            child: Form(
+              key: formModalKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Cadastrar um novo ramo de atividade",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  TextFormField(
+                    autofocus: true,
+                    controller: descricaoController,
+                    decoration: InputDecoration(
+                      labelText: "Descrição",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "Informe a descrição";
+                      }
+
+                      return null;
+                    },
+                  ),
+
+                  const SizedBox(height: 44),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            Navigator.pop(context, false);
+                          },
+                          child: const Text("Cancelar"),
+                        ),
+                      ),
+
+                      const SizedBox(width: 12),
+
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            final isVaid =
+                                formModalKey.currentState?.validate() ?? false;
+
+                            if (!isVaid) {
+                              return;
+                            }
+
+                            final valor = descricaoController.text;
+                            debugPrint("Gravado $valor");
+                            Navigator.pop(context, true);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            foregroundColor: Colors.white,
+                          ),
+                          child: const Text("Gravar"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+
+    if (salvou == true) {
+      setState(() {});
+    }
+  }
+
+  Future<void> _abrirDialogNovoTipoTelefone(BuildContext context) async {
+    final descricaoController = TextEditingController();
+
+    final salvou = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(24),
+            child: Form(
+              key: formModalKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Cadastrar um novo tipo de telefone",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  TextFormField(
+                    autofocus: true,
+                    controller: descricaoController,
+                    decoration: InputDecoration(
+                      labelText: "Descrição",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "Informe a descrição";
+                      }
+                      return null;
+                    },
+                  ),
+
+                  const SizedBox(height: 44),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text("Cancelar"),
+                        ),
+                      ),
+
+                      const SizedBox(width: 12),
+
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            final isVaid =
+                                formModalKey.currentState?.validate() ?? false;
+
+                            if (!isVaid) {
+                              return;
+                            }
+
+                            final valor = descricaoController.text;
+                            debugPrint("Gravado $valor");
+                            Navigator.pop(context, true);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            foregroundColor: Colors.white,
+                          ),
+                          child: const Text("Gravar"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+
+    if (salvou == true) {
+      setState(() {});
+    }
   }
 
   @override
@@ -277,7 +468,12 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                         },
                       ),
                     ),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+                    IconButton(
+                      onPressed: () {
+                        _abrirDialogNovoRamoAtividade(context);
+                      },
+                      icon: Icon(Icons.add),
+                    ),
                   ],
                 ),
 
@@ -606,7 +802,12 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                         },
                       ),
                     ),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+                    IconButton(
+                      onPressed: () {
+                        _abrirDialogNovoTipoTelefone(context);
+                      },
+                      icon: Icon(Icons.add),
+                    ),
                   ],
                 ),
 
