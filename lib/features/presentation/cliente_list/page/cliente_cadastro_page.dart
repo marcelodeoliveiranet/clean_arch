@@ -231,7 +231,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                           } else if (state is RamoAtividadeListError) {
                             return Center(child: Text(state.error));
                           } else if (state is RamoAtividadeListSucess) {
-                            return DropdownButtonFormField<RamoAtividadeEntity>(
+                            return DropdownMenuItem<RamoAtividadeEntity>(
                               value: _ramoAtividadeEntitySelecionado,
                               decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.category),
