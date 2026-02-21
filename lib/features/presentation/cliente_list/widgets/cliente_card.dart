@@ -1,7 +1,9 @@
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_cuibit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/page/cliente_cadastro_page.dart';
 import 'package:clean_arch/features/presentation/cliente_list/widgets/remover_cliente_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClienteCard extends StatelessWidget {
   const ClienteCard({super.key, required this.cliente});
@@ -53,7 +55,10 @@ class ClienteCard extends StatelessWidget {
                 builder: (context) {
                   return AlertDialog(
                     content: IntrinsicHeight(
-                      child: RemoverClienteDialog(cliente: cliente),
+                      child: RemoverClienteDialog(
+                        cliente: cliente,
+                        cubit: context.read<ClienteListCuibit>(),
+                      ),
                     ),
                   );
                 },

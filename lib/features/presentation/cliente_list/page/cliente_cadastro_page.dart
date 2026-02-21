@@ -3,11 +3,16 @@ import 'package:clean_arch/core/validator/cpf_validator.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_state.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/TipoTelefone/tipo_telefone_list_cubit.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/TipoTelefone/tipo_telefone_list_state.dart';
 import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividade_datasorce_local_imp.dart';
 import 'package:clean_arch/features/ramoatividade/data/repositories/ramo_atividade_repository_imp.dart';
 import 'package:clean_arch/features/ramoatividade/domain/entities/ramo_atividade_entity.dart';
 import 'package:clean_arch/features/ramoatividade/domain/usecases/get_ramo_atividade_use_case.dart';
+import 'package:clean_arch/features/tipotelefone/data/datasource/tipo_telefone_datasource_local_imp.dart';
+import 'package:clean_arch/features/tipotelefone/data/repositories/tipo_telefone_repository_imp.dart';
 import 'package:clean_arch/features/tipotelefone/domain/entities/tipo_telefone_entity.dart';
+import 'package:clean_arch/features/tipotelefone/domain/usecases/get_tipo_telefone_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +37,14 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     GetRamoAtividadeUseCase(
       ramoAtividadeRepository: RamoAtividadeRepositoryImp(
         ramoatividadeDatasourceLocal: RamoAtividadeDatasorceLocalImp(),
+      ),
+    ),
+  );
+
+  final cubitTipoTelefone = TipoTelefoneListCubit(
+    GetTipoTelefoneUseCase(
+      tipoTelefoneRepository: TipoTelefoneRepositoryImp(
+        tipoTelefoneDatasourceLocal: TipoTelefoneDatasourceLocalImp(),
       ),
     ),
   );
@@ -123,6 +136,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     super.initState();
     if (widget.isEditing) setupEtingCliente();
     cubitRamoAtividade.load();
+    cubitTipoTelefone.load();
   }
 
   @override
@@ -552,33 +566,50 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
 
                 Divider(),
 
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: ListenableBuilder(
-                //         listenable: ,
-                //         builder: (context, child) {
-                //           return DropdownButtonFormField<TipoTelefoneEntity>(
-                //             decoration: InputDecoration(
-                //               prefixIcon: Icon(Icons.phone),
-                //               labelText: "Selecione um tipo de telefone",
-                //               border: OutlineInputBorder(
-                //                 borderRadius: BorderRadius.circular(18),
-                //               ),
-                //             ),
-                //             isExpanded: true,
-                //             value: _tipoTelefoneEntitySelecionado,
-                //             items: [],
-                //             onChanged: (value) {
-                //               setState(() {});
-                //             },
-                //           );
-                //         },
-                //       ),
-                //     ),
-                //     IconButton(onPressed: (){}, icon: Icon(Icons.add)),
-                //   ],
-                // ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: BlocBuilder<
+                        TipoTelefoneListCubit,
+                        TipoTelefoneListState
+                      >(
+                        bloc: cubitTipoTelefone,
+                        builder: (context, state) {
+                          if (state is TipoTelefoneListLoading) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (state is TipoTelefoneListError) {
+                            return Center(child: Text(state.error));
+                          } else if (state is TipoTelefoneListSucess) {
+                            return DropdownButtonFormField<TipoTelefoneEntity>(
+                              value: _tipoTelefoneEntitySelecionado,
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.category),
+                                labelText: "Selecione um tipo telefone",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                              ),
+                              isExpanded: true,
+                              items:
+                                  state.tipos.map((tipo) {
+                                    return DropdownMenuItem(
+                                      value: tipo,
+                                      child: Text(tipo.descricao),
+                                    );
+                                  }).toList(),
+                              onChanged: (value) {
+                                setState(() {});
+                              },
+                            );
+                          }
+                          return SizedBox.shrink();
+                        },
+                      ),
+                    ),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+                  ],
+                ),
+
                 TextFormField(
                   controller: telefoneController,
                   keyboardType: TextInputType.number,
