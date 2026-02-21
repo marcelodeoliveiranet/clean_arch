@@ -10,7 +10,7 @@ class RamoAtividadeListCuibit extends Cubit<RamoAtividadeListState> {
 
   final GetRamoAtividadeUseCase getRamoAtividadeUseCase;
 
-  Future<void> load(String filter) async {
+  Future<void> load() async {
     emit(RamoAtividadeListLoading());
     await Future.delayed(Duration(seconds: 5));
 

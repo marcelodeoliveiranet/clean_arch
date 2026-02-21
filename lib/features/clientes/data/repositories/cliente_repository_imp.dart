@@ -5,6 +5,10 @@ import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart
 import 'package:clean_arch/features/clientes/domain/repositories/cliente_repository.dart';
 
 class ClienteRepositoryImp implements ClienteRepository {
+  final ClienteDatasourceLocal clienteDatasourceLocal;
+
+  const ClienteRepositoryImp({required this.clienteDatasourceLocal});
+
   @override
   Future<void> deleteCliente(ClienteEntity cliente) async {
     ClienteModel clienteModel = ClienteModel(
@@ -50,8 +54,4 @@ class ClienteRepositoryImp implements ClienteRepository {
 
     return clienteModel.toEntity().copyWith(codigoCliente: codigo);
   }
-
-  final ClienteDatasourceLocal clienteDatasourceLocal;
-
-  const ClienteRepositoryImp({required this.clienteDatasourceLocal});
 }

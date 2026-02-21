@@ -4,7 +4,7 @@ import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividad
 import 'package:clean_arch/features/ramoatividade/data/models/ramo_atividade_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-class RamoAtividadeDatasorceLocalImp extends RamoatividadeDatasourceLocal {
+class RamoAtividadeDatasorceLocalImp implements RamoatividadeDatasourceLocal {
   @override
   Future<void> delete(RamoAtividadeModel ramoAtividade) async {
     final Database db = await AppDatabase.database;
