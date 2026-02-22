@@ -1,6 +1,11 @@
 import 'package:clean_arch/core/validator/cnpj_validator.dart';
 import 'package:clean_arch/core/validator/cpf_validator.dart';
+import 'package:clean_arch/features/Cep/data/datasource/cep_datasource_local_imp.dart';
+import 'package:clean_arch/features/Cep/data/repositores/cep_repository_imp.dart';
+import 'package:clean_arch/features/Cep/domain/usecases/get_cep_use_case.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_cubit.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_state.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_state.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/TipoTelefone/tipo_telefone_list_cubit.dart';
@@ -28,6 +33,8 @@ class ClienteCadastroPage extends StatefulWidget {
 }
 
 class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
+  late final CepCubit cubitCep;
+
   String? _tipoPessoa = "F";
   int? codigo = 0;
   RamoAtividadeEntity? _ramoAtividadeEntitySelecionado;
@@ -322,540 +329,604 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     }
   }
 
+  Future<void> _buscarCep(BuildContext context) async {
+    if (cepController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Informe o CEP",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+          ),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+      FocusScope.of(context).requestFocus(_cepFocus);
+      return;
+    }
+
+    final cepSemMascara = cepController.text.trim().replaceAll(
+      RegExp(r'[^0-9]'),
+      '',
+    );
+
+    cubitCep.load(cepSemMascara);
+  }
+
   @override
   void initState() {
     super.initState();
     if (widget.isEditing) setupEtingCliente();
     cubitRamoAtividade.load();
     cubitTipoTelefone.load();
+
+    cubitCep = CepCubit(
+      getCepUseCase: GetCepUseCase(
+        cepRepository: CepRepositoryImp(
+          cepDatasourceLocal: CepDatasourceLocalImp(),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Cadastro de Cliente",
-          style: TextStyle(fontWeight: FontWeight.bold),
+    return BlocListener<CepCubit, CepState>(
+      bloc: cubitCep,
+      listener: (context, state) {
+        if (state is CepStateSucess) {
+          logradouroCotroller.text = state.cep.logradouro;
+          bairroController.text = state.cep.bairro;
+          municipioController.text = state.cep.localidade;
+          codigoIbgeController.text = state.cep.ibge;
+          estadoController.text = state.cep.uf;
+
+          FocusScope.of(context).requestFocus(_numeroLogradouroFocus);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Cadastro de Cliente",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Color.fromARGB(255, 2, 63, 7),
         ),
-        backgroundColor: Color.fromARGB(255, 2, 63, 7),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(18),
-          child: Form(
-            key: formKey,
-            child: Column(
-              spacing: 18,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: RadioListTile(
-                        title: const Text("Pessoa física"),
-                        value: "F",
-                        groupValue: _tipoPessoa,
-                        onChanged: (value) {
-                          setState(() {
-                            _tipoPessoa = value;
-                          });
-                        },
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(18),
+            child: Form(
+              key: formKey,
+              child: Column(
+                spacing: 18,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: RadioListTile(
+                          title: const Text("Pessoa física"),
+                          value: "F",
+                          groupValue: _tipoPessoa,
+                          onChanged: (value) {
+                            setState(() {
+                              _tipoPessoa = value;
+                            });
+                          },
+                        ),
                       ),
-                    ),
 
-                    Expanded(
-                      child: RadioListTile(
-                        title: const Text("Pessoa juridica"),
-                        value: "J",
-                        groupValue: _tipoPessoa,
-                        onChanged: (value) {
-                          setState(() {
-                            _tipoPessoa = value;
-                          });
-                        },
+                      Expanded(
+                        child: RadioListTile(
+                          title: const Text("Pessoa juridica"),
+                          value: "J",
+                          groupValue: _tipoPessoa,
+                          onChanged: (value) {
+                            setState(() {
+                              _tipoPessoa = value;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-
-                TextFormField(
-                  controller: razaoSocialController,
-                  focusNode: _razaoSocialFocus,
-                  keyboardType: TextInputType.text,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.person),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    labelText:
-                        _tipoPessoa == "F" ? "Nome completo" : "Razão Social",
+                    ],
                   ),
-                  validator: (value) {
-                    if (value == "" || value == null) {
-                      return _tipoPessoa == "F"
-                          ? "Informe o nome completo"
-                          : "Informe a razão social";
-                    }
-                    return null;
-                  },
-                ),
 
-                TextFormField(
-                  controller: nomeFantasiaController,
-                  keyboardType: TextInputType.text,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.person),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
+                  TextFormField(
+                    controller: razaoSocialController,
+                    focusNode: _razaoSocialFocus,
+                    keyboardType: TextInputType.text,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      labelText:
+                          _tipoPessoa == "F" ? "Nome completo" : "Razão Social",
                     ),
-                    labelText: _tipoPessoa == "F" ? "Apelido" : "Nome fantasia",
+                    validator: (value) {
+                      if (value == "" || value == null) {
+                        return _tipoPessoa == "F"
+                            ? "Informe o nome completo"
+                            : "Informe a razão social";
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == "" || value == null) {
-                      return _tipoPessoa == "F"
-                          ? "Informe o apelido"
-                          : "Informe o nome fantasia";
-                    }
-                    return null;
-                  },
-                ),
 
-                Row(
-                  children: [
-                    Expanded(
-                      child: BlocBuilder<
-                        RamoAtividadeListCuibit,
-                        RamoAtividadeListState
-                      >(
-                        bloc: cubitRamoAtividade,
-                        builder: (context, state) {
-                          if (state is RamoAtividadeListLoading) {
-                            return Center(child: CircularProgressIndicator());
-                          } else if (state is RamoAtividadeListError) {
-                            return Center(child: Text(state.error));
-                          } else if (state is RamoAtividadeListSucess) {
-                            return DropdownButtonFormField<RamoAtividadeEntity>(
-                              value: _ramoAtividadeEntitySelecionado,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.category),
-                                labelText: "Selecione um ramo atividade",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(18),
+                  TextFormField(
+                    controller: nomeFantasiaController,
+                    keyboardType: TextInputType.text,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      labelText:
+                          _tipoPessoa == "F" ? "Apelido" : "Nome fantasia",
+                    ),
+                    validator: (value) {
+                      if (value == "" || value == null) {
+                        return _tipoPessoa == "F"
+                            ? "Informe o apelido"
+                            : "Informe o nome fantasia";
+                      }
+                      return null;
+                    },
+                  ),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: BlocBuilder<
+                          RamoAtividadeListCuibit,
+                          RamoAtividadeListState
+                        >(
+                          bloc: cubitRamoAtividade,
+                          builder: (context, state) {
+                            if (state is RamoAtividadeListLoading) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (state is RamoAtividadeListError) {
+                              return Center(child: Text(state.error));
+                            } else if (state is RamoAtividadeListSucess) {
+                              return DropdownButtonFormField<
+                                RamoAtividadeEntity
+                              >(
+                                value: _ramoAtividadeEntitySelecionado,
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.category),
+                                  labelText: "Selecione um ramo atividade",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
                                 ),
-                              ),
-                              isExpanded: true,
-                              items:
-                                  state.ramos.map((ramo) {
-                                    return DropdownMenuItem(
-                                      value: ramo,
-                                      child: Text(ramo.descricao),
-                                    );
-                                  }).toList(),
-                              validator: (value) {
-                                if (value == null) {
-                                  return "Selecione um ramo de atividade";
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                setState(() {});
-                              },
-                            );
-                          }
-                          return SizedBox.shrink();
-                        },
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        _abrirDialogNovoRamoAtividade(context);
-                      },
-                      icon: Icon(Icons.add),
-                    ),
-                  ],
-                ),
-
-                Divider(),
-
-                TextFormField(
-                  controller: cnpjCpfController,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: inputFormatters,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      _tipoPessoa == "F" ? Icons.article : Icons.business,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    labelText: _tipoPessoa == "F" ? "CPF" : "CNPJ",
-                  ),
-                  validator: (value) {
-                    if (value == "" || value == null) {
-                      return _tipoPessoa == "F"
-                          ? "Informe o cpf"
-                          : "Informe o cnpj";
-                    }
-
-                    if (_tipoPessoa == "F" &&
-                        !CpfValidator.isCpfValido(value)) {
-                      return "CPF Inválido";
-                    }
-
-                    if (_tipoPessoa == "J" &&
-                        !CnpjValidator.isCnpjValido(value)) {
-                      return "CNPJ Inválido";
-                    }
-
-                    return null;
-                  },
-                ),
-
-                TextFormField(
-                  controller: inscricaoEstadualController,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.business),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    labelText: _tipoPessoa == "F" ? "RG" : "Inscricao Estadual",
-                  ),
-                ),
-
-                TextFormField(
-                  controller: inscricaoMunicipalController,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      _tipoPessoa == "F" ? Icons.article : Icons.business,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    labelText: "Inscrição Municipal",
-                  ),
-                ),
-
-                TextFormField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.email),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    labelText: "Email",
-                  ),
-                  validator: (value) {
-                    if (value == "" || value == null) {
-                      return "Informe o e-mail";
-                    }
-
-                    final emailRegex = RegExp(
-                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                    );
-
-                    if (!emailRegex.hasMatch(value)) {
-                      return 'E-mail inválido';
-                    }
-
-                    return null;
-                  },
-                ),
-
-                TextFormField(
-                  controller: homePageController,
-                  keyboardType: TextInputType.url,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.web),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    labelText: "Home Page",
-                  ),
-                ),
-
-                Divider(),
-
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: cepController,
-                        focusNode: _cepFocus,
-                        inputFormatters: [cepMask],
-                        keyboardType: TextInputType.number,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.location_on),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          labelText: "Cep",
-                        ),
-                        validator: (value) {
-                          if (value == "" || value == null) {
-                            return "Informe o cep";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.find_in_page),
-                    ),
-                  ],
-                ),
-
-                TextFormField(
-                  controller: logradouroCotroller,
-                  keyboardType: TextInputType.text,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.location_on),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    labelText: "Logradouro",
-                  ),
-                  validator: (value) {
-                    if (value == "" || value == null) {
-                      return "Informe o logradouro";
-                    }
-                    return null;
-                  },
-                ),
-
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: numeroController,
-                        focusNode: _numeroLogradouroFocus,
-                        keyboardType: TextInputType.text,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.location_on),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          labelText: "Número",
-                        ),
-                        validator: (value) {
-                          if (value == "" || value == null) {
-                            return "Informe o número";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-
-                    SizedBox(width: 10),
-
-                    Expanded(
-                      child: TextFormField(
-                        controller: complementoController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.location_on),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          labelText: "Complemento",
+                                isExpanded: true,
+                                items:
+                                    state.ramos.map((ramo) {
+                                      return DropdownMenuItem(
+                                        value: ramo,
+                                        child: Text(ramo.descricao),
+                                      );
+                                    }).toList(),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return "Selecione um ramo de atividade";
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  setState(() {});
+                                },
+                              );
+                            }
+                            return SizedBox.shrink();
+                          },
                         ),
                       ),
-                    ),
-                  ],
-                ),
-
-                TextFormField(
-                  controller: bairroController,
-                  keyboardType: TextInputType.text,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.location_on),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    labelText: "Bairro",
-                  ),
-                  validator: (value) {
-                    if (value == "" || value == null) {
-                      return "Informe o bairro";
-                    }
-                    return null;
-                  },
-                ),
-
-                TextFormField(
-                  controller: municipioController,
-                  keyboardType: TextInputType.text,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.location_on),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    labelText: "Municipio",
-                  ),
-                  validator: (value) {
-                    if (value == "" || value == null) {
-                      return "Informe o municipio";
-                    }
-                    return null;
-                  },
-                ),
-
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: codigoIbgeController,
-                        keyboardType: TextInputType.number,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.location_on),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          labelText: "Código do IBGE",
-                        ),
-                        validator: (value) {
-                          if (value == "" || value == null) {
-                            return "Informe o código do IBGE";
-                          }
-                          return null;
+                      IconButton(
+                        onPressed: () {
+                          _abrirDialogNovoRamoAtividade(context);
                         },
+                        icon: Icon(Icons.add),
                       ),
+                    ],
+                  ),
+
+                  Divider(),
+
+                  TextFormField(
+                    controller: cnpjCpfController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: inputFormatters,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        _tipoPessoa == "F" ? Icons.article : Icons.business,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      labelText: _tipoPessoa == "F" ? "CPF" : "CNPJ",
                     ),
+                    validator: (value) {
+                      if (value == "" || value == null) {
+                        return _tipoPessoa == "F"
+                            ? "Informe o cpf"
+                            : "Informe o cnpj";
+                      }
 
-                    SizedBox(width: 10),
+                      if (_tipoPessoa == "F" &&
+                          !CpfValidator.isCpfValido(value)) {
+                        return "CPF Inválido";
+                      }
 
-                    Expanded(
-                      child: TextFormField(
-                        controller: estadoController,
-                        keyboardType: TextInputType.text,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.location_on),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
+                      if (_tipoPessoa == "J" &&
+                          !CnpjValidator.isCnpjValido(value)) {
+                        return "CNPJ Inválido";
+                      }
+
+                      return null;
+                    },
+                  ),
+
+                  TextFormField(
+                    controller: inscricaoEstadualController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.business),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      labelText:
+                          _tipoPessoa == "F" ? "RG" : "Inscricao Estadual",
+                    ),
+                  ),
+
+                  TextFormField(
+                    controller: inscricaoMunicipalController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        _tipoPessoa == "F" ? Icons.article : Icons.business,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      labelText: "Inscrição Municipal",
+                    ),
+                  ),
+
+                  TextFormField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.email),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      labelText: "Email",
+                    ),
+                    validator: (value) {
+                      if (value == "" || value == null) {
+                        return "Informe o e-mail";
+                      }
+
+                      final emailRegex = RegExp(
+                        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                      );
+
+                      if (!emailRegex.hasMatch(value)) {
+                        return 'E-mail inválido';
+                      }
+
+                      return null;
+                    },
+                  ),
+
+                  TextFormField(
+                    controller: homePageController,
+                    keyboardType: TextInputType.url,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.web),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      labelText: "Home Page",
+                    ),
+                  ),
+
+                  Divider(),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: cepController,
+                          focusNode: _cepFocus,
+                          inputFormatters: [cepMask],
+                          keyboardType: TextInputType.number,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.location_on),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            labelText: "Cep",
                           ),
-                          labelText: "Estado",
+                          validator: (value) {
+                            if (value == "" || value == null) {
+                              return "Informe o cep";
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == "" || value == null) {
-                            return "Informe o estado";
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
-                ),
 
-                Divider(),
-
-                Row(
-                  children: [
-                    Expanded(
-                      child: BlocBuilder<
-                        TipoTelefoneListCubit,
-                        TipoTelefoneListState
-                      >(
-                        bloc: cubitTipoTelefone,
+                      BlocBuilder<CepCubit, CepState>(
+                        bloc: cubitCep,
                         builder: (context, state) {
-                          if (state is TipoTelefoneListLoading) {
+                          if (state is CepStateLoading) {
                             return Center(child: CircularProgressIndicator());
-                          } else if (state is TipoTelefoneListError) {
-                            return Center(child: Text(state.error));
-                          } else if (state is TipoTelefoneListSucess) {
-                            return DropdownButtonFormField<TipoTelefoneEntity>(
-                              value: _tipoTelefoneEntitySelecionado,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.category),
-                                labelText: "Selecione um tipo telefone",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                              ),
-                              isExpanded: true,
-                              items:
-                                  state.tipos.map((tipo) {
-                                    return DropdownMenuItem(
-                                      value: tipo,
-                                      child: Text(tipo.descricao),
-                                    );
-                                  }).toList(),
-                              onChanged: (value) {
-                                setState(() {});
-                              },
-                            );
                           }
-                          return SizedBox.shrink();
+
+                          return IconButton(
+                            onPressed: () => _buscarCep(context),
+                            icon: Icon(Icons.find_in_page),
+                          );
                         },
                       ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        _abrirDialogNovoTipoTelefone(context);
-                      },
-                      icon: Icon(Icons.add),
-                    ),
-                  ],
-                ),
-
-                TextFormField(
-                  controller: telefoneController,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [telefone1Mask],
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.phone),
-                    hintText: "(99) 9 9999-9999",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    labelText: "Telefone",
+                    ],
                   ),
-                ),
 
-                TextFormField(
-                  controller: complementoTelefoneController,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.phone),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
+                  TextFormField(
+                    controller: logradouroCotroller,
+                    keyboardType: TextInputType.text,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.location_on),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      labelText: "Logradouro",
                     ),
-                    labelText: "Complemento",
+                    validator: (value) {
+                      if (value == "" || value == null) {
+                        return "Informe o logradouro";
+                      }
+                      return null;
+                    },
                   ),
-                ),
-              ],
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: numeroController,
+                          focusNode: _numeroLogradouroFocus,
+                          keyboardType: TextInputType.text,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.location_on),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            labelText: "Número",
+                          ),
+                          validator: (value) {
+                            if (value == "" || value == null) {
+                              return "Informe o número";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+
+                      SizedBox(width: 10),
+
+                      Expanded(
+                        child: TextFormField(
+                          controller: complementoController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.location_on),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            labelText: "Complemento",
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  TextFormField(
+                    controller: bairroController,
+                    keyboardType: TextInputType.text,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.location_on),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      labelText: "Bairro",
+                    ),
+                    validator: (value) {
+                      if (value == "" || value == null) {
+                        return "Informe o bairro";
+                      }
+                      return null;
+                    },
+                  ),
+
+                  TextFormField(
+                    controller: municipioController,
+                    keyboardType: TextInputType.text,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.location_on),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      labelText: "Municipio",
+                    ),
+                    validator: (value) {
+                      if (value == "" || value == null) {
+                        return "Informe o municipio";
+                      }
+                      return null;
+                    },
+                  ),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: codigoIbgeController,
+                          keyboardType: TextInputType.number,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.location_on),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            labelText: "Código do IBGE",
+                          ),
+                          validator: (value) {
+                            if (value == "" || value == null) {
+                              return "Informe o código do IBGE";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+
+                      SizedBox(width: 10),
+
+                      Expanded(
+                        child: TextFormField(
+                          controller: estadoController,
+                          keyboardType: TextInputType.text,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.location_on),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            labelText: "Estado",
+                          ),
+                          validator: (value) {
+                            if (value == "" || value == null) {
+                              return "Informe o estado";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  Divider(),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: BlocBuilder<
+                          TipoTelefoneListCubit,
+                          TipoTelefoneListState
+                        >(
+                          bloc: cubitTipoTelefone,
+                          builder: (context, state) {
+                            if (state is TipoTelefoneListLoading) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (state is TipoTelefoneListError) {
+                              return Center(child: Text(state.error));
+                            } else if (state is TipoTelefoneListSucess) {
+                              return DropdownButtonFormField<
+                                TipoTelefoneEntity
+                              >(
+                                value: _tipoTelefoneEntitySelecionado,
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.category),
+                                  labelText: "Selecione um tipo telefone",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                ),
+                                isExpanded: true,
+                                items:
+                                    state.tipos.map((tipo) {
+                                      return DropdownMenuItem(
+                                        value: tipo,
+                                        child: Text(tipo.descricao),
+                                      );
+                                    }).toList(),
+                                onChanged: (value) {
+                                  setState(() {});
+                                },
+                              );
+                            }
+                            return SizedBox.shrink();
+                          },
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          _abrirDialogNovoTipoTelefone(context);
+                        },
+                        icon: Icon(Icons.add),
+                      ),
+                    ],
+                  ),
+
+                  TextFormField(
+                    controller: telefoneController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [telefone1Mask],
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.phone),
+                      hintText: "(99) 9 9999-9999",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      labelText: "Telefone",
+                    ),
+                  ),
+
+                  TextFormField(
+                    controller: complementoTelefoneController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.phone),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      labelText: "Complemento",
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
 
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: FilledButton.icon(
-            icon: Icon(Icons.save),
-            onPressed: () => salvar(context),
-            style: FilledButton.styleFrom(
-              backgroundColor: Color.fromARGB(255, 2, 63, 7),
-              foregroundColor: Colors.white,
-              minimumSize: Size(double.infinity, 50),
-            ),
-            label: Text(
-              "Salvar",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        bottomNavigationBar: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: FilledButton.icon(
+              icon: Icon(Icons.save),
+              onPressed: () => salvar(context),
+              style: FilledButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 2, 63, 7),
+                foregroundColor: Colors.white,
+                minimumSize: Size(double.infinity, 50),
+              ),
+              label: Text(
+                "Salvar",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ),
@@ -882,6 +953,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     estadoController.dispose();
     telefoneController.dispose();
     complementoTelefoneController.dispose();
+    cubitCep.close();
 
     super.dispose();
   }
