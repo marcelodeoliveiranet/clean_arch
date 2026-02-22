@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:clean_arch/core/exceptions/businnes_exception.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:clean_arch/features/Cep/domain/usecases/get_cep_use_case.dart';
@@ -16,6 +17,8 @@ class CepCubit extends Cubit<CepState> {
     try {
       final dadosCep = await getCepUseCase(cep);
       emit(CepStateSucess(cep: dadosCep));
+    } on BusinnesException catch (e) {
+      emit(CepStateError(error: e.mensagem));
     } catch (e) {
       emit(CepStateError(error: e.toString()));
     }

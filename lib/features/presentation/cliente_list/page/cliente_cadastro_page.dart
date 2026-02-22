@@ -385,6 +385,25 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
 
           FocusScope.of(context).requestFocus(_numeroLogradouroFocus);
         }
+
+        if (state is CepStateError) {
+          showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text("Erro ao buscar o CEP"),
+                content: Text(state.error),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text("OK"),
+                  ),
+                ],
+              );
+            },
+          );
+        }
       },
       child: Scaffold(
         appBar: AppBar(
