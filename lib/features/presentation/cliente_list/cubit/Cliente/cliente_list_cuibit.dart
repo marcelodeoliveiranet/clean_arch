@@ -14,7 +14,6 @@ class ClienteListCuibit extends Cubit<ClienteListState> {
 
   Future<void> load(String filter) async {
     emit(ClienteListLoading());
-    await Future.delayed(Duration(seconds: 5));
 
     try {
       final clientes = await getClientesUseCase(filter);
