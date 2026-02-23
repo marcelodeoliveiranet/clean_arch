@@ -1,6 +1,6 @@
 import 'package:clean_arch/core/validator/cnpj_validator.dart';
 import 'package:clean_arch/core/validator/cpf_validator.dart';
-import 'package:clean_arch/features/Cep/data/datasource/cep_datasource_local_imp.dart';
+import 'package:clean_arch/features/Cep/data/datasource/cep_datasource_remote_imp.dart';
 import 'package:clean_arch/features/Cep/data/repositores/cep_repository_imp.dart';
 import 'package:clean_arch/features/Cep/domain/usecases/get_cep_use_case.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
