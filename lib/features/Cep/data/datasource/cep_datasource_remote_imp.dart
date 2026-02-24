@@ -25,7 +25,7 @@ class CepDatasourceLocalImp implements CepDatasourceLocal {
       if (response.statusCode == 200) {
         return CepModel.fromJson(response.data);
       } else {
-        throw Exception("Erro ao buscar CEP");
+        throw BusinnesException("Erro ao buscar CEP");
       }
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionTimeout ||
