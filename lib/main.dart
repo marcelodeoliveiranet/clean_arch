@@ -16,9 +16,9 @@ import 'package:sqflite/sqflite.dart';
 Future<void> exibirEstruturaTabela(Database db, String nomeTabela) async {
   var columns = await db.rawQuery("PRAGMA table_info($nomeTabela)");
 
-  print("");
-  print("Colunas da tabela: $nomeTabela");
-  print("===============================");
+  debugPrint("");
+  debugPrint("Colunas da tabela: $nomeTabela");
+  debugPrint("===============================");
 
   String pk = "False";
 
@@ -29,15 +29,17 @@ Future<void> exibirEstruturaTabela(Database db, String nomeTabela) async {
       pk = "False";
     }
 
-    print("Campo PK: $pk | Coluna: ${column['name']} | Tipo:${column['type']}");
+    debugPrint(
+      "Campo PK: $pk | Coluna: ${column['name']} | Tipo:${column['type']}",
+    );
   }
 
   final fks = await db.rawQuery("PRAGMA foreign_key_list($nomeTabela)");
 
   if (fks.isNotEmpty) {
-    print("");
-    print("Foreign Keys");
-    print("============");
+    debugPrint("");
+    debugPrint("Foreign Keys");
+    debugPrint("============");
 
     for (var row in fks) {
       print(row);
@@ -47,11 +49,11 @@ Future<void> exibirEstruturaTabela(Database db, String nomeTabela) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final db = await AppDatabase.database;
+  //final db = await AppDatabase.database;
 
-  await exibirEstruturaTabela(db, clienteTableName);
-  await exibirEstruturaTabela(db, ramoAtividadeTableName);
-  await exibirEstruturaTabela(db, tipoTelefoneTableName);
+  // await exibirEstruturaTabela(db, clienteTableName);
+  // await exibirEstruturaTabela(db, ramoAtividadeTableName);
+  // await exibirEstruturaTabela(db, tipoTelefoneTableName);
 
   // TipoTelefoneDatasourceLocalImp tipoTelefoneDataSource =
   //     TipoTelefoneDatasourceLocalImp();
