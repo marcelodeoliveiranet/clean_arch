@@ -2,6 +2,7 @@ import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource
 import 'package:clean_arch/features/clientes/data/repositories/cliente_repository_imp.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/delete_cliente_uses_case.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/get_clientes_use_case.dart';
+import 'package:clean_arch/features/clientes/domain/usecases/save_cliente_use_case.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_cuibit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_state.dart';
 import 'package:clean_arch/features/presentation/cliente_list/page/cliente_cadastro_page.dart';
@@ -24,6 +25,11 @@ class _ClienteListPageState extends State<ClienteListPage> {
       ),
     ),
     DeleteClienteUsesCase(
+      clienteRepository: ClienteRepositoryImp(
+        clienteDatasourceLocal: ClienteDatasourceLocalImp(),
+      ),
+    ),
+    SaveClienteUseCase(
       clienteRepository: ClienteRepositoryImp(
         clienteDatasourceLocal: ClienteDatasourceLocalImp(),
       ),

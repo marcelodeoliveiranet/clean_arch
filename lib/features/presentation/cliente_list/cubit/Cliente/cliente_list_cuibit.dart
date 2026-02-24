@@ -2,15 +2,21 @@
 import 'package:clean_arch/core/exceptions/businnes_exception.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/delete_cliente_uses_case.dart';
+import 'package:clean_arch/features/clientes/domain/usecases/save_cliente_use_case.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/get_clientes_use_case.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_state.dart';
 
 class ClienteListCuibit extends Cubit<ClienteListState> {
-  ClienteListCuibit(this.getClientesUseCase, this.deleteClienteUsesCase)
-    : super(ClienteListInitial());
+  ClienteListCuibit(
+    this.getClientesUseCase,
+    this.deleteClienteUsesCase,
+    this.saveClienteUseCase,
+  ) : super(ClienteListInitial());
+
   final GetClientesUseCase getClientesUseCase;
   final DeleteClienteUsesCase deleteClienteUsesCase;
+  final SaveClienteUseCase saveClienteUseCase;
 
   Future<void> load(String filter) async {
     emit(ClienteListLoading());
@@ -41,6 +47,17 @@ class ClienteListCuibit extends Cubit<ClienteListState> {
       }
     } catch (e) {
       emit(ClienteListError(error: e.toString()));
+    }
+  }
+
+  Future<ClienteEntity> save(ClienteEntity cliente) async {
+    emit(ClienteListLoading());
+
+    try {
+      return await saveClienteUseCase(cliente);
+    } catch (e) {
+      emit(ClienteListError(error: e.toString()));
+      rethrow;
     }
   }
 }
