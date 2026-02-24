@@ -1,7 +1,7 @@
 import 'package:clean_arch/core/exceptions/businnes_exception.dart';
 import 'package:dio/dio.dart';
-import 'package:clean_arch/features/Cep/data/datasource/cep_datasource_remote.dart';
-import 'package:clean_arch/features/Cep/data/model/cep_model.dart';
+import 'package:clean_arch/features/cep/data/datasource/cep_datasource_remote.dart';
+import 'package:clean_arch/features/cep/data/model/cep_model.dart';
 
 class CepDatasourceLocalImp implements CepDatasourceLocal {
   @override

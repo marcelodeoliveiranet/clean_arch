@@ -1,4 +1,4 @@
-import 'package:clean_arch/features/Cep/domain/entities/cep_entity.dart';
+import 'package:clean_arch/features/cep/domain/entities/cep_entity.dart';
 
 sealed class CepState {}
 

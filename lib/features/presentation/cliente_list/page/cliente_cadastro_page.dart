@@ -1,8 +1,8 @@
 import 'package:clean_arch/core/validator/cnpj_validator.dart';
 import 'package:clean_arch/core/validator/cpf_validator.dart';
-import 'package:clean_arch/features/Cep/data/datasource/cep_datasource_remote_imp.dart';
-import 'package:clean_arch/features/Cep/data/repositores/cep_repository_imp.dart';
-import 'package:clean_arch/features/Cep/domain/usecases/get_cep_use_case.dart';
+import 'package:clean_arch/features/cep/data/datasource/cep_datasource_remote_imp.dart';
+import 'package:clean_arch/features/cep/data/repositores/cep_repository_imp.dart';
+import 'package:clean_arch/features/cep/domain/usecases/get_cep_use_case.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_state.dart';
@@ -190,6 +190,14 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                         return "Informe a descrição";
                       }
 
+                      if (cubitRamoAtividade.listaRamoAtividade.any(
+                        (ramo) =>
+                            ramo.descricao.toLowerCase() ==
+                            descricaoController.text.toLowerCase().trim(),
+                      )) {
+                        return "Este ramo já foi cadastrado";
+                      }
+
                       return null;
                     },
                   ),
@@ -241,7 +249,9 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     );
 
     if (salvou == true) {
-      setState(() {});
+      setState(() {
+        cubitRamoAtividade.load();
+      });
     }
   }
 
@@ -284,6 +294,15 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                       if (value == null || value.trim().isEmpty) {
                         return "Informe a descrição";
                       }
+
+                      if (cubitTipoTelefone.listaTipoTelefones.any(
+                        (tipo) =>
+                            tipo.descricao.toLowerCase() ==
+                            descricaoController.text.toLowerCase().trim(),
+                      )) {
+                        return "Este tipo já foi cadastrado";
+                      }
+
                       return null;
                     },
                   ),
@@ -335,7 +354,9 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     );
 
     if (salvou == true) {
-      setState(() {});
+      setState(() {
+        cubitTipoTelefone.load();
+      });
     }
   }
 

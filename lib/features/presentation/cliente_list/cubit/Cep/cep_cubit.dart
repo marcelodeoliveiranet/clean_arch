@@ -2,7 +2,7 @@
 import 'package:clean_arch/core/exceptions/businnes_exception.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:clean_arch/features/Cep/domain/usecases/get_cep_use_case.dart';
+import 'package:clean_arch/features/cep/domain/usecases/get_cep_use_case.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_state.dart';
 
 class CepCubit extends Cubit<CepState> {
