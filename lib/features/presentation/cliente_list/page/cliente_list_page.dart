@@ -61,7 +61,7 @@ class _ClienteListPageState extends State<ClienteListPage> {
             ),
 
             TextField(
-              onChanged: (value) {
+              onSubmitted: (value) {
                 cubit.load(value);
               },
               decoration: InputDecoration(

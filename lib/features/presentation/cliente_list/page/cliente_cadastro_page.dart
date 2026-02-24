@@ -398,6 +398,21 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
       return;
     }
 
+    // if (!haConexaoInternet) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text(
+    //         "Não há conexão com a Internet",
+    //         style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+    //       ),
+    //       backgroundColor: Colors.red,
+    //       behavior: SnackBarBehavior.floating,
+    //       duration: Duration(seconds: 2),
+    //     ),
+    //   );
+    //   return;
+    // }
+
     final cepSemMascara = cepController.text.trim().replaceAll(
       RegExp(r'[^0-9]'),
       '',

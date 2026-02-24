@@ -49,7 +49,7 @@ Future<void> exibirEstruturaTabela(Database db, String nomeTabela) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //final db = await AppDatabase.database;
+  // final db = await AppDatabase.database;
 
   // await exibirEstruturaTabela(db, clienteTableName);
   // await exibirEstruturaTabela(db, ramoAtividadeTableName);

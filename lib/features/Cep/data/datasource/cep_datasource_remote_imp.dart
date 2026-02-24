@@ -10,20 +10,35 @@ class CepDatasourceLocalImp implements CepDatasourceLocal {
       BaseOptions(
         baseUrl: "https://viacep.com.br/ws/",
         headers: {"Content-Type": "application/json"},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 5),
       ),
     );
 
-    final response = await dio.get('/$cep/json/');
-
-    if (response.data['erro'] == "true") {
-      throw BusinnesException("Cep não encontrado");
-    }
-
     try {
+      final response = await dio.get('/$cep/json/');
+
+      if (response.data['erro'] == "true") {
+        throw BusinnesException("Cep não encontrado");
+      }
+
       if (response.statusCode == 200) {
         return CepModel.fromJson(response.data);
       } else {
         throw Exception("Erro ao buscar CEP");
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        throw BusinnesException("Tempo de busca do Cep esgotado");
+      } else if (e.type == DioExceptionType.connectionError) {
+        throw BusinnesException(
+          "Erro de rede ao consultar o Cep. Verifique se você tem internet",
+        );
+      } else if (e.type == DioExceptionType.badResponse) {
+        throw BusinnesException("Resposta inválida do servidor do Cep");
+      } else {
+        throw BusinnesException("Erro inesperado ao consultar o Cep");
       }
     } catch (e) {
       rethrow;
