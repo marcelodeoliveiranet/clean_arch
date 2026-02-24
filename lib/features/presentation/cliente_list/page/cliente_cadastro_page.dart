@@ -14,10 +14,12 @@ import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividad
 import 'package:clean_arch/features/ramoatividade/data/repositories/ramo_atividade_repository_imp.dart';
 import 'package:clean_arch/features/ramoatividade/domain/entities/ramo_atividade_entity.dart';
 import 'package:clean_arch/features/ramoatividade/domain/usecases/get_ramo_atividade_use_case.dart';
+import 'package:clean_arch/features/ramoatividade/domain/usecases/save_ramo_atividade_use_case.dart';
 import 'package:clean_arch/features/tipotelefone/data/datasource/tipo_telefone_datasource_local_imp.dart';
 import 'package:clean_arch/features/tipotelefone/data/repositories/tipo_telefone_repository_imp.dart';
 import 'package:clean_arch/features/tipotelefone/domain/entities/tipo_telefone_entity.dart';
 import 'package:clean_arch/features/tipotelefone/domain/usecases/get_tipo_telefone_use_case.dart';
+import 'package:clean_arch/features/tipotelefone/domain/usecases/save_tipo_telefone_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,10 +48,20 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
         ramoatividadeDatasourceLocal: RamoAtividadeDatasorceLocalImp(),
       ),
     ),
+    SaveRamoAtividadeUseCase(
+      ramoAtividadeRepository: RamoAtividadeRepositoryImp(
+        ramoatividadeDatasourceLocal: RamoAtividadeDatasorceLocalImp(),
+      ),
+    ),
   );
 
   final cubitTipoTelefone = TipoTelefoneListCubit(
     GetTipoTelefoneUseCase(
+      tipoTelefoneRepository: TipoTelefoneRepositoryImp(
+        tipoTelefoneDatasourceLocal: TipoTelefoneDatasourceLocalImp(),
+      ),
+    ),
+    SaveTipoTelefoneUseCase(
       tipoTelefoneRepository: TipoTelefoneRepositoryImp(
         tipoTelefoneDatasourceLocal: TipoTelefoneDatasourceLocalImp(),
       ),
@@ -198,6 +210,11 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                         return "Este ramo já foi cadastrado";
                       }
 
+                      RamoAtividadeEntity ramo = RamoAtividadeEntity(
+                        descricao: descricaoController.text.trim(),
+                      );
+                      cubitRamoAtividade.save(ramo);
+
                       return null;
                     },
                   ),
@@ -227,8 +244,6 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                               return;
                             }
 
-                            final valor = descricaoController.text;
-                            debugPrint("Gravado $valor");
                             Navigator.pop(context, true);
                           },
                           style: ElevatedButton.styleFrom(
@@ -303,6 +318,13 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                         return "Este tipo já foi cadastrado";
                       }
 
+                      TipoTelefoneEntity tipoTelefoneEntity =
+                          TipoTelefoneEntity(
+                            descricao: descricaoController.text.trim(),
+                          );
+
+                      cubitTipoTelefone.save(tipoTelefoneEntity);
+
                       return null;
                     },
                   ),
@@ -332,8 +354,6 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                               return;
                             }
 
-                            final valor = descricaoController.text;
-                            debugPrint("Gravado $valor");
                             Navigator.pop(context, true);
                           },
                           style: ElevatedButton.styleFrom(
