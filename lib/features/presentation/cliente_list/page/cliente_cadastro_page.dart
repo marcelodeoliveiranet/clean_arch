@@ -25,8 +25,6 @@ class ClienteCadastroPage extends StatefulWidget {
 }
 
 class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
-  //late final CepCubit cubitCep;
-
   String? _tipoPessoa = "F";
   int? codigo = 0;
   RamoAtividadeEntity? _ramoAtividadeEntitySelecionado;
