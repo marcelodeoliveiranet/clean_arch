@@ -51,8 +51,6 @@ class ClienteListCuibit extends Cubit<ClienteListState> {
   }
 
   Future<void> save(ClienteEntity cliente) async {
-    emit(ClienteListLoading());
-
     final currentState = state;
     List<ClienteEntity> listaAtual = [];
 

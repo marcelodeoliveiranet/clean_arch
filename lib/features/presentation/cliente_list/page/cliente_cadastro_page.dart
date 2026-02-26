@@ -135,9 +135,10 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
       ClienteEntity cliente = ClienteEntity(
         foto: "",
         tipoPessoa: _tipoPessoa!,
+        codigoCliente: widget.isEditing ? widget.cliente!.codigoCliente : null,
         razaoSocial: razaoSocialController.text.trim(),
         nomeFantasia: nomeFantasiaController.text.trim(),
-        codigoRamoAtividade: 1, //_ramoAtividadeEntitySelecionado?.codigo ?? 0,
+        codigoRamoAtividade: _ramoAtividadeEntitySelecionado!.codigo ?? 0,
         cnpjCpf: cnpjCpfController.text.trim(),
         ieRg: inscricaoEstadualController.text.trim(),
         inscricaoMunicipal: inscricaoMunicipalController.text.trim(),
@@ -151,7 +152,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
         municipio: municipioController.text.trim(),
         codigoIbgeMunicipio: int.parse(codigoIbgeController.text),
         uf: estadoController.text.trim(),
-        codigoTipoTelefone1: 1, //_tipoTelefoneEntitySelecionado?.codigo ?? 0,
+        codigoTipoTelefone1: _tipoTelefoneEntitySelecionado!.codigo ?? 0,
         telefone1: telefoneController.text.trim(),
         complementoTelefone1: complementoTelefoneController.text.trim(),
         dataCadastro: DateTime.now().toString(),
@@ -588,7 +589,9 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                                   return null;
                                 },
                                 onChanged: (value) {
-                                  setState(() {});
+                                  setState(() {
+                                    _ramoAtividadeEntitySelecionado = value;
+                                  });
                                 },
                               );
                             }
@@ -936,7 +939,9 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                                       );
                                     }).toList(),
                                 onChanged: (value) {
-                                  setState(() {});
+                                  setState(() {
+                                    _tipoTelefoneEntitySelecionado = value;
+                                  });
                                 },
                               );
                             }
