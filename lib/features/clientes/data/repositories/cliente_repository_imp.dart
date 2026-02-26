@@ -50,13 +50,23 @@ class ClienteRepositoryImp implements ClienteRepository {
   Future<ClienteEntity> saveCliente(ClienteEntity cliente) async {
     ClienteModel clienteModel = ClienteModel.fromEntity(cliente);
 
-    final codigo = await clienteDatasourceLocal.save(clienteModel);
+    final dadosCliente = await clienteDatasourceLocal.save(clienteModel);
 
-    return clienteModel.toEntity().copyWith(codigoCliente: codigo);
+    return clienteModel.toEntity().copyWith(
+      codigoCliente: dadosCliente.codigoCliente,
+    );
   }
 
   @override
-  Future<bool> existsByCpfAndIe(String cpfCnpj, String ieRg) async {
-    return clienteDatasourceLocal.existsByCpfAndIe(cpfCnpj, ieRg);
+  Future<bool> existsByCpfAndIe(
+    String cpfCnpj,
+    String ieRg,
+    int? codigoCliente,
+  ) async {
+    return clienteDatasourceLocal.existsByCpfAndIe(
+      cpfCnpj,
+      ieRg,
+      codigoCliente,
+    );
   }
 }

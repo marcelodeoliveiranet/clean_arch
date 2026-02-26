@@ -9,12 +9,13 @@ class SaveClienteUseCase {
   SaveClienteUseCase({required this.clienteRepository});
 
   Future<ClienteEntity> call(ClienteEntity clienteEntity) async {
-    final clienteExistente = await clienteRepository.existsByCpfAndIe(
+    final clienteJaCadastrado = await clienteRepository.existsByCpfAndIe(
       clienteEntity.cnpjCpf,
       clienteEntity.ieRg,
+      clienteEntity.codigoCliente,
     );
 
-    if (clienteExistente) {
+    if (clienteJaCadastrado) {
       if (clienteEntity.tipoPessoa == "F") {
         throw BusinnesException(
           "Já foi cadastrado um cliente com este CPF e RG",

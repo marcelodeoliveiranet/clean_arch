@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 
 class ClienteModel {
@@ -160,6 +161,58 @@ class ClienteModel {
       telefone1: entity.telefone1,
       complementoTelefone1: entity.complementoTelefone1,
       dataCadastro: entity.dataCadastro,
+    );
+  }
+
+  ClienteModel copyWith({
+    String? foto,
+    int? codigoCliente,
+    String? razaoSocial,
+    String? nomeFantasia,
+    int? codigoRamoAtividade,
+    String? cnpjCpf,
+    String? tipoPessoa,
+    String? ieRg,
+    String? inscricaoMunicipal,
+    String? email,
+    String? homePage,
+    String? cep,
+    String? logradouro,
+    String? numero,
+    String? complemento,
+    String? bairro,
+    String? municipio,
+    int? codigoIbgeMunicipio,
+    String? uf,
+    int? codigoTipoTelefone1,
+    String? telefone1,
+    String? complementoTelefone1,
+    String? dataCadastro,
+  }) {
+    return ClienteModel(
+      foto: foto ?? this.foto,
+      codigoCliente: codigoCliente ?? this.codigoCliente,
+      razaoSocial: razaoSocial ?? this.razaoSocial,
+      nomeFantasia: nomeFantasia ?? this.nomeFantasia,
+      codigoRamoAtividade: codigoRamoAtividade ?? this.codigoRamoAtividade,
+      cnpjCpf: cnpjCpf ?? this.cnpjCpf,
+      tipoPessoa: tipoPessoa ?? this.tipoPessoa,
+      ieRg: ieRg ?? this.ieRg,
+      inscricaoMunicipal: inscricaoMunicipal ?? this.inscricaoMunicipal,
+      email: email ?? this.email,
+      homePage: homePage ?? this.homePage,
+      cep: cep ?? this.cep,
+      logradouro: logradouro ?? this.logradouro,
+      numero: numero ?? this.numero,
+      complemento: complemento ?? this.complemento,
+      bairro: bairro ?? this.bairro,
+      municipio: municipio ?? this.municipio,
+      codigoIbgeMunicipio: codigoIbgeMunicipio ?? this.codigoIbgeMunicipio,
+      uf: uf ?? this.uf,
+      codigoTipoTelefone1: codigoTipoTelefone1 ?? this.codigoTipoTelefone1,
+      telefone1: telefone1 ?? this.telefone1,
+      complementoTelefone1: complementoTelefone1 ?? this.complementoTelefone1,
+      dataCadastro: dataCadastro ?? this.dataCadastro,
     );
   }
 }

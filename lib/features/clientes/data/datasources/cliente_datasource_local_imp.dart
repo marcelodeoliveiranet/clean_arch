@@ -27,20 +27,47 @@ class ClienteDatasourceLocalImp implements ClienteDatasourceLocal {
   }
 
   @override
-  Future<int> save(ClienteModel cliente) async {
+  Future<ClienteModel> save(ClienteModel cliente) async {
     final Database db = await AppDatabase.database;
-    return await db.insert(clienteTableName, cliente.toMap());
+
+    if (cliente.codigoCliente == null) {
+      final novoCodigo = await db.insert(clienteTableName, cliente.toMap());
+      return cliente.copyWith(codigoCliente: novoCodigo);
+    } else {
+      await db.update(
+        clienteTableName,
+        cliente.toMap(),
+        where: 'codigo_cliente = ?',
+        whereArgs: [cliente.codigoCliente],
+      );
+      return cliente;
+    }
   }
 
   @override
-  Future<bool> existsByCpfAndIe(String cpfCnpj, String ieRg) async {
+  Future<bool> existsByCpfAndIe(
+    String cpfCnpj,
+    String ieRg,
+    int? codigoCliente,
+  ) async {
     final Database db = await AppDatabase.database;
+    final List<Map<String, dynamic>> result;
 
-    final result = await db.query(
-      clienteTableName,
-      where: "cnpj_cpf = ? AND ie_rg = ?",
-      whereArgs: [cpfCnpj, ieRg],
-    );
+    if (codigoCliente == null) {
+      result = await db.query(
+        clienteTableName,
+        where: "cnpj_cpf = ? AND ie_rg = ?",
+        whereArgs: [cpfCnpj, ieRg],
+        limit: 1,
+      );
+    } else {
+      result = await db.query(
+        clienteTableName,
+        where: "cnpj_cpf = ? AND ie_rg = ? AND codigo_cliente != ?",
+        whereArgs: [cpfCnpj, ieRg, codigoCliente],
+        limit: 1,
+      );
+    }
 
     return result.isNotEmpty;
   }
