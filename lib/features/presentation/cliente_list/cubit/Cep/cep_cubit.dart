@@ -6,9 +6,8 @@ import 'package:clean_arch/features/cep/domain/usecases/get_cep_use_case.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_state.dart';
 
 class CepCubit extends Cubit<CepState> {
+  CepCubit(this.getCepUseCase) : super(CepStateInitial());
   final GetCepUseCase getCepUseCase;
-
-  CepCubit({required this.getCepUseCase}) : super(CepStateInitial());
 
   Future<void> load(String cep) async {
     emit(CepStateLoading());

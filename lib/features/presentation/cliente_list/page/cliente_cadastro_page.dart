@@ -1,8 +1,6 @@
+import 'package:clean_arch/core/injection/injection.dart';
 import 'package:clean_arch/core/validator/cnpj_validator.dart';
 import 'package:clean_arch/core/validator/cpf_validator.dart';
-import 'package:clean_arch/features/cep/data/datasource/cep_datasource_remote_imp.dart';
-import 'package:clean_arch/features/cep/data/repositores/cep_repository_imp.dart';
-import 'package:clean_arch/features/cep/domain/usecases/get_cep_use_case.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_state.dart';
@@ -10,16 +8,8 @@ import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividad
 import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_state.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/TipoTelefone/tipo_telefone_list_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/TipoTelefone/tipo_telefone_list_state.dart';
-import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividade_datasorce_local_imp.dart';
-import 'package:clean_arch/features/ramoatividade/data/repositories/ramo_atividade_repository_imp.dart';
 import 'package:clean_arch/features/ramoatividade/domain/entities/ramo_atividade_entity.dart';
-import 'package:clean_arch/features/ramoatividade/domain/usecases/get_ramo_atividade_use_case.dart';
-import 'package:clean_arch/features/ramoatividade/domain/usecases/save_ramo_atividade_use_case.dart';
-import 'package:clean_arch/features/tipotelefone/data/datasource/tipo_telefone_datasource_local_imp.dart';
-import 'package:clean_arch/features/tipotelefone/data/repositories/tipo_telefone_repository_imp.dart';
 import 'package:clean_arch/features/tipotelefone/domain/entities/tipo_telefone_entity.dart';
-import 'package:clean_arch/features/tipotelefone/domain/usecases/get_tipo_telefone_use_case.dart';
-import 'package:clean_arch/features/tipotelefone/domain/usecases/save_tipo_telefone_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,38 +25,16 @@ class ClienteCadastroPage extends StatefulWidget {
 }
 
 class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
-  late final CepCubit cubitCep;
+  //late final CepCubit cubitCep;
 
   String? _tipoPessoa = "F";
   int? codigo = 0;
   RamoAtividadeEntity? _ramoAtividadeEntitySelecionado;
   TipoTelefoneEntity? _tipoTelefoneEntitySelecionado;
 
-  final cubitRamoAtividade = RamoAtividadeListCuibit(
-    GetRamoAtividadeUseCase(
-      ramoAtividadeRepository: RamoAtividadeRepositoryImp(
-        ramoatividadeDatasourceLocal: RamoAtividadeDatasorceLocalImp(),
-      ),
-    ),
-    SaveRamoAtividadeUseCase(
-      ramoAtividadeRepository: RamoAtividadeRepositoryImp(
-        ramoatividadeDatasourceLocal: RamoAtividadeDatasorceLocalImp(),
-      ),
-    ),
-  );
-
-  final cubitTipoTelefone = TipoTelefoneListCubit(
-    GetTipoTelefoneUseCase(
-      tipoTelefoneRepository: TipoTelefoneRepositoryImp(
-        tipoTelefoneDatasourceLocal: TipoTelefoneDatasourceLocalImp(),
-      ),
-    ),
-    SaveTipoTelefoneUseCase(
-      tipoTelefoneRepository: TipoTelefoneRepositoryImp(
-        tipoTelefoneDatasourceLocal: TipoTelefoneDatasourceLocalImp(),
-      ),
-    ),
-  );
+  final cubitRamoAtividade = getIt<RamoAtividadeListCuibit>();
+  final cubitTipoTelefone = getIt<TipoTelefoneListCubit>();
+  final cubitCep = getIt<CepCubit>();
 
   final cepMask = MaskTextInputFormatter(
     mask: "#####-###",
@@ -398,21 +366,6 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
       return;
     }
 
-    // if (!haConexaoInternet) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(
-    //       content: Text(
-    //         "Não há conexão com a Internet",
-    //         style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-    //       ),
-    //       backgroundColor: Colors.red,
-    //       behavior: SnackBarBehavior.floating,
-    //       duration: Duration(seconds: 2),
-    //     ),
-    //   );
-    //   return;
-    // }
-
     final cepSemMascara = cepController.text.trim().replaceAll(
       RegExp(r'[^0-9]'),
       '',
@@ -434,13 +387,13 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     cubitRamoAtividade.load();
     cubitTipoTelefone.load();
 
-    cubitCep = CepCubit(
-      getCepUseCase: GetCepUseCase(
-        cepRepository: CepRepositoryImp(
-          cepDatasourceLocal: CepDatasourceLocalImp(),
-        ),
-      ),
-    );
+    // cubitCep = CepCubit(
+    //   GetCepUseCase(
+    //     cepRepository: CepRepositoryImp(
+    //       cepDatasourceLocal: CepDatasourceRemoteImp(),
+    //     ),
+    //   ),
+    // );
   }
 
   @override
