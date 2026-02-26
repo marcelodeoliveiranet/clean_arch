@@ -384,14 +384,6 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
 
     cubitRamoAtividade.load();
     cubitTipoTelefone.load();
-
-    // cubitCep = CepCubit(
-    //   GetCepUseCase(
-    //     cepRepository: CepRepositoryImp(
-    //       cepDatasourceLocal: CepDatasourceRemoteImp(),
-    //     ),
-    //   ),
-    // );
   }
 
   @override
