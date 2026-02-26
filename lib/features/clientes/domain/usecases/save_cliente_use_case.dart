@@ -17,11 +17,11 @@ class SaveClienteUseCase {
     if (clienteExistente) {
       if (clienteEntity.tipoPessoa == "F") {
         throw BusinnesException(
-          "Já foi cadastrado um cliente com este CPF ou RG",
+          "Já foi cadastrado um cliente com este CPF e RG",
         );
       } else {
         throw BusinnesException(
-          "Já foi cadastrado um cliente com este CNPJ ou Inscrição Estadual",
+          "Já foi cadastrado um cliente com este CNPJ e Inscrição Estadual",
         );
       }
     }
