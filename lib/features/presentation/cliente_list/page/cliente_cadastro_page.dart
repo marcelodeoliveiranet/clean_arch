@@ -159,10 +159,6 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
       );
 
       cubitCliente.save(cliente);
-
-      if (widget.isEditing) {
-        Navigator.pop(context);
-      }
     }
   }
 
@@ -1012,6 +1008,27 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                   );
 
                   FocusScope.of(context).requestFocus(_cnpjCpfFocus);
+                }
+
+                if (state is ClienteListSucess) {
+                  if (widget.isEditing) {
+                    Navigator.pop(context);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "Cliente gravado com sucesso",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        backgroundColor: Colors.green,
+                        behavior: SnackBarBehavior.floating,
+                        duration: Duration(seconds: 4),
+                      ),
+                    );
+                  }
                 }
               },
 
