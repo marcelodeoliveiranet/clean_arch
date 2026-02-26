@@ -4,6 +4,8 @@ import 'package:clean_arch/core/validator/cpf_validator.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_state.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_cuibit.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_state.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_state.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/TipoTelefone/tipo_telefone_list_cubit.dart';
@@ -33,6 +35,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
   final cubitRamoAtividade = getIt<RamoAtividadeListCuibit>();
   final cubitTipoTelefone = getIt<TipoTelefoneListCubit>();
   final cubitCep = getIt<CepCubit>();
+  final cubitCliente = getIt<ClienteListCuibit>();
 
   final cepMask = MaskTextInputFormatter(
     mask: "#####-###",
@@ -85,6 +88,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
   final complementoTelefoneController = TextEditingController();
 
   final _razaoSocialFocus = FocusNode();
+  final _cnpjCpfFocus = FocusNode();
   final _cepFocus = FocusNode();
   final _numeroLogradouroFocus = FocusNode();
 
@@ -124,8 +128,41 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     complementoTelefoneController.text = widget.cliente!.complementoTelefone1;
   }
 
-  void salvar(BuildContext context) {
-    if (formKey.currentState!.validate()) {}
+  void salvar() {
+    final validation = formKey.currentState?.validate();
+
+    if (validation == true) {
+      ClienteEntity cliente = ClienteEntity(
+        foto: "",
+        tipoPessoa: _tipoPessoa!,
+        razaoSocial: razaoSocialController.text.trim(),
+        nomeFantasia: nomeFantasiaController.text.trim(),
+        codigoRamoAtividade: 1, //_ramoAtividadeEntitySelecionado?.codigo ?? 0,
+        cnpjCpf: cnpjCpfController.text.trim(),
+        ieRg: inscricaoEstadualController.text.trim(),
+        inscricaoMunicipal: inscricaoMunicipalController.text.trim(),
+        email: emailController.text.trim(),
+        homePage: homePageController.text.trim(),
+        cep: cepController.text.trim(),
+        logradouro: logradouroCotroller.text.trim(),
+        numero: numeroController.text.trim(),
+        complemento: complementoController.text.trim(),
+        bairro: bairroController.text.trim(),
+        municipio: municipioController.text.trim(),
+        codigoIbgeMunicipio: int.parse(codigoIbgeController.text),
+        uf: estadoController.text.trim(),
+        codigoTipoTelefone1: 1, //_tipoTelefoneEntitySelecionado?.codigo ?? 0,
+        telefone1: telefoneController.text.trim(),
+        complementoTelefone1: complementoTelefoneController.text.trim(),
+        dataCadastro: DateTime.now().toString(),
+      );
+
+      cubitCliente.save(cliente);
+
+      if (widget.isEditing) {
+        Navigator.pop(context);
+      }
+    }
   }
 
   Future<void> _abrirDialogNovoRamoAtividade(BuildContext context) async {
@@ -575,6 +612,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                     keyboardType: TextInputType.number,
                     inputFormatters: inputFormatters,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
+                    focusNode: _cnpjCpfFocus,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         _tipoPessoa == "F" ? Icons.article : Icons.business,
@@ -949,18 +987,56 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
         bottomNavigationBar: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(10),
-            child: FilledButton.icon(
-              icon: Icon(Icons.save),
-              onPressed: () => salvar(context),
-              style: FilledButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 2, 63, 7),
-                foregroundColor: Colors.white,
-                minimumSize: Size(double.infinity, 50),
-              ),
-              label: Text(
-                "Salvar",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+            child: BlocConsumer<ClienteListCuibit, ClienteListState>(
+              bloc: cubitCliente,
+              listener: (context, state) {
+                if (state is ClienteListError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        state.error,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      backgroundColor: Colors.red,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 4),
+                    ),
+                  );
+
+                  FocusScope.of(context).requestFocus(_cnpjCpfFocus);
+                }
+              },
+
+              builder: (context, state) {
+                final isLoading = state is ClienteListLoading;
+
+                return FilledButton.icon(
+                  onPressed: isLoading ? null : salvar,
+                  icon:
+                      isLoading
+                          ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                          : const Icon(Icons.save),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 2, 63, 7),
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
+                  label: Text(
+                    isLoading ? "Salvando..." : "Salvar",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                );
+              },
             ),
           ),
         ),
@@ -987,7 +1063,11 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     estadoController.dispose();
     telefoneController.dispose();
     complementoTelefoneController.dispose();
+
     cubitCep.close();
+    cubitRamoAtividade.close();
+    cubitTipoTelefone.close();
+    cubitCliente.close();
 
     super.dispose();
   }

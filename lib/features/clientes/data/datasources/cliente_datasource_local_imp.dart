@@ -31,4 +31,17 @@ class ClienteDatasourceLocalImp implements ClienteDatasourceLocal {
     final Database db = await AppDatabase.database;
     return await db.insert(clienteTableName, cliente.toMap());
   }
+
+  @override
+  Future<bool> existsByCpfAndIe(String cpfCnpj, String ieRg) async {
+    final Database db = await AppDatabase.database;
+
+    final result = await db.query(
+      clienteTableName,
+      where: "cnpj_cpf = ? AND ie_rg = ?",
+      whereArgs: [cpfCnpj, ieRg],
+    );
+
+    return result.isNotEmpty;
+  }
 }

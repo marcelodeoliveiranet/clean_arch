@@ -50,12 +50,40 @@ class ClienteListCuibit extends Cubit<ClienteListState> {
     }
   }
 
-  Future<ClienteEntity> save(ClienteEntity cliente) async {
+  Future<void> save(ClienteEntity cliente) async {
     emit(ClienteListLoading());
 
+    final currentState = state;
+    List<ClienteEntity> listaAtual = [];
+
+    if (currentState is ClienteListSucess) {
+      listaAtual = List.from(currentState.clientes);
+    }
+
     try {
-      return await saveClienteUseCase(cliente);
+      final clienteCadastrado = await saveClienteUseCase(cliente);
+
+      //se estiver editando, substitui; se for novo, adiciona
+      final index = listaAtual.indexWhere(
+        (c) => c.codigoCliente == clienteCadastrado.codigoCliente,
+      );
+
+      if (index >= 0) {
+        listaAtual[index] = clienteCadastrado;
+      } else {
+        listaAtual.add(clienteCadastrado);
+      }
+
+      emit(ClienteListSucess(clientes: listaAtual));
+    } on BusinnesException catch (e) {
+      if (listaAtual.isNotEmpty) {
+        emit(ClienteListSucess(clientes: listaAtual));
+      }
+      emit(ClienteListError(error: e.mensagem));
     } catch (e) {
+      if (listaAtual.isNotEmpty) {
+        emit(ClienteListSucess(clientes: listaAtual));
+      }
       emit(ClienteListError(error: e.toString()));
       rethrow;
     }

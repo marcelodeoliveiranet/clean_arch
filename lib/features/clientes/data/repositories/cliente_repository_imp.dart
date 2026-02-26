@@ -54,4 +54,9 @@ class ClienteRepositoryImp implements ClienteRepository {
 
     return clienteModel.toEntity().copyWith(codigoCliente: codigo);
   }
+
+  @override
+  Future<bool> existsByCpfAndIe(String cpfCnpj, String ieRg) async {
+    return clienteDatasourceLocal.existsByCpfAndIe(cpfCnpj, ieRg);
+  }
 }

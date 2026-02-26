@@ -4,4 +4,5 @@ abstract class ClienteDatasourceLocal {
   Future<List<ClienteModel>> get(String filter);
   Future<int> save(ClienteModel cliente);
   Future<void> delete(ClienteModel cliente);
+  Future<bool> existsByCpfAndIe(String cpfCnpj, String ieRg);
 }
