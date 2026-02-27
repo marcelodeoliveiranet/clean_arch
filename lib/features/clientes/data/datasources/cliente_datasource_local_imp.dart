@@ -22,6 +22,7 @@ class ClienteDatasourceLocalImp implements ClienteDatasourceLocal {
       clienteTableName,
       where: "Upper(razao_social) like ?",
       whereArgs: ['%${filter.toUpperCase()}%'],
+      orderBy: 'razao_social',
     );
     return registers.map((e) => ClienteModel.fromMap(e)).toList();
   }

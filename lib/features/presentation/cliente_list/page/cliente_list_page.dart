@@ -18,7 +18,8 @@ class ClienteListPage extends StatefulWidget {
 class _ClienteListPageState extends State<ClienteListPage> {
   final cubitCliente = getIt<ClienteListCubit>();
   final cubitFormCliente = getIt<ClienteFormCubit>();
-  final procurarPor = TextEditingController();
+  final procurarPorController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -33,60 +34,64 @@ class _ClienteListPageState extends State<ClienteListPage> {
       listener: (context, state) {
         if (state is ClienteFormSucessEdit ||
             state is ClienteFormSucessInsert) {
-          cubitCliente.load("");
+          cubitCliente.load(procurarPorController.text.trim());
         }
       },
       child: Scaffold(
         body: Padding(
           padding: EdgeInsets.only(top: 35, left: 8, right: 8),
-          child: Column(
-            spacing: 8,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Consulta de Clientes",
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-
-              TextField(
-                onSubmitted: (value) {
-                  cubitCliente.load(value);
-                },
-                decoration: InputDecoration(
-                  hintText: "Busca por razao social",
-                  prefixIcon: Icon(Icons.search),
-                  filled: true,
-                  fillColor: Color.fromARGB(255, 2, 63, 7),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+          child: Form(
+            key: formKey,
+            child: Column(
+              spacing: 8,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Consulta de Clientes",
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
-              ),
 
-              Expanded(
-                child: BlocBuilder<ClienteListCubit, ClienteListState>(
-                  bloc: cubitCliente,
-                  builder: (context, state) {
-                    if (state is ClienteListLoading) {
-                      return Center(child: CircularProgressIndicator());
-                    } else if (state is ClienteListSucess) {
-                      return RenderClientesWidget(
-                        clientes: state.clientes,
-                        cubit: cubitCliente,
-                      );
-                    } else if (state is ClienteListError) {
-                      return Center(child: Text(state.error));
-                    }
-                    return SizedBox.shrink();
+                TextField(
+                  onSubmitted: (value) {
+                    cubitCliente.load(value);
                   },
+                  controller: procurarPorController,
+                  decoration: InputDecoration(
+                    hintText: "Busca por razao social",
+                    prefixIcon: Icon(Icons.search),
+                    filled: true,
+                    fillColor: Color.fromARGB(255, 2, 63, 7),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+
+                Expanded(
+                  child: BlocBuilder<ClienteListCubit, ClienteListState>(
+                    bloc: cubitCliente,
+                    builder: (context, state) {
+                      if (state is ClienteListLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (state is ClienteListSucess) {
+                        return RenderClientesWidget(
+                          clientes: state.clientes,
+                          cubit: cubitCliente,
+                        );
+                      } else if (state is ClienteListError) {
+                        return Center(child: Text(state.error));
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
