@@ -1,5 +1,5 @@
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_cuibit.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_list/cliente_list_cubit.dart';
 import 'package:flutter/material.dart';
 
 class RemoverClienteDialog extends StatelessWidget {
@@ -9,7 +9,7 @@ class RemoverClienteDialog extends StatelessWidget {
     required this.cubit,
   });
   final ClienteEntity cliente;
-  final ClienteListCuibit cubit;
+  final ClienteListCubit cubit;
 
   @override
   Widget build(BuildContext context) {

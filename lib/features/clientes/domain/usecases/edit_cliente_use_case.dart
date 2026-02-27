@@ -3,20 +3,20 @@ import 'package:clean_arch/core/exceptions/businnes_exception.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/features/clientes/domain/repositories/cliente_repository.dart';
 
-class SaveClienteUseCase {
+class EditClienteUseCase {
   final ClienteRepository clienteRepository;
 
-  SaveClienteUseCase({required this.clienteRepository});
+  EditClienteUseCase({required this.clienteRepository});
 
-  Future<ClienteEntity> call(ClienteEntity clienteEntity) async {
+  Future<ClienteEntity> call(ClienteEntity cliente) async {
     final clienteJaCadastrado = await clienteRepository.existsByCpfAndIe(
-      clienteEntity.cnpjCpf,
-      clienteEntity.ieRg,
-      clienteEntity.codigoCliente,
+      cliente.cnpjCpf,
+      cliente.ieRg,
+      cliente.codigoCliente,
     );
 
     if (clienteJaCadastrado) {
-      if (clienteEntity.tipoPessoa == "F") {
+      if (cliente.tipoPessoa == "F") {
         throw BusinnesException(
           "Já foi cadastrado um cliente com este CPF e RG",
         );
@@ -27,6 +27,6 @@ class SaveClienteUseCase {
       }
     }
 
-    return await clienteRepository.save(clienteEntity);
+    return await clienteRepository.edit(cliente);
   }
 }

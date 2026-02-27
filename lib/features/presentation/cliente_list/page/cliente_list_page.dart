@@ -1,6 +1,7 @@
 import 'package:clean_arch/core/injection/injection.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_cuibit.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_state.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_form/cliente_form_cubit.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_list/cliente_list_cubit.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_list/cliente_list_state.dart';
 import 'package:clean_arch/features/presentation/cliente_list/page/cliente_cadastro_page.dart';
 import 'package:clean_arch/features/presentation/cliente_list/widgets/render_clientes_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,8 @@ class ClienteListPage extends StatefulWidget {
 }
 
 class _ClienteListPageState extends State<ClienteListPage> {
-  final cubitCliente = getIt<ClienteListCuibit>();
+  final cubitCliente = getIt<ClienteListCubit>();
+  final cubitFormCliente = getIt<ClienteFormCubit>();
 
   @override
   void initState() {
@@ -57,7 +59,7 @@ class _ClienteListPageState extends State<ClienteListPage> {
             ),
 
             Expanded(
-              child: BlocBuilder<ClienteListCuibit, ClienteListState>(
+              child: BlocBuilder<ClienteListCubit, ClienteListState>(
                 bloc: cubitCliente,
                 builder: (context, state) {
                   if (state is ClienteListLoading) {

@@ -4,8 +4,8 @@ import 'package:clean_arch/core/validator/cpf_validator.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_state.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_cuibit.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_state.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_form/cliente_form_cubit.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_form/cliente_form_state.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_state.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/TipoTelefone/tipo_telefone_list_cubit.dart';
@@ -35,7 +35,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
   final cubitRamoAtividade = getIt<RamoAtividadeListCuibit>();
   final cubitTipoTelefone = getIt<TipoTelefoneListCubit>();
   final cubitCep = getIt<CepCubit>();
-  final cubitCliente = getIt<ClienteListCuibit>();
+  final cubitFormCliente = getIt<ClienteFormCubit>();
 
   final cepMask = MaskTextInputFormatter(
     mask: "#####-###",
@@ -158,7 +158,11 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
         dataCadastro: DateTime.now().toString(),
       );
 
-      cubitCliente.save(cliente);
+      if (widget.isEditing) {
+        cubitFormCliente.edit(cliente);
+      } else {
+        cubitFormCliente.insert(cliente);
+      }
     }
   }
 
@@ -1011,10 +1015,10 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
         bottomNavigationBar: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(10),
-            child: BlocConsumer<ClienteListCuibit, ClienteListState>(
-              bloc: cubitCliente,
+            child: BlocConsumer<ClienteFormCubit, ClienteFormState>(
+              bloc: cubitFormCliente,
               listener: (context, state) {
-                if (state is ClienteListError) {
+                if (state is ClienteFormError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
@@ -1033,40 +1037,40 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                   FocusScope.of(context).requestFocus(_cnpjCpfFocus);
                 }
 
-                if (state is ClienteListSucess) {
-                  if (widget.isEditing) {
-                    Navigator.pop(context);
-                  } else {
-                    //limparCampos();
+                if (state is ClienteFormSucessEdit) {
+                  Navigator.pop(context);
+                }
 
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          "Cliente gravado com sucesso",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
+                if (state is ClienteFormSucessInsert) {
+                  //limparCampos();
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        "Cliente gravado com sucesso",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
                         ),
-                        backgroundColor: Colors.green,
-                        behavior: SnackBarBehavior.floating,
-                        duration: Duration(seconds: 4),
                       ),
-                    );
+                      backgroundColor: Colors.green,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 4),
+                    ),
+                  );
 
-                    // FocusScope.of(context).requestFocus(_razaoSocialFocus);
-                    // setState(() {});
-                  }
+                  // FocusScope.of(context).requestFocus(_razaoSocialFocus);
+                  // setState(() {});
                 }
               },
 
               builder: (context, state) {
-                final isLoading = state is ClienteListLoading;
+                final isSaving = state is ClienteFormSaving;
 
                 return FilledButton.icon(
-                  onPressed: isLoading ? null : salvar,
+                  onPressed: isSaving ? null : salvar,
                   icon:
-                      isLoading
+                      isSaving
                           ? const SizedBox(
                             width: 20,
                             height: 20,
@@ -1082,7 +1086,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                     minimumSize: const Size(double.infinity, 50),
                   ),
                   label: Text(
-                    isLoading ? "Salvando..." : "Salvar",
+                    isSaving ? "Salvando..." : "Salvar",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 );
@@ -1117,7 +1121,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     cubitCep.close();
     cubitRamoAtividade.close();
     cubitTipoTelefone.close();
-    cubitCliente.close();
+    cubitFormCliente.close();
 
     super.dispose();
   }

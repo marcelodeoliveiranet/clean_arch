@@ -8,10 +8,12 @@ import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource
 import 'package:clean_arch/features/clientes/data/repositories/cliente_repository_imp.dart';
 import 'package:clean_arch/features/clientes/domain/repositories/cliente_repository.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/delete_cliente_uses_case.dart';
+import 'package:clean_arch/features/clientes/domain/usecases/edit_cliente_use_case.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/get_clientes_use_case.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/save_cliente_use_case.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_cubit.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_cuibit.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_form/cliente_form_cubit.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_list/cliente_list_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/TipoTelefone/tipo_telefone_list_cubit.dart';
 import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividade_datasorce_local_imp.dart';
@@ -112,28 +114,39 @@ Future<void> setupInjection() async {
     () => DeleteClienteUsesCase(clienteRepository: getIt<ClienteRepository>()),
   );
 
-  //Cubit
-  getIt.registerFactory<CepCubit>(() => CepCubit(getIt<GetCepUseCase>()));
+  getIt.registerLazySingleton<EditClienteUseCase>(
+    () => EditClienteUseCase(clienteRepository: getIt<ClienteRepository>()),
+  );
 
-  getIt.registerFactory<RamoAtividadeListCuibit>(
+  //Cubit
+  getIt.registerLazySingleton<CepCubit>(() => CepCubit(getIt<GetCepUseCase>()));
+
+  getIt.registerLazySingleton<RamoAtividadeListCuibit>(
     () => RamoAtividadeListCuibit(
       getIt<GetRamoAtividadeUseCase>(),
       getIt<SaveRamoAtividadeUseCase>(),
     ),
   );
 
-  getIt.registerFactory<TipoTelefoneListCubit>(
+  getIt.registerLazySingleton<TipoTelefoneListCubit>(
     () => TipoTelefoneListCubit(
       getIt<GetTipoTelefoneUseCase>(),
       getIt<SaveTipoTelefoneUseCase>(),
     ),
   );
 
-  getIt.registerFactory<ClienteListCuibit>(
-    () => ClienteListCuibit(
+  getIt.registerLazySingleton<ClienteListCubit>(
+    () => ClienteListCubit(
       getIt<GetClientesUseCase>(),
       getIt<DeleteClienteUsesCase>(),
       getIt<SaveClienteUseCase>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<ClienteFormCubit>(
+    () => ClienteFormCubit(
+      getIt<SaveClienteUseCase>(),
+      getIt<EditClienteUseCase>(),
     ),
   );
 }

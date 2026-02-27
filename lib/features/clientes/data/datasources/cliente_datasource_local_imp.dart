@@ -30,18 +30,22 @@ class ClienteDatasourceLocalImp implements ClienteDatasourceLocal {
   Future<ClienteModel> save(ClienteModel cliente) async {
     final Database db = await AppDatabase.database;
 
-    if (cliente.codigoCliente == null) {
-      final novoCodigo = await db.insert(clienteTableName, cliente.toMap());
-      return cliente.copyWith(codigoCliente: novoCodigo);
-    } else {
-      await db.update(
-        clienteTableName,
-        cliente.toMap(),
-        where: 'codigo_cliente = ?',
-        whereArgs: [cliente.codigoCliente],
-      );
-      return cliente;
-    }
+    final novoCodigo = await db.insert(clienteTableName, cliente.toMap());
+    return cliente.copyWith(codigoCliente: novoCodigo);
+  }
+
+  @override
+  Future<ClienteModel> edit(ClienteModel cliente) async {
+    final Database db = await AppDatabase.database;
+
+    await db.update(
+      clienteTableName,
+      cliente.toMap(),
+      where: "codigo_cliente = ?",
+      whereArgs: [cliente.codigoCliente],
+    );
+
+    return cliente.copyWith(codigoCliente: cliente.codigoCliente);
   }
 
   @override

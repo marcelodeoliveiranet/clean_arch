@@ -47,10 +47,21 @@ class ClienteRepositoryImp implements ClienteRepository {
   }
 
   @override
-  Future<ClienteEntity> saveCliente(ClienteEntity cliente) async {
+  Future<ClienteEntity> save(ClienteEntity cliente) async {
     ClienteModel clienteModel = ClienteModel.fromEntity(cliente);
 
     final dadosCliente = await clienteDatasourceLocal.save(clienteModel);
+
+    return clienteModel.toEntity().copyWith(
+      codigoCliente: dadosCliente.codigoCliente,
+    );
+  }
+
+  @override
+  Future<ClienteEntity> edit(ClienteEntity cliente) async {
+    ClienteModel clienteModel = ClienteModel.fromEntity(cliente);
+
+    final dadosCliente = await clienteDatasourceLocal.edit(clienteModel);
 
     return clienteModel.toEntity().copyWith(
       codigoCliente: dadosCliente.codigoCliente,

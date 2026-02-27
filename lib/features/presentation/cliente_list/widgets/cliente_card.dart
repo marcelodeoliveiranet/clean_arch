@@ -1,5 +1,5 @@
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/Cliente/cliente_list_cuibit.dart';
+import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_list/cliente_list_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/page/cliente_cadastro_page.dart';
 import 'package:clean_arch/features/presentation/cliente_list/widgets/remover_cliente_dialog.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class ClienteCard extends StatelessWidget {
   const ClienteCard({super.key, required this.cliente, required this.cubit});
   final ClienteEntity cliente;
-  final ClienteListCuibit cubit;
+  final ClienteListCubit cubit;
 
   @override
   Widget build(BuildContext context) {
