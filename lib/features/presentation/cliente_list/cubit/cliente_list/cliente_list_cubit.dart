@@ -27,15 +27,15 @@ class ClienteListCubit extends Cubit<ClienteListState> {
   }
 
   Future<void> delete(ClienteEntity clienteEntity) async {
+    final previousState = state;
     emit(ClienteListLoading());
 
     try {
       await deleteClienteUsesCase.deleteCliente(clienteEntity);
-      final currentState = state;
 
-      if (currentState is ClienteListSucess) {
+      if (previousState is ClienteListSucess) {
         final listaClienteAtualizada = List<ClienteEntity>.from(
-          currentState.clientes,
+          previousState.clientes,
         )..removeWhere(
           (value) => value.codigoCliente == clienteEntity.codigoCliente,
         );
