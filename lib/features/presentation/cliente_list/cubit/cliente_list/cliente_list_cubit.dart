@@ -2,21 +2,16 @@
 import 'package:clean_arch/core/exceptions/businnes_exception.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/delete_cliente_uses_case.dart';
-import 'package:clean_arch/features/clientes/domain/usecases/save_cliente_use_case.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/get_clientes_use_case.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_list/cliente_list_state.dart';
 
 class ClienteListCubit extends Cubit<ClienteListState> {
-  ClienteListCubit(
-    this.getClientesUseCase,
-    this.deleteClienteUsesCase,
-    this.saveClienteUseCase,
-  ) : super(ClienteListInitial());
+  ClienteListCubit(this.getClientesUseCase, this.deleteClienteUsesCase)
+    : super(ClienteListInitial());
 
   final GetClientesUseCase getClientesUseCase;
   final DeleteClienteUsesCase deleteClienteUsesCase;
-  final SaveClienteUseCase saveClienteUseCase;
 
   Future<void> load(String filter) async {
     emit(ClienteListLoading());
@@ -47,43 +42,6 @@ class ClienteListCubit extends Cubit<ClienteListState> {
       }
     } catch (e) {
       emit(ClienteListError(error: e.toString()));
-    }
-  }
-
-  Future<void> save(ClienteEntity cliente) async {
-    final currentState = state;
-    List<ClienteEntity> listaAtual = [];
-
-    if (currentState is ClienteListSucess) {
-      listaAtual = List.from(currentState.clientes);
-    }
-
-    try {
-      final clienteCadastrado = await saveClienteUseCase(cliente);
-
-      //se estiver editando, substitui; se for novo, adiciona
-      final index = listaAtual.indexWhere(
-        (c) => c.codigoCliente == clienteCadastrado.codigoCliente,
-      );
-
-      if (index >= 0) {
-        listaAtual[index] = clienteCadastrado;
-      } else {
-        listaAtual.add(clienteCadastrado);
-      }
-
-      emit(ClienteListSucess(clientes: listaAtual));
-    } on BusinnesException catch (e) {
-      if (listaAtual.isNotEmpty) {
-        emit(ClienteListSucess(clientes: listaAtual));
-      }
-      emit(ClienteListError(error: e.mensagem));
-    } catch (e) {
-      if (listaAtual.isNotEmpty) {
-        emit(ClienteListSucess(clientes: listaAtual));
-      }
-      emit(ClienteListError(error: e.toString()));
-      rethrow;
     }
   }
 }

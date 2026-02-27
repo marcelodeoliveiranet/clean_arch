@@ -139,7 +139,6 @@ Future<void> setupInjection() async {
     () => ClienteListCubit(
       getIt<GetClientesUseCase>(),
       getIt<DeleteClienteUsesCase>(),
-      getIt<SaveClienteUseCase>(),
     ),
   );
 

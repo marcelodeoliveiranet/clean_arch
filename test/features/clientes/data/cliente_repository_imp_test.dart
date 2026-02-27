@@ -82,7 +82,7 @@ void main() {
 
     when(() => mockDatasource.save(any())).thenAnswer((_) async => 42);
 
-    final saved = await repository.saveCliente(entity);
+    final saved = await repository.save(entity);
 
     expect(saved.codigoCliente, 42);
     verify(() => mockDatasource.save(any())).called(1);

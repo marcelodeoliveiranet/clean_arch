@@ -1118,10 +1118,10 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     telefoneController.dispose();
     complementoTelefoneController.dispose();
 
-    cubitCep.close();
-    cubitRamoAtividade.close();
-    cubitTipoTelefone.close();
-    cubitFormCliente.close();
+    // cubitCep.close();
+    // cubitRamoAtividade.close();
+    // cubitTipoTelefone.close();
+    // cubitFormCliente.close();
 
     super.dispose();
   }
