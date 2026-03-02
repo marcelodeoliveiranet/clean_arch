@@ -170,29 +170,6 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     }
   }
 
-  void limparCampos() {
-    razaoSocialController.clear();
-    nomeFantasiaController.clear();
-    cnpjCpfController.clear();
-    inscricaoMunicipalController.clear();
-    inscricaoEstadualController.clear();
-    emailController.clear();
-    homePageController.clear();
-    cepController.clear();
-    logradouroCotroller.clear();
-    numeroController.clear();
-    complementoController.clear();
-    bairroController.clear();
-    municipioController.clear();
-    codigoIbgeController.clear();
-    estadoController.clear();
-    telefoneController.clear();
-    complementoTelefoneController.clear();
-
-    _ramoAtividadeEntitySelecionado = null;
-    _tipoTelefoneEntitySelecionado = null;
-  }
-
   Future<void> _abrirDialogNovoRamoAtividade(BuildContext context) async {
     final salvou = await showDialog<bool>(
       context: context,
@@ -792,8 +769,6 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                 }
 
                 if (state is ClienteFormSucessInsert) {
-                  //limparCampos();
-
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
@@ -808,9 +783,6 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                       duration: Duration(seconds: 4),
                     ),
                   );
-
-                  // FocusScope.of(context).requestFocus(_razaoSocialFocus);
-                  // setState(() {});
                 }
               },
 
