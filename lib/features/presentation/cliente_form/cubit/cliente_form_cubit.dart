@@ -2,7 +2,7 @@ import 'package:clean_arch/core/exceptions/businnes_exception.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/edit_cliente_use_case.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/save_cliente_use_case.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_form/cliente_form_state.dart';
+import 'package:clean_arch/features/presentation/cliente_form/cubit/cliente_form_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClienteFormCubit extends Cubit<ClienteFormState> {

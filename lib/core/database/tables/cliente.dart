@@ -5,7 +5,7 @@ const String clienteTableName = "CLIENTE";
 
 const String clienteTable = ''' 
 CREATE TABLE IF NOT EXISTS $clienteTableName (
-  foto TEXT,
+  foto TEXT NULL,
   tipo_pessoa CHAR(1) DEFAULT 'J',
   codigo_cliente INTEGER PRIMARY KEY,
   razao_social TEXT NOT NULL,

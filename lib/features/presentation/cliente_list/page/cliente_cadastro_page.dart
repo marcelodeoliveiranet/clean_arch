@@ -4,12 +4,15 @@ import 'package:clean_arch/core/validator/cpf_validator.dart';
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_state.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_form/cliente_form_cubit.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_form/cliente_form_state.dart';
+import 'package:clean_arch/features/presentation/cliente_form/cubit/cliente_form_cubit.dart';
+import 'package:clean_arch/features/presentation/cliente_form/cubit/cliente_form_state.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_cubit.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_state.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/TipoTelefone/tipo_telefone_list_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/TipoTelefone/tipo_telefone_list_state.dart';
+import 'package:clean_arch/features/presentation/cliente_list/widgets/novo_ramo_atividade_widget.dart';
+import 'package:clean_arch/features/presentation/cliente_list/widgets/novo_tipo_telefone_widget.dart';
+import 'package:clean_arch/features/presentation/cliente_list/widgets/ramo_atividade_dropdown_widget.dart';
+import 'package:clean_arch/features/presentation/cliente_list/widgets/tipo_telefone_dropdown_widget.dart';
 import 'package:clean_arch/features/ramoatividade/domain/entities/ramo_atividade_entity.dart';
 import 'package:clean_arch/features/tipotelefone/domain/entities/tipo_telefone_entity.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +70,6 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
   }
 
   final formKey = GlobalKey<FormState>();
-  final formModalKey = GlobalKey<FormState>();
 
   final razaoSocialController = TextEditingController();
   final nomeFantasiaController = TextEditingController();
@@ -126,6 +128,8 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
 
     telefoneController.text = widget.cliente!.telefone1;
     complementoTelefoneController.text = widget.cliente!.complementoTelefone1;
+
+    setState(() {});
   }
 
   void salvar() {
@@ -133,7 +137,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
 
     if (validation == true) {
       ClienteEntity cliente = ClienteEntity(
-        foto: "",
+        foto: null,
         tipoPessoa: _tipoPessoa!,
         codigoCliente: widget.isEditing ? widget.cliente!.codigoCliente : null,
         razaoSocial: razaoSocialController.text.trim(),
@@ -190,103 +194,11 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
   }
 
   Future<void> _abrirDialogNovoRamoAtividade(BuildContext context) async {
-    final descricaoController = TextEditingController();
-
     final salvou = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(24),
-            child: Form(
-              key: formModalKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Cadastrar um novo ramo de atividade",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  TextFormField(
-                    autofocus: true,
-                    controller: descricaoController,
-                    decoration: InputDecoration(
-                      labelText: "Descrição",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "Informe a descrição";
-                      }
-
-                      if (cubitRamoAtividade.listaRamoAtividade.any(
-                        (ramo) =>
-                            ramo.descricao.toLowerCase() ==
-                            descricaoController.text.toLowerCase().trim(),
-                      )) {
-                        return "Este ramo já foi cadastrado";
-                      }
-
-                      RamoAtividadeEntity ramo = RamoAtividadeEntity(
-                        descricao: descricaoController.text.trim(),
-                      );
-                      cubitRamoAtividade.save(ramo);
-
-                      return null;
-                    },
-                  ),
-
-                  const SizedBox(height: 44),
-
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () {
-                            Navigator.pop(context, false);
-                          },
-                          child: const Text("Cancelar"),
-                        ),
-                      ),
-
-                      const SizedBox(width: 12),
-
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            final isVaid =
-                                formModalKey.currentState?.validate() ?? false;
-
-                            if (!isVaid) {
-                              return;
-                            }
-
-                            Navigator.pop(context, true);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            foregroundColor: Colors.white,
-                          ),
-                          child: const Text("Gravar"),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
+        return NovoRamoAtividadeWidget();
       },
     );
 
@@ -298,105 +210,11 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
   }
 
   Future<void> _abrirDialogNovoTipoTelefone(BuildContext context) async {
-    final descricaoController = TextEditingController();
-
     final salvou = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(24),
-            child: Form(
-              key: formModalKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Cadastrar um novo tipo de telefone",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  TextFormField(
-                    autofocus: true,
-                    controller: descricaoController,
-                    decoration: InputDecoration(
-                      labelText: "Descrição",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "Informe a descrição";
-                      }
-
-                      if (cubitTipoTelefone.listaTipoTelefones.any(
-                        (tipo) =>
-                            tipo.descricao.toLowerCase() ==
-                            descricaoController.text.toLowerCase().trim(),
-                      )) {
-                        return "Este tipo já foi cadastrado";
-                      }
-
-                      TipoTelefoneEntity tipoTelefoneEntity =
-                          TipoTelefoneEntity(
-                            descricao: descricaoController.text.trim(),
-                          );
-
-                      cubitTipoTelefone.save(tipoTelefoneEntity);
-
-                      return null;
-                    },
-                  ),
-
-                  const SizedBox(height: 44),
-
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text("Cancelar"),
-                        ),
-                      ),
-
-                      const SizedBox(width: 12),
-
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            final isVaid =
-                                formModalKey.currentState?.validate() ?? false;
-
-                            if (!isVaid) {
-                              return;
-                            }
-
-                            Navigator.pop(context, true);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            foregroundColor: Colors.white,
-                          ),
-                          child: const Text("Gravar"),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
+        return NovoTipoTelefoneWidget();
       },
     );
 
@@ -575,50 +393,13 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                   Row(
                     children: [
                       Expanded(
-                        child: BlocBuilder<
-                          RamoAtividadeListCuibit,
-                          RamoAtividadeListState
-                        >(
-                          bloc: cubitRamoAtividade,
-                          builder: (context, state) {
-                            if (state is RamoAtividadeListLoading) {
-                              return Center(child: CircularProgressIndicator());
-                            } else if (state is RamoAtividadeListError) {
-                              return Center(child: Text(state.error));
-                            } else if (state is RamoAtividadeListSucess) {
-                              return DropdownButtonFormField<
-                                RamoAtividadeEntity
-                              >(
-                                value: _ramoAtividadeEntitySelecionado,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.category),
-                                  labelText: "Selecione um ramo atividade",
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(18),
-                                  ),
-                                ),
-                                isExpanded: true,
-                                items:
-                                    state.ramos.map((ramo) {
-                                      return DropdownMenuItem(
-                                        value: ramo,
-                                        child: Text(ramo.descricao),
-                                      );
-                                    }).toList(),
-                                validator: (value) {
-                                  if (value == null) {
-                                    return "Selecione um ramo de atividade";
-                                  }
-                                  return null;
-                                },
-                                onChanged: (value) {
-                                  setState(() {
-                                    _ramoAtividadeEntitySelecionado = value;
-                                  });
-                                },
-                              );
-                            }
-                            return SizedBox.shrink();
+                        child: RamoAtividadeDropdownWidget(
+                          ramoAtividadeEntitySelecionado:
+                              _ramoAtividadeEntitySelecionado,
+                          onChanged: (value) {
+                            setState(() {
+                              _ramoAtividadeEntitySelecionado = value;
+                            });
                           },
                         ),
                       ),
@@ -931,44 +712,13 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                   Row(
                     children: [
                       Expanded(
-                        child: BlocBuilder<
-                          TipoTelefoneListCubit,
-                          TipoTelefoneListState
-                        >(
-                          bloc: cubitTipoTelefone,
-                          builder: (context, state) {
-                            if (state is TipoTelefoneListLoading) {
-                              return Center(child: CircularProgressIndicator());
-                            } else if (state is TipoTelefoneListError) {
-                              return Center(child: Text(state.error));
-                            } else if (state is TipoTelefoneListSucess) {
-                              return DropdownButtonFormField<
-                                TipoTelefoneEntity
-                              >(
-                                value: _tipoTelefoneEntitySelecionado,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.category),
-                                  labelText: "Selecione um tipo telefone",
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(18),
-                                  ),
-                                ),
-                                isExpanded: true,
-                                items:
-                                    state.tipos.map((tipo) {
-                                      return DropdownMenuItem(
-                                        value: tipo,
-                                        child: Text(tipo.descricao),
-                                      );
-                                    }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _tipoTelefoneEntitySelecionado = value;
-                                  });
-                                },
-                              );
-                            }
-                            return SizedBox.shrink();
+                        child: TipoTelefoneDropdownWidget(
+                          tipoTelefoneEntitySelecionado:
+                              _tipoTelefoneEntitySelecionado,
+                          onChanged: (value) {
+                            setState(() {
+                              _tipoTelefoneEntitySelecionado = value;
+                            });
                           },
                         ),
                       ),
@@ -1117,11 +867,6 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     estadoController.dispose();
     telefoneController.dispose();
     complementoTelefoneController.dispose();
-
-    // cubitCep.close();
-    // cubitRamoAtividade.close();
-    // cubitTipoTelefone.close();
-    // cubitFormCliente.close();
 
     super.dispose();
   }

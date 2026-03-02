@@ -12,7 +12,7 @@ import 'package:clean_arch/features/clientes/domain/usecases/edit_cliente_use_ca
 import 'package:clean_arch/features/clientes/domain/usecases/get_clientes_use_case.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/save_cliente_use_case.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_cubit.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_form/cliente_form_cubit.dart';
+import 'package:clean_arch/features/presentation/cliente_form/cubit/cliente_form_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_list/cliente_list_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/TipoTelefone/tipo_telefone_list_cubit.dart';

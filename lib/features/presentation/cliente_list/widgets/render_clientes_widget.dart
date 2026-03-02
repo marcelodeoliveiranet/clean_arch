@@ -9,10 +9,10 @@ class RenderClientesWidget extends StatelessWidget {
   final ClienteListCubit cubit;
 
   const RenderClientesWidget({
-    Key? key,
+    super.key,
     required this.clientes,
     required this.cubit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

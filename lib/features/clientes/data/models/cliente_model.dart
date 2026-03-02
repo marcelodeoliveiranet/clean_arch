@@ -2,7 +2,7 @@
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 
 class ClienteModel {
-  final String foto;
+  final String? foto;
   final int? codigoCliente;
   final String razaoSocial;
   final String nomeFantasia;
@@ -82,7 +82,7 @@ class ClienteModel {
 
   factory ClienteModel.fromMap(Map<String, dynamic> map) {
     return ClienteModel(
-      foto: map['foto'] as String,
+      foto: map['foto'],
       codigoCliente: map['codigo_cliente'] as int,
       razaoSocial: map['razao_social'] as String,
       nomeFantasia: map['nome_fantasia'] as String,

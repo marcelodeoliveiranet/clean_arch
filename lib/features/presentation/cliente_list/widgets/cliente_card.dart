@@ -21,7 +21,11 @@ class ClienteCard extends StatelessWidget {
       child: Row(
         spacing: 10,
         children: [
-          CircleAvatar(radius: 35, backgroundImage: NetworkImage(cliente.foto)),
+          CircleAvatar(
+            radius: 35,
+            backgroundImage:
+                cliente.foto != null ? NetworkImage(cliente.foto!) : null,
+          ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
