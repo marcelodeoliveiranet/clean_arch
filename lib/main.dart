@@ -1,15 +1,5 @@
-import 'package:clean_arch/core/database/app_database.dart';
-import 'package:clean_arch/core/database/tables/cliente.dart';
-import 'package:clean_arch/core/database/tables/ramo_atividade.dart';
-import 'package:clean_arch/core/database/tables/tipo_telefone.dart';
 import 'package:clean_arch/core/injection/injection.dart';
-import 'package:clean_arch/features/clientes/data/datasources/cliente_datasource_local_imp.dart';
-import 'package:clean_arch/features/clientes/data/models/cliente_model.dart';
 import 'package:clean_arch/features/presentation/cliente_list/page/cliente_list_page.dart';
-import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividade_datasorce_local_imp.dart';
-import 'package:clean_arch/features/ramoatividade/data/models/ramo_atividade_model.dart';
-import 'package:clean_arch/features/tipotelefone/data/datasource/tipo_telefone_datasource_local_imp.dart';
-import 'package:clean_arch/features/tipotelefone/data/models/tipo_telefone_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
