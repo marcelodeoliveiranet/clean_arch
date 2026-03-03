@@ -14,6 +14,7 @@ import 'package:clean_arch/features/presentation/cliente_list/cubit/TipoTelefone
 import 'package:clean_arch/features/presentation/cliente_list/widgets/novo_ramo_atividade_widget.dart';
 import 'package:clean_arch/features/presentation/cliente_list/widgets/novo_tipo_telefone_widget.dart';
 import 'package:clean_arch/features/presentation/cliente_list/widgets/ramo_atividade_dropdown_widget.dart';
+import 'package:clean_arch/features/presentation/cliente_list/widgets/selecionar_foto_cliente_widget.dart';
 import 'package:clean_arch/features/presentation/cliente_list/widgets/tipo_telefone_dropdown_widget.dart';
 import 'package:clean_arch/features/ramoatividade/domain/entities/ramo_atividade_entity.dart';
 import 'package:clean_arch/features/tipotelefone/domain/entities/tipo_telefone_entity.dart';
@@ -353,39 +354,40 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
               child: Column(
                 spacing: 18,
                 children: [
-                  Column(
-                    children: [
-                      GestureDetector(
-                        onTap: mostrarOpcoesFoto,
-                        child: CircleAvatar(
-                          radius: 60,
-                          backgroundColor: Colors.grey[300],
-                          backgroundImage:
-                              _fotoCliente != null
-                                  ? FileImage(_fotoCliente!)
-                                  : null,
-                          child:
-                              _fotoCliente == null
-                                  ? const Icon(
-                                    Icons.camera_alt,
-                                    size: 40,
-                                    color: Colors.grey,
-                                  )
-                                  : null,
-                        ),
-                      ),
+                  SelecionarFotoClienteWidget(fotoCliente: _fotoCliente),
+                  // Column(
+                  //   children: [
+                  //     GestureDetector(
+                  //       onTap: mostrarOpcoesFoto,
+                  //       child: CircleAvatar(
+                  //         radius: 60,
+                  //         backgroundColor: Colors.grey[300],
+                  //         backgroundImage:
+                  //             _fotoCliente != null
+                  //                 ? FileImage(_fotoCliente!)
+                  //                 : null,
+                  //         child:
+                  //             _fotoCliente == null
+                  //                 ? const Icon(
+                  //                   Icons.camera_alt,
+                  //                   size: 40,
+                  //                   color: Colors.grey,
+                  //                 )
+                  //                 : null,
+                  //       ),
+                  //     ),
 
-                      SizedBox(width: 10),
+                  //     SizedBox(width: 10),
 
-                      TextButton.icon(
-                        onPressed: mostrarOpcoesFoto,
-                        icon: const Icon(Icons.photo),
-                        label: const Text("Selecionar foto"),
-                      ),
+                  //     TextButton.icon(
+                  //       onPressed: mostrarOpcoesFoto,
+                  //       icon: const Icon(Icons.photo),
+                  //       label: const Text("Selecionar foto"),
+                  //     ),
 
-                      Divider(),
-                    ],
-                  ),
+                  //     Divider(),
+                  //   ],
+                  // ),
                   Row(
                     children: [
                       Expanded(
