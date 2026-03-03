@@ -21,7 +21,6 @@ import 'package:clean_arch/features/tipotelefone/domain/entities/tipo_telefone_e
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ClienteCadastroPage extends StatefulWidget {
@@ -40,7 +39,6 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
   TipoTelefoneEntity? _tipoTelefoneEntitySelecionado;
   File? _fotoCliente;
 
-  final ImagePicker _picker = ImagePicker();
   final cubitRamoAtividade = getIt<RamoAtividadeListCuibit>();
   final cubitTipoTelefone = getIt<TipoTelefoneListCubit>();
   final cubitCep = getIt<CepCubit>();
@@ -238,58 +236,6 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     cubitCep.load(cepSemMascara);
   }
 
-  Future<void> selecionarFoto() async {
-    final XFile? imagem = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 70,
-    );
-
-    if (imagem != null) {
-      setState(() {
-        _fotoCliente = File(imagem.path);
-      });
-    }
-  }
-
-  Future<void> mostrarOpcoesFoto() async {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return SafeArea(
-          child: Wrap(
-            children: [
-              ListTile(
-                leading: const Icon(Icons.photo_camera),
-                title: const Text("Camera"),
-                onTap: () async {
-                  Navigator.pop(context);
-                  final XFile? imagem = await _picker.pickImage(
-                    source: ImageSource.camera,
-                    imageQuality: 70,
-                  );
-
-                  if (imagem != null) {
-                    setState(() {
-                      _fotoCliente = File(imagem.path);
-                    });
-                  }
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text("Galeria"),
-                onTap: () async {
-                  Navigator.pop(context);
-                  await selecionarFoto();
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -354,40 +300,14 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
               child: Column(
                 spacing: 18,
                 children: [
-                  SelecionarFotoClienteWidget(fotoCliente: _fotoCliente),
-                  // Column(
-                  //   children: [
-                  //     GestureDetector(
-                  //       onTap: mostrarOpcoesFoto,
-                  //       child: CircleAvatar(
-                  //         radius: 60,
-                  //         backgroundColor: Colors.grey[300],
-                  //         backgroundImage:
-                  //             _fotoCliente != null
-                  //                 ? FileImage(_fotoCliente!)
-                  //                 : null,
-                  //         child:
-                  //             _fotoCliente == null
-                  //                 ? const Icon(
-                  //                   Icons.camera_alt,
-                  //                   size: 40,
-                  //                   color: Colors.grey,
-                  //                 )
-                  //                 : null,
-                  //       ),
-                  //     ),
-
-                  //     SizedBox(width: 10),
-
-                  //     TextButton.icon(
-                  //       onPressed: mostrarOpcoesFoto,
-                  //       icon: const Icon(Icons.photo),
-                  //       label: const Text("Selecionar foto"),
-                  //     ),
-
-                  //     Divider(),
-                  //   ],
-                  // ),
+                  SelecionarFotoClienteWidget(
+                    fotoCliente: _fotoCliente,
+                    onFotoSelecionada: (File novaFoto) {
+                      setState(() {
+                        _fotoCliente = novaFoto;
+                      });
+                    },
+                  ),
                   Row(
                     children: [
                       Expanded(

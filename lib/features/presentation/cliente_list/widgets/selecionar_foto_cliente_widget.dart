@@ -4,8 +4,14 @@ import 'package:image_picker/image_picker.dart';
 
 class SelecionarFotoClienteWidget extends StatefulWidget {
   final File? fotoCliente;
+  final Function(File) onFotoSelecionada;
 
-  const SelecionarFotoClienteWidget({super.key, required this.fotoCliente});
+  const SelecionarFotoClienteWidget({
+    super.key,
+    required this.fotoCliente,
+    required this.onFotoSelecionada,
+  });
+
   @override
   State<SelecionarFotoClienteWidget> createState() =>
       _SelecionarFotoClienteWidgetState();
@@ -23,7 +29,7 @@ class _SelecionarFotoClienteWidgetState
 
     if (imagem != null) {
       setState(() {
-        //widget.fotoCliente = File(imagem.path);
+        widget.onFotoSelecionada(File(imagem.path));
       });
     }
   }
@@ -47,7 +53,7 @@ class _SelecionarFotoClienteWidgetState
 
                   if (imagem != null) {
                     setState(() {
-                      //widget.fotoCliente = File(imagem.path);
+                      widget.onFotoSelecionada(File(imagem.path));
                     });
                   }
                 },
