@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_list/cliente_list_cubit.dart';
 import 'package:clean_arch/features/presentation/cliente_list/page/cliente_cadastro_page.dart';
@@ -24,7 +26,7 @@ class ClienteCard extends StatelessWidget {
           CircleAvatar(
             radius: 35,
             backgroundImage:
-                cliente.foto != null ? NetworkImage(cliente.foto!) : null,
+                cliente.foto != null ? FileImage(File(cliente.foto!)) : null,
           ),
           Expanded(
             child: Column(
