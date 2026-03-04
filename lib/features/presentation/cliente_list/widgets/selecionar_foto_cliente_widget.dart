@@ -21,7 +21,7 @@ class _SelecionarFotoClienteWidgetState
     extends State<SelecionarFotoClienteWidget> {
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> selecionarFoto() async {
+  Future<void> selecionarFotoCamera() async {
     final XFile? imagem = await _picker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 70,
@@ -63,7 +63,7 @@ class _SelecionarFotoClienteWidgetState
                 title: const Text("Galeria"),
                 onTap: () async {
                   Navigator.pop(context);
-                  await selecionarFoto();
+                  await selecionarFotoCamera();
                 },
               ),
             ],
