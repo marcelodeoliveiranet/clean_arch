@@ -241,6 +241,8 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     super.initState();
 
     cubitTipoTelefone.stream.listen((state) {
+      if (!mounted) return;
+
       if (state is TipoTelefoneListSucess) {
         if (widget.isEditing) setupEtingCliente();
       }
