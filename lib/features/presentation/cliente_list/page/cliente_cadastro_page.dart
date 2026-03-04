@@ -305,6 +305,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                     onFotoSelecionada: (File novaFoto) {
                       setState(() {
                         _fotoCliente = novaFoto;
+                        FocusScope.of(context).requestFocus(_razaoSocialFocus);
                       });
                     },
                   ),
