@@ -302,7 +302,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                 children: [
                   SelecionarFotoClienteWidget(
                     fotoCliente: _fotoCliente,
-                    onFotoSelecionada: (File novaFoto) {
+                    onFotoSelecionada: (novaFoto) {
                       setState(() {
                         _fotoCliente = novaFoto;
                         FocusScope.of(context).requestFocus(_razaoSocialFocus);
