@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 
 class SelecionarFotoClienteWidget extends StatefulWidget {
   final File? fotoCliente;
-  final Function(File) onFotoSelecionada;
+  final Function(File fotoSelecionada) onFotoSelecionada;
 
   const SelecionarFotoClienteWidget({
     super.key,
@@ -21,9 +21,9 @@ class _SelecionarFotoClienteWidgetState
     extends State<SelecionarFotoClienteWidget> {
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> selecionarFotoCamera() async {
+  Future<void> selecionarFoto(ImageSource source) async {
     final XFile? imagem = await _picker.pickImage(
-      source: ImageSource.gallery,
+      source: source,
       imageQuality: 70,
     );
 
@@ -46,16 +46,7 @@ class _SelecionarFotoClienteWidgetState
                 title: const Text("Camera"),
                 onTap: () async {
                   Navigator.pop(context);
-                  final XFile? imagem = await _picker.pickImage(
-                    source: ImageSource.camera,
-                    imageQuality: 70,
-                  );
-
-                  if (imagem != null) {
-                    setState(() {
-                      widget.onFotoSelecionada(File(imagem.path));
-                    });
-                  }
+                  selecionarFoto(ImageSource.camera);
                 },
               ),
               ListTile(
@@ -63,7 +54,7 @@ class _SelecionarFotoClienteWidgetState
                 title: const Text("Galeria"),
                 onTap: () async {
                   Navigator.pop(context);
-                  await selecionarFotoCamera();
+                  selecionarFoto(ImageSource.gallery);
                 },
               ),
             ],

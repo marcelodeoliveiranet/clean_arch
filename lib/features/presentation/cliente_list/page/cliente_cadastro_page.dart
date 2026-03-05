@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:clean_arch/core/injection/injection.dart';
@@ -236,13 +237,13 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     cubitCep.load(cepSemMascara);
   }
 
+  late StreamSubscription telefoneSubscription;
+
   @override
   void initState() {
     super.initState();
 
-    cubitTipoTelefone.stream.listen((state) {
-      if (!mounted) return;
-
+    telefoneSubscription = cubitTipoTelefone.stream.listen((state) {
       if (state is TipoTelefoneListSucess) {
         if (widget.isEditing) setupEtingCliente();
       }
@@ -858,6 +859,8 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
     estadoController.dispose();
     telefoneController.dispose();
     complementoTelefoneController.dispose();
+
+    telefoneSubscription.cancel();
 
     super.dispose();
   }
