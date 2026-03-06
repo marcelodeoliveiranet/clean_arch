@@ -34,7 +34,8 @@ Cada camada s� depende das camadas que est�o abaixo dela.
 ### Camada Core
 Respons�vel por tudo que � transversal ao sistema:
 
-- Inje��o de depend�ncias (`GetIt`).
+- Injeção de dependências (`GetIt`).
+- Roteamento (`GoRouter`).
 - Banco de dados SQLite (`AppDatabase`).
 - Exce��es customizadas (`BusinnesException`).
 - Validadores reutiliz�veis (CPF, CNPJ, etc.).
