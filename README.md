@@ -1,81 +1,113 @@
 # Cadastro de Clientes - Flutter OfflineFirst com Clean Architecture
 
-##  Visão Geral
+##  Visï¿½o Geral
 
-Este projeto é um **sistema de cadastro de clientes** desenvolvido em Flutter.
-A aplicação foi pensada para operar em modo **offlinefirst**: tudo é lido
-e escrito primeiramente no banco local (SQLite) e somente quando há rede os
-dados podem ser sincronizados com serviços remotos.
+Este projeto ï¿½ um **sistema de cadastro de clientes** desenvolvido em Flutter.
+A aplicaï¿½ï¿½o foi pensada para operar em modo **offlinefirst**: tudo ï¿½ lido
+e escrito primeiramente no banco local (SQLite) e somente quando hï¿½ rede os
+dados podem ser sincronizados com serviï¿½os remotos.
 
-A busca de endereço por CEP utiliza a API externa **ViaCep** para preencher
-os campos automaticamente, mas o formulário permite que o usuário preencha
-todos os dados manualmente mesmo que o serviço esteja indisponível.
+A busca de endereï¿½o por CEP utiliza a API externa **ViaCep** para preencher
+os campos automaticamente, mas o formulï¿½rio permite que o usuï¿½rio preencha
+todos os dados manualmente mesmo que o serviï¿½o esteja indisponï¿½vel.
 
 ### O que significa *offlinefirst*?
-- A UI permanece responsiva sem conexão.
-- Leituras e gravações ocorrem no cache/banco local.
-- A sincronização com o servidor é opcional e assíncrona.
-- Melhora a experiência em redes instáveis.
+- A UI permanece responsiva sem conexï¿½o.
+- Leituras e gravaï¿½ï¿½es ocorrem no cache/banco local.
+- A sincronizaï¿½ï¿½o com o servidor ï¿½ opcional e assï¿½ncrona.
+- Melhora a experiï¿½ncia em redes instï¿½veis.
 
 ---
 
 ##  Arquitetura do Projeto
 
-A estrutura segue os princípios da **Clean Architecture** e está dividida em
-três camadas principais:
+A estrutura segue os princï¿½pios da **Clean Architecture** e estï¿½ dividida em
+trï¿½s camadas principais:
 
-1. **Core**  infraestrutura e serviços compartilhados.
-2. **Features**  lógica de negócio dividida por domínio (clientes, CEP,
+1. **Core**  infraestrutura e serviï¿½os compartilhados.
+2. **Features**  lï¿½gica de negï¿½cio dividida por domï¿½nio (clientes, CEP,
    ramo de atividade, tipo de telefone).
-3. **Presentation**  interface do usuário e gerenciamento de estado.
+3. **Presentation**  interface do usuï¿½rio e gerenciamento de estado.
 
-Cada camada só depende das camadas que estão abaixo dela.
+Cada camada sï¿½ depende das camadas que estï¿½o abaixo dela.
 
 ### Camada Core
-Responsável por tudo que é transversal ao sistema:
+Responsï¿½vel por tudo que ï¿½ transversal ao sistema:
 
-- Injeção de dependências (`GetIt`).
+- Injeï¿½ï¿½o de dependï¿½ncias (`GetIt`).
 - Banco de dados SQLite (`AppDatabase`).
-- Exceções customizadas (`BusinnesException`).
-- Validadores reutilizáveis (CPF, CNPJ, etc.).
+- Exceï¿½ï¿½es customizadas (`BusinnesException`).
+- Validadores reutilizï¿½veis (CPF, CNPJ, etc.).
 
 ### Camada Features
-Contém a implementação das regras de negócio:
+Contï¿½m a implementaï¿½ï¿½o das regras de negï¿½cio:
 
 - **Entities** e **Models** que representam os dados.
-- **Repositories** (interfaces e implementações) para acesso a dados.
+- **Repositories** (interfaces e implementaï¿½ï¿½es) para acesso a dados.
 - **DataSources** locais e remotos.
-- **UseCases** que encapsulam ações específicas.
+- **UseCases** que encapsulam aï¿½ï¿½es especï¿½ficas.
 
-Cada feature agrupa domínio e persistência, mantendo a separação de
+Cada feature agrupa domï¿½nio e persistï¿½ncia, mantendo a separaï¿½ï¿½o de
 responsabilidades.
 
 ### Camada Presentation
-Reúne tudo relacionado à UI:
+Reï¿½ne tudo relacionado ï¿½ UI:
 
-- Páginas (`Pages`) como `ClienteListPage` e `ClienteFormPage`.
+- Pï¿½ginas (`Pages`) como `ClienteListPage` e `ClienteFormPage`.
 - Cubits (`flutter_bloc`) para gerenciar o estado das telas.
 - Estados (`States`) que representam carregamento, sucesso e erro.
-- Widgets reutilizáveis para formulários, listas e filtros.
+- Widgets reutilizï¿½veis para formulï¿½rios, listas e filtros.
 
 ---
 
-##  Fluxo de Dependências
+### Diagrama de Arquitetura
+
+```mermaid
+graph TD
+    A[Presentation Layer] --> B[Features Layer]
+    B --> C[Core Layer]
+    A --> D[UI Components: Pages, Cubits, Widgets]
+    B --> E[Business Logic: UseCases, Repositories, Entities]
+    C --> F[Shared Services: Database, Validators, Injection]
+```
+
+---
+
+##  Fluxo de Dependï¿½ncias
 
 ```
 Presentation  Features  Core
 ```
 
-A camada de apresentação chama UseCases das features; as features usam
-o core para acessar banco, validar dados ou obter dependências.
+A camada de apresentaï¿½ï¿½o chama UseCases das features; as features usam
+o core para acessar banco, validar dados ou obter dependï¿½ncias.
 
 ---
 
-##  Padrões Utilizados
+### Diagrama de Fluxo de Dados
+
+```mermaid
+sequenceDiagram
+    participant UI as Presentation (Cubit)
+    participant UC as UseCase (Features)
+    participant Repo as Repository
+    participant DB as Local Database (SQLite)
+    participant API as Remote API (ViaCep)
+    
+    UI->>UC: Execute UseCase (e.g., Save Cliente)
+    UC->>Repo: Call Repository
+    Repo->>DB: Write to Local DB
+    Note over DB: Always succeeds (offline)
+    Repo->>API: Sync if online (optional)
+```
+
+---
+
+##  Padrï¿½es Utilizados
 
 - **Cubit Pattern** (`flutter_bloc`) para controle de estado.
-- **Repository Pattern** para abstração de acesso a dados.
-- **UseCase Pattern** para encapsular regras de negócio.
+- **Repository Pattern** para abstraï¿½ï¿½o de acesso a dados.
+- **UseCase Pattern** para encapsular regras de negï¿½cio.
 - **Dependency Injection** com **GetIt** para montar o grafo de objetos.
 
 ---
@@ -84,22 +116,36 @@ o core para acessar banco, validar dados ou obter dependências.
 
 ```
 lib/
- core/                   # serviços compartilhados
-    database/           # AppDatabase, esquema e migrações
-    exceptions/         # classes de exceção
-    injection/          # configuração do GetIt
+ core/                   # serviï¿½os compartilhados
+    database/           # AppDatabase, esquema e migraï¿½ï¿½es
+    exceptions/         # classes de exceï¿½ï¿½o
+    injection/          # configuraï¿½ï¿½o do GetIt
     validator/          # validadores (CPF, CNPJ)
- features/               # domínios da aplicação
+ features/               # domï¿½nios da aplicaï¿½ï¿½o
     clientes/
        data/           # models, datasources, reposimpl
        domain/         # entities, repositories, usecases
     cep/                # consulta ViaCep
     ramoatividade/
     tipotelefone/
-   (cada feature segue o mesmo padrão)
- presentation/           # UI, cubits, páginas, widgets
+   (cada feature segue o mesmo padrï¿½o)
+ presentation/           # UI, cubits, pï¿½ginas, widgets
      cliente_list/
      cliente_form/
+```
+
+---
+
+### Diagrama de Estrutura por Feature
+
+```mermaid
+graph TD
+    A[features/clientes] --> B[data/]
+    A --> C[domain/]
+    B --> D[Models, DataSources, Repositories Impl]
+    C --> E[Entities, Repositories Interface, UseCases]
+    D --> F[Local DB Access]
+    E --> G[Business Rules]
 ```
 
 ---
