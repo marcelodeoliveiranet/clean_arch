@@ -97,12 +97,6 @@ class _ClienteListPageState extends State<ClienteListPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             context.push("/cliente", extra: {'isEditing': false});
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => ClienteCadastroPage(isEditing: false),
-            //   ),
-            // );
           },
           backgroundColor: Color.fromARGB(255, 2, 63, 7),
           child: Icon(Icons.add, color: Colors.white),
