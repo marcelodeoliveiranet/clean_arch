@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:clean_arch/features/clientes/domain/entities/cliente_entity.dart';
 import 'package:clean_arch/presentation/cliente/cliente_list/cubit/cliente_list_cubit.dart';
-import 'package:clean_arch/presentation/cliente/cliente_form/page/cliente_cadastro_page.dart';
 import 'package:clean_arch/presentation/cliente/cliente_list/widgets/remover_cliente_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ClienteCard extends StatelessWidget {
   const ClienteCard({super.key, required this.cliente, required this.cubit});
@@ -75,15 +75,9 @@ class ClienteCard extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      (context) => ClienteCadastroPage(
-                        isEditing: true,
-                        cliente: cliente,
-                      ),
-                ),
+              context.push(
+                "/cliente",
+                extra: {'isEditing': true, 'cliente': cliente},
               );
             },
             icon: Icon(Icons.edit),

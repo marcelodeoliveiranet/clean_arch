@@ -1,5 +1,5 @@
 import 'package:clean_arch/core/injection/injection.dart';
-import 'package:clean_arch/presentation/cliente/cliente_list/page/cliente_list_page.dart';
+import 'package:clean_arch/core/route/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -240,7 +240,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -255,7 +255,8 @@ class MyApp extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.dark,
-      home: ClienteListPage(),
+      routerConfig: appRouter,
+      //home: ClienteListPage(),
     );
   }
 }

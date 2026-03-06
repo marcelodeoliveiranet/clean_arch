@@ -3,10 +3,10 @@ import 'package:clean_arch/presentation/cliente/cliente_form/cubit/cliente_form_
 import 'package:clean_arch/presentation/cliente/cliente_form/cubit/cliente_form_state.dart';
 import 'package:clean_arch/presentation/cliente/cliente_list/cubit/cliente_list_cubit.dart';
 import 'package:clean_arch/presentation/cliente/cliente_list/cubit/cliente_list_state.dart';
-import 'package:clean_arch/presentation/cliente/cliente_form/page/cliente_cadastro_page.dart';
 import 'package:clean_arch/presentation/cliente/cliente_list/widgets/render_clientes_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ClienteListPage extends StatefulWidget {
   const ClienteListPage({super.key});
@@ -96,12 +96,13 @@ class _ClienteListPageState extends State<ClienteListPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ClienteCadastroPage(isEditing: false),
-              ),
-            );
+            context.push("/cliente", extra: {'isEditing': false});
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => ClienteCadastroPage(isEditing: false),
+            //   ),
+            // );
           },
           backgroundColor: Color.fromARGB(255, 2, 63, 7),
           child: Icon(Icons.add, color: Colors.white),

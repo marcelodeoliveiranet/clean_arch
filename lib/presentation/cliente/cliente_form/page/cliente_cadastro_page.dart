@@ -22,6 +22,7 @@ import 'package:clean_arch/features/tipotelefone/domain/entities/tipo_telefone_e
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ClienteCadastroPage extends StatefulWidget {
@@ -278,7 +279,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                 content: Text(state.error),
                 actions: [
                   TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () => context.pop(),
                     child: const Text("OK"),
                   ),
                 ],
@@ -785,7 +786,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                 }
 
                 if (state is ClienteFormSucessEdit) {
-                  Navigator.pop(context);
+                  context.pop();
                 }
 
                 if (state is ClienteFormSucessInsert) {
