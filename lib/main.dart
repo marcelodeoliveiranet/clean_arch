@@ -1,5 +1,5 @@
 import 'package:clean_arch/core/injection/injection.dart';
-import 'package:clean_arch/core/route/app_router.dart';
+import 'package:clean_arch/core/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -256,7 +256,6 @@ class MyApp extends StatelessWidget {
       ),
       themeMode: ThemeMode.dark,
       routerConfig: appRouter,
-      //home: ClienteListPage(),
     );
   }
 }
