@@ -1,5 +1,5 @@
 import 'package:clean_arch/core/injection/injection.dart';
-import 'package:clean_arch/features/presentation/cliente_list/page/cliente_list_page.dart';
+import 'package:clean_arch/presentation/cliente/cliente_list/page/cliente_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 

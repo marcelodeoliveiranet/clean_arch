@@ -11,11 +11,6 @@ import 'package:clean_arch/features/clientes/domain/usecases/delete_cliente_uses
 import 'package:clean_arch/features/clientes/domain/usecases/edit_cliente_use_case.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/get_clientes_use_case.dart';
 import 'package:clean_arch/features/clientes/domain/usecases/save_cliente_use_case.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/Cep/cep_cubit.dart';
-import 'package:clean_arch/features/presentation/cliente_form/cubit/cliente_form_cubit.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/cliente_list/cliente_list_cubit.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/RamoAtividade/ramo_atividade_list_cubit.dart';
-import 'package:clean_arch/features/presentation/cliente_list/cubit/TipoTelefone/tipo_telefone_list_cubit.dart';
 import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividade_datasorce_local_imp.dart';
 import 'package:clean_arch/features/ramoatividade/data/datasources/ramo_atividade_datasource_local.dart';
 import 'package:clean_arch/features/ramoatividade/data/repositories/ramo_atividade_repository_imp.dart';
@@ -28,6 +23,11 @@ import 'package:clean_arch/features/tipotelefone/data/repositories/tipo_telefone
 import 'package:clean_arch/features/tipotelefone/domain/repositories/tipo_telefone_repository.dart';
 import 'package:clean_arch/features/tipotelefone/domain/usecases/get_tipo_telefone_use_case.dart';
 import 'package:clean_arch/features/tipotelefone/domain/usecases/save_tipo_telefone_use_case.dart';
+import 'package:clean_arch/presentation/cep/cubit/cep_cubit.dart';
+import 'package:clean_arch/presentation/cliente/cliente_form/cubit/cliente_form_cubit.dart';
+import 'package:clean_arch/presentation/cliente/cliente_list/cubit/cliente_list_cubit.dart';
+import 'package:clean_arch/presentation/ramoatividade/cubit/ramo_atividade_cubit.dart';
+import 'package:clean_arch/presentation/tipotelefone/cubit/tipo_telefone_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;
@@ -121,15 +121,15 @@ Future<void> setupInjection() async {
   //Cubit
   getIt.registerLazySingleton<CepCubit>(() => CepCubit(getIt<GetCepUseCase>()));
 
-  getIt.registerLazySingleton<RamoAtividadeListCuibit>(
-    () => RamoAtividadeListCuibit(
+  getIt.registerLazySingleton<RamoAtividadeCubit>(
+    () => RamoAtividadeCubit(
       getIt<GetRamoAtividadeUseCase>(),
       getIt<SaveRamoAtividadeUseCase>(),
     ),
   );
 
-  getIt.registerLazySingleton<TipoTelefoneListCubit>(
-    () => TipoTelefoneListCubit(
+  getIt.registerLazySingleton<TipoTelefoneCubit>(
+    () => TipoTelefoneCubit(
       getIt<GetTipoTelefoneUseCase>(),
       getIt<SaveTipoTelefoneUseCase>(),
     ),
