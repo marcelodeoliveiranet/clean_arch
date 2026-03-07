@@ -4,13 +4,13 @@ import 'package:clean_arch/features/cep/domain/entities/cep_entity.dart';
 import 'package:clean_arch/features/cep/domain/repositories/cep_repository.dart';
 
 class CepRepositoryImp implements CepRepository {
-  final CepDatasourceRemote cepDatasourceLocal;
+  final CepDatasourceRemote cepDatasourceRemote;
 
-  CepRepositoryImp({required this.cepDatasourceLocal});
+  CepRepositoryImp({required this.cepDatasourceRemote});
 
   @override
   Future<CepEntity> getAdressByCep(String cep) async {
-    final dadosCep = await cepDatasourceLocal.getAdressByCep(cep);
+    final dadosCep = await cepDatasourceRemote.getAdressByCep(cep);
     return dadosCep.toEntity();
   }
 }

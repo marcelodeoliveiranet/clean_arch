@@ -52,7 +52,7 @@ Future<void> setupInjection() async {
 
   //Repositories
   getIt.registerLazySingleton<CepRepository>(
-    () => CepRepositoryImp(cepDatasourceLocal: getIt<CepDatasourceRemote>()),
+    () => CepRepositoryImp(cepDatasourceRemote: getIt<CepDatasourceRemote>()),
   );
 
   getIt.registerLazySingleton<RamoAtividadeRepository>(
